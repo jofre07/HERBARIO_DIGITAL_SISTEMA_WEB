@@ -1,0 +1,92 @@
+.placeholder-row {
+  pointer-events: none;
+}
+
+.placeholder-row td {
+  height: 3.6rem;
+  vertical-align: middle;
+}
+
+.placeholder-cell--centered {
+  text-align: center;
+}
+
+.placeholder-cell--actions {
+  text-align: right;
+}
+
+.placeholder-shape {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #e8ede6;
+}
+
+.placeholder-line {
+  min-width: 2.5rem;
+  height: .72rem;
+  border-radius: 999px;
+}
+
+.placeholder-count {
+  width: 1.8rem;
+  height: 1.8rem;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.placeholder-badge {
+  width: 4.15rem;
+  height: 1.55rem;
+  border-radius: 999px;
+}
+
+.placeholder-image {
+  width: 4rem;
+  height: 3rem;
+  border-radius: .65rem;
+}
+
+.placeholder-avatar-text {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.placeholder-avatar {
+  flex: 0 0 auto;
+  width: 2.55rem;
+  height: 2.55rem;
+  border-radius: .78rem;
+}
+
+.placeholder-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.placeholder-action {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: .65rem;
+}
+
+.placeholder-shape::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .78), transparent);
+  transform: translateX(-100%);
+  animation: table-placeholder-shimmer 1.25s infinite;
+}
+
+@keyframes table-placeholder-shimmer {
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .placeholder-shape::after {
+    animation: none;
+  }
+}

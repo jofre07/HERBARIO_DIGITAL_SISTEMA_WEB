@@ -1,0 +1,91 @@
+<div
+  class="select-input"
+  [class.is-open]="open()"
+  [class.is-disabled]="isDisabled()"
+  [class.inline-panel]="panelMode() === 'inline'"
+  [class.fixed-panel]="panelMode() === 'fixed'"
+  [class.open-upward]="panelMode() === 'overlay' && overlayOpenUpward()"
+>
+  <button
+    #trigger
+    [attr.id]="controlId()"
+    type="button"
+    class="select-trigger"
+    [disabled]="isDisabled()"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="listboxId"
+    [attr.aria-label]="ariaLabel() || placeholder()"
+    aria-haspopup="listbox"
+    (click)="toggleOpen()"
+  >
+    <span class="selected-chips" *ngIf="multiple() && selectedOptions().length; else displayText">
+      <span class="selected-chip" *ngFor="let option of visibleSelectedOptions()">
+        <span class="chip-label">{{ option.label }}</span>
+        <span
+          class="chip-remove"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="('views.components.select_input.select_input.quitar' | uiText) + option.label"
+          (click)="removeSelection($event, option.value)"
+          (keydown)="removeSelectionFromKeyboard($event, option.value)"
+        >×</span>
+      </span>
+      <span class="selected-chip selected-chip-count" *ngIf="hiddenSelectedCount()">
+        {{ 'dynamic.selection.more' | uiText: { count: hiddenSelectedCount() } }}
+      </span>
+    </span>
+    <ng-template #displayText>
+      <span [class.placeholder-text]="!value() || (multiple() && !selectedOptions().length)">{{ displayValue() }}</span>
+    </ng-template>
+    <span class="mat-icon" aria-hidden="true" translate="no">{{ open() ? 'expand_less' : 'expand_more' }}</span>
+  </button>
+
+  <div class="select-panel" *ngIf="open()" [ngStyle]="panelMode() === 'fixed' ? fixedPanelStyle() : null">
+    <div class="search-box" *ngIf="searchable()">
+      <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+      <input
+        type="search"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="updateSearchTerm($event)"
+        [ngModelOptions]="{ standalone: true }"
+        [placeholder]="searchPlaceholder()"
+        [attr.aria-label]="'views.components.select_input.select_input.buscar_opciones' | uiText"
+        (click)="$event.stopPropagation()"
+      />
+      <span class="selected-count" *ngIf="multiple() && selectedCount()">
+        {{ 'dynamic.selection.selected' | uiText: { count: selectedCount() } }}
+      </span>
+    </div>
+
+    <div class="options-list" role="listbox" [id]="listboxId" [attr.aria-multiselectable]="multiple()">
+      <div
+        class="option"
+        *ngFor="let option of filteredOptions()"
+        tabindex="0"
+        role="option"
+        [class.selected]="isSelected(option.value)"
+        [attr.aria-selected]="isSelected(option.value)"
+        (click)="select(option.value); $event.stopPropagation()"
+        (keydown)="selectFromKeyboard($event, option.value)"
+      >
+        <input
+          *ngIf="multiple()"
+          class="option-checkbox"
+          type="checkbox"
+          [checked]="isSelected(option.value)"
+          [attr.aria-label]="option.label"
+          (click)="$event.stopPropagation()"
+          (change)="select(option.value)"
+        />
+        <span class="selection-mark radio" *ngIf="!multiple()">
+          <span class="selection-dot" *ngIf="isSelected(option.value)"></span>
+        </span>
+        <span>{{ option.label }}</span>
+      </div>
+
+      <p class="empty-options" *ngIf="!filteredOptions().length">
+        {{ searchTerm() ? ('views.components.select_input.select_input.no_se_encontraron_coincidencias' | uiText) : emptyText() }}
+      </p>
+    </div>
+  </div>
+</div>

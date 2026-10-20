@@ -1,0 +1,97 @@
+<div class="admin-shell">
+  <button *ngIf="mobileSidebarOpen" type="button" class="sidebar-backdrop" aria-label="Cerrar menú administrativo" (click)="closeMobileSidebar()"></button>
+
+  <aside id="admin-sidebar" class="sidebar" [class.sidebar-collapsed]="sidebarCollapsed" [class.sidebar-mobile-open]="mobileSidebarOpen">
+    <header class="sidebar-header">
+      <span class="sidebar-brand" *ngIf="!sidebarCollapsed">
+        <img class="admin-brand-logo" src="/images/logo-herbario.svg" width="28" height="28" alt="" aria-hidden="true">
+        <span><strong>{{ 'views.layout.main_layout.main_layout.herbario' | uiText }}</strong><small>Panel administrativo</small></span>
+      </span>
+      <button class="sidebar-toggle" type="button" aria-controls="admin-sidebar" [attr.aria-expanded]="isSidebarExpanded" [attr.aria-label]="isSidebarExpanded ? 'Contraer menú lateral' : 'Expandir menú lateral'" (click)="toggleSidebar()">
+        <i class="bi" [class.bi-list]="sidebarCollapsed" [class.bi-x-lg]="!sidebarCollapsed" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <nav class="sidebar-navigation" aria-label="Navegación administrativa">
+      <section class="nav-group">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Principal</span>
+        <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="closeMobileSidebar()"><i class="bi bi-speedometer2" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.features.admin.dashboard.dashboard.dashboard' | uiText }}</span></a>
+      </section>
+
+      <section class="nav-group" *ngIf="hasPermission('auth.view_user') || hasPermission('auth.view_group')">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Usuarios y permisos</span>
+        <a class="nav-link" routerLink="/admin/usuarios" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('auth.view_user')" (click)="closeMobileSidebar()"><i class="bi bi-people" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.layout.main_layout.main_layout.usuarios' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/roles" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('auth.view_group')" (click)="closeMobileSidebar()"><i class="bi bi-shield-lock" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.features.admin.users.users.roles' | uiText }}</span></a>
+      </section>
+
+      <section class="nav-group" *ngIf="hasPermission('taxonomy.view_family') || hasPermission('taxonomy.view_genus') || hasPermission('taxonomy.view_species') || hasPermission('taxonomy.view_commonname') || hasPermission('taxonomy.view_translation')">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Taxonomía</span>
+        <a class="nav-link" routerLink="/admin/taxonomia/familias" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_family')" (click)="closeMobileSidebar()"><i class="bi bi-diagram-3" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.public.pages.home.home.familias' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/taxonomia/generos" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_genus')" (click)="closeMobileSidebar()"><i class="bi bi-diagram-2" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.public.pages.home.home.generos' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/taxonomia/especies" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_species')" (click)="closeMobileSidebar()"><i class="bi bi-flower2" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.public.pages.collections.collections.especies' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/taxonomia/nombres-comunes" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_commonname')" (click)="closeMobileSidebar()"><i class="bi bi-tags" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.layout.main_layout.main_layout.nombres_comunes' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/taxonomia/traducciones" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_translation')" (click)="closeMobileSidebar()"><i class="bi bi-book" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.layout.main_layout.main_layout.traducciones' | uiText }}</span></a>
+      </section>
+
+      <section class="nav-group" *ngIf="hasPermission('taxonomy.view_status') || hasPermission('taxonomy.view_conservationstatus')">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Conservación</span>
+        <a class="nav-link" routerLink="/admin/taxonomia/estados" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_status')" (click)="closeMobileSidebar()"><i class="bi bi-check-circle" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.layout.main_layout.main_layout.estados' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/taxonomia/estados-conservacion" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('taxonomy.view_conservationstatus')" (click)="closeMobileSidebar()"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">Conservación por especie</span></a>
+      </section>
+
+      <section class="nav-group" *ngIf="hasPermission('locations.view_climate') || hasPermission('locations.view_habitat')">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Información ambiental</span>
+        <a class="nav-link" routerLink="/admin/climas" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('locations.view_climate')" (click)="closeMobileSidebar()"><i class="bi bi-cloud-sun" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">Climas</span></a>
+        <a class="nav-link" routerLink="/admin/habitats" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('locations.view_habitat')" (click)="closeMobileSidebar()"><i class="bi bi-tree" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">Hábitats</span></a>
+      </section>
+
+      <section class="nav-group" *ngIf="hasPermission('specimens.view_specimen') || hasPermission('collections_app.view_collection') || hasPermission('media.view_herbariumimage') || hasPermission('collectors.view_collector')">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Gestión de especímenes</span>
+        <a class="nav-link" routerLink="/admin/especimenes" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('specimens.view_specimen')" (click)="closeMobileSidebar()"><i class="bi bi-box-seam" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'navigation.specimens' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/colecciones" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('collections_app.view_collection')" (click)="closeMobileSidebar()"><i class="bi bi-collection" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'navigation.collections' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/imagenes" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('media.view_herbariumimage')" (click)="closeMobileSidebar()"><i class="bi bi-images" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</span></a>
+        <a class="nav-link" routerLink="/admin/colectores" routerLinkActive="active" ariaCurrentWhenActive="page" *ngIf="hasPermission('collectors.view_collector')" (click)="closeMobileSidebar()"><i class="bi bi-person-badge" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.public.pages.map.map.colectores' | uiText }}</span></a>
+      </section>
+
+      <section class="nav-group" *ngIf="hasPermission('site_content.view_aboutpagecontent')">
+        <span class="nav-group-label" *ngIf="!sidebarCollapsed">Contenido del sitio</span>
+        <a class="nav-link" routerLink="/admin/contenido/acerca" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="closeMobileSidebar()"><i class="bi bi-file-earmark-text" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">Página Acerca de</span></a>
+      </section>
+    </nav>
+
+    <footer class="sidebar-footer">
+      <button type="button" class="profile-menu-button" [title]="'views.layout.main_layout.main_layout.ver_perfil' | uiText" (click)="openProfileModal()">
+        <span class="sidebar-user-avatar">{{ userInitials }}</span>
+        <span class="sidebar-user-copy" *ngIf="!sidebarCollapsed"><strong>{{ user?.username }}</strong><small>{{ 'views.layout.main_layout.main_layout.ver_perfil' | uiText }}</small></span>
+      </button>
+      <button class="logout-button" type="button" (click)="logout()" [attr.aria-label]="'views.layout.main_layout.main_layout.cerrar_sesion' | uiText">
+        <i class="bi bi-box-arrow-left" aria-hidden="true"></i><span *ngIf="!sidebarCollapsed">{{ 'views.layout.main_layout.main_layout.cerrar_sesion' | uiText }}</span>
+      </button>
+    </footer>
+  </aside>
+
+  <div class="admin-content">
+    <header class="mobile-admin-header">
+      <button type="button" class="mobile-menu-button" aria-controls="admin-sidebar" [attr.aria-expanded]="mobileSidebarOpen" aria-label="Abrir menú administrativo" (click)="toggleSidebar()"><i class="bi bi-list" aria-hidden="true"></i></button>
+      <span><img class="admin-brand-logo" src="/images/logo-herbario.svg" width="28" height="28" alt="" aria-hidden="true"><strong>{{ 'views.layout.main_layout.main_layout.herbario' | uiText }}</strong></span>
+      <button type="button" class="mobile-profile-button" [attr.aria-label]="'views.layout.main_layout.main_layout.ver_perfil' | uiText" (click)="openProfileModal()">{{ userInitials }}</button>
+    </header>
+    <main class="admin-main"><router-outlet /></main>
+  </div>
+</div>
+
+<app-modal [open]="profileModalOpen" [title]="'views.layout.main_layout.main_layout.mi_perfil' | uiText" [subtitle]="'views.layout.main_layout.main_layout.informacion_de_tu_cuenta_y_accesos_asignados' | uiText" size="sm" (closed)="closeProfileModal()">
+  <div class="profile-modal-content" *ngIf="user">
+    <div class="profile-summary"><span class="profile-avatar">{{ userInitials }}</span><div><strong>{{ user.username }}</strong><span>{{ user.email || ('views.features.admin.users.users.sin_correo_registrado' | uiText) }}</span></div></div>
+    <div class="profile-information">
+      <div class="profile-field"><span>{{ 'views.features.admin.users.users.usuario' | uiText }}</span><strong>{{ user.username }}</strong></div>
+      <div class="profile-field"><span>{{ 'views.components.user_form.user_form.correo_electronico' | uiText }}</span><strong>{{ user.email || ('views.features.admin.users.users.sin_correo_registrado' | uiText) }}</strong></div>
+      <div class="profile-field"><span>{{ 'views.features.admin.users.users.estado' | uiText }}</span><strong class="profile-status" [class.inactive]="!isUserActive"><span></span>{{ isUserActive ? ('views.features.admin.users.users.activo' | uiText) : ('views.features.admin.users.users.inactivo' | uiText) }}</strong></div>
+      <div class="profile-field">
+        <span>{{ 'views.layout.main_layout.main_layout.roles_asignados' | uiText }}</span>
+        <div class="profile-roles" *ngIf="user.roles?.length; else noProfileRoles"><span *ngFor="let role of user.roles">{{ role }}</span></div>
+        <ng-template #noProfileRoles><strong>{{ 'views.layout.main_layout.main_layout.sin_roles_asignados' | uiText }}</strong></ng-template>
+      </div>
+    </div>
+  </div>
+</app-modal>

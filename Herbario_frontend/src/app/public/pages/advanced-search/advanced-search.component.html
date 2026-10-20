@@ -1,0 +1,102 @@
+<main class="advanced-search-page">
+  <div class="container public-content-container">
+    <header class="page-heading">
+      <div class="title-group">
+        <span class="mat-icon title-icon" translate="no" aria-hidden="true">manage_search</span>
+        <div><h1>{{ 'navigation.advancedSearch' | uiText }}</h1><p>{{ 'views.public.pages.advanced_search.advanced_search.encuentra_especimenes_combinando_varios_criterio' | uiText }}</p></div>
+      </div>
+      <app-public-breadcrumb [current]="'navigation.advancedSearch' | uiText" />
+    </header>
+
+    <section class="search-card" aria-labelledby="filters-title">
+      <div class="search-card-heading">
+        <div><h2 id="filters-title">{{ 'views.public.pages.advanced_search.advanced_search.criterios_de_busqueda' | uiText }}</h2><p>{{ 'views.public.pages.advanced_search.advanced_search.selecciona_uno_o_varios_filtros_para_precisar_lo' | uiText }}</p></div>
+        <button type="button" class="public-filter-trigger" [class.is-active]="hasActiveFilters" (click)="openFilters()" [attr.aria-expanded]="filtersOpen">
+          <span class="mat-icon" translate="no" aria-hidden="true">tune</span>{{ 'filters.title' | uiText }}
+          <span class="public-filter-count" *ngIf="activeFilterCount">{{ activeFilterCount }}</span>
+        </button>
+      </div>
+
+      <app-public-filter-drawer [open]="filtersOpen" [context]="'navigation.advancedSearch' | uiText" [title]="'filters.title' | uiText" [description]="'filters.advancedDescription' | uiText" [closeLabel]="'actions.closeFilters' | uiText" [applyLabel]="'views.public.pages.advanced_search.advanced_search.buscar_especimenes' | uiText" [canClear]="hasActiveFilters" [loading]="loading" [clearLabel]="'actions.clearFilters' | uiText" (closed)="closeFilters()" (cleared)="clearFilters()" (applied)="search()">
+      <form (ngSubmit)="search()" class="filters-grid">
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.familia' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.family" name="family" [options]="familyOptions" [placeholder]="'filters.allFamilies' | uiText" [searchPlaceholder]="'filters.searchFamily' | uiText" [searchable]="true" (ngModelChange)="onFamilyChange()" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.genero' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.genus" name="genus" [options]="genusOptions" [placeholder]="'filters.allGenera' | uiText" [searchPlaceholder]="'filters.searchGenus' | uiText" [searchable]="true" (ngModelChange)="onGenusChange()" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.species" name="species" [options]="speciesOptions" [placeholder]="'filters.allSpecies' | uiText" [searchPlaceholder]="'filters.searchSpecies' | uiText" [searchable]="true" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.advanced_search.advanced_search.nombre_comun' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.commonName" name="commonName" [options]="commonNameOptions" [placeholder]="'views.public.pages.advanced_search.advanced_search.todos_los_nombres' | uiText" [searchPlaceholder]="'filters.searchCommonName' | uiText" [searchable]="true" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.colector' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.collector" name="collector" [options]="collectorOptions" [placeholder]="'filters.allCollectors' | uiText" [searchPlaceholder]="'filters.searchCollector' | uiText" [searchable]="true" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.about.about.ubicacion' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.location" name="location" [options]="locationOptions" [placeholder]="'filters.allLocations' | uiText" [searchPlaceholder]="'filters.searchLocation' | uiText" [searchable]="true" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.advanced_search.advanced_search.estado_de_conservacion' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.conservationStatus" name="conservationStatus" [options]="conservationOptions" [placeholder]="'filters.allStatuses' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_estado' | uiText" [searchable]="true" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.advanced_search.advanced_search.habitat' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.habitat" name="habitat" [options]="habitatOptions" [placeholder]="'filters.allHabitats' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_habitat' | uiText" [searchable]="true" />
+        </div>
+        <div class="filter-field">
+          <label>{{ 'views.features.locations.climate_habitats.climate_habitats.clima' | uiText }}</label>
+          <app-select-input [(ngModel)]="filters.climate" name="climate" [options]="climateOptions" [placeholder]="'filters.allClimates' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_clima' | uiText" [searchable]="true" />
+        </div>
+      </form>
+      </app-public-filter-drawer>
+    </section>
+
+    <section #resultsSection class="results-section" *ngIf="searched" aria-live="polite">
+      <header class="results-heading">
+        <div><span class="mat-icon" translate="no" aria-hidden="true">science</span><div><h2>{{ 'views.public.pages.advanced_search.advanced_search.resultados_de_busqueda' | uiText }}</h2><p><strong>{{ totalResults }}</strong> {{ totalResults === 1 ? ('views.public.pages.advanced_search.advanced_search.especimen_encontrado' | uiText) : ('views.public.pages.advanced_search.advanced_search.especimenes_encontrados' | uiText) }}</p></div></div>
+        <div class="view-buttons" *ngIf="results.length">
+          <button type="button" [class.active]="viewMode === 'table'" (click)="viewMode = 'table'" [attr.aria-label]="'views.public.pages.specimens.specimens.vista_de_tabla' | uiText"><span class="mat-icon" translate="no">view_list</span></button>
+          <button type="button" [class.active]="viewMode === 'cards'" (click)="viewMode = 'cards'" [attr.aria-label]="'views.public.pages.advanced_search.advanced_search.vista_de_tarjetas' | uiText"><span class="mat-icon" translate="no">grid_view</span></button>
+        </div>
+      </header>
+
+      <div class="results-state" *ngIf="loading" role="status" aria-live="polite" aria-busy="true"><span class="spinner-border text-success" aria-hidden="true"></span><p>{{ 'views.public.pages.advanced_search.advanced_search.consultando_especimenes' | uiText }}</p></div>
+      <div class="results-state error" *ngIf="!loading && loadError" role="alert"><span class="mat-icon" aria-hidden="true" translate="no">cloud_off</span><h3>{{ 'views.public.pages.advanced_search.advanced_search.no_se_pudieron_cargar_los_resultados' | uiText }}</h3><button type="button" (click)="retry()">{{ 'actions.retry' | uiText }}</button></div>
+      <div class="results-state" *ngIf="!loading && !loadError && !results.length" role="status"><span class="mat-icon" aria-hidden="true" translate="no">search_off</span><h3>{{ 'views.public.pages.advanced_search.advanced_search.no_se_encontraron_especimenes' | uiText }}</h3><p>{{ 'views.public.pages.advanced_search.advanced_search.prueba_cambiando_o_limpiando_algunos_filtros' | uiText }}</p></div>
+
+      <div class="results-table-wrap" *ngIf="!loading && !loadError && viewMode === 'table' && results.length" tabindex="0" role="region" aria-label="Resultados de búsqueda en tabla. Desplázate horizontalmente para consultar todas las columnas.">
+        <table class="results-table">
+          <thead><tr><th>{{ 'views.public.pages.advanced_search.advanced_search.especimen' | uiText }}</th><th>{{ 'views.features.specimens.specimens.especie' | uiText }}</th><th>{{ 'views.public.pages.advanced_search.advanced_search.fecha' | uiText }}</th><th>{{ 'views.features.specimens.specimens.colector' | uiText }}</th><th>{{ 'views.public.pages.about.about.ubicacion' | uiText }}</th><th>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</th><th></th></tr></thead>
+          <tbody>
+            <tr *ngFor="let result of results">
+              <td><div class="specimen-cell"><div class="result-thumb"><img *ngIf="result.image_urls[0]; else tablePlaceholder" [src]="result.image_urls[0]" [alt]="result.catalog_code"><ng-template #tablePlaceholder><span class="mat-icon" translate="no">local_florist</span></ng-template></div><div><strong>{{ result.catalog_code }}</strong><small>{{ result.collection_number || ('views.public.pages.advanced_search.advanced_search.sin_numero_de_coleccion' | uiText) }}</small></div></div></td>
+              <td><em>{{ result.species_name || ('views.public.pages.advanced_search.advanced_search.no_registrada' | uiText) }}</em><small>{{ result.family_name || ('views.public.pages.advanced_search.advanced_search.familia_no_registrada' | uiText) }}</small></td>
+              <td>{{ result.collection_date ? (result.collection_date | date:'dd/MM/yyyy') : ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</td>
+              <td>{{ result.collector_name || ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</td>
+              <td>{{ primaryLocationName(result) }}</td>
+              <td>{{ result.image_count }}</td>
+              <td><a [routerLink]="['/catalogo', result.species_id]">{{ 'views.public.pages.advanced_search.advanced_search.ver_especie' | uiText }} <span class="mat-icon" translate="no">arrow_forward</span></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="results-grid" *ngIf="!loading && !loadError && viewMode === 'cards' && results.length">
+        <article *ngFor="let result of results" class="result-card">
+          <div class="card-image"><img *ngIf="result.image_urls[0]; else cardPlaceholder" [src]="result.image_urls[0]" [alt]="result.catalog_code"><ng-template #cardPlaceholder><span class="mat-icon" translate="no">local_florist</span></ng-template><span>{{ result.catalog_code }}</span></div>
+          <div class="card-body"><h3><em>{{ result.species_name || ('views.public.pages.advanced_search.advanced_search.especie_no_registrada' | uiText) }}</em></h3><p>{{ result.family_name || ('views.public.pages.advanced_search.advanced_search.familia_no_registrada' | uiText) }}</p><dl><div><dt><i class="bi bi-person"></i>  {{ 'views.features.specimens.specimens.colector' | uiText }}</dt><dd>{{ result.collector_name || ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</dd></div><div><dt><i class="bi bi-geo-alt"></i>  {{ 'views.public.pages.about.about.ubicacion' | uiText }}</dt><dd>{{ primaryLocationName(result) }}</dd></div><div><dt><i class="bi bi-calendar"></i>  {{ 'views.public.pages.advanced_search.advanced_search.fecha' | uiText }}</dt><dd>{{ result.collection_date ? (result.collection_date | date:'dd/MM/yyyy') : ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</dd></div></dl><a [routerLink]="['/catalogo', result.species_id]">{{ 'views.public.pages.advanced_search.advanced_search.ver_especie' | uiText }} <span class="mat-icon" translate="no">arrow_forward</span></a></div>
+        </article>
+      </div>
+
+      <app-pagination *ngIf="!loading && !loadError" [currentPage]="currentPage" [totalItems]="totalResults" [pageSize]="pageSize" [itemLabel]="'views.features.specimens.specimens.especimen' | uiText" [itemLabelPlural]="'views.features.specimens.specimens.especimenes' | uiText" (pageChange)="goToPage($event)" />
+    </section>
+  </div>
+</main>

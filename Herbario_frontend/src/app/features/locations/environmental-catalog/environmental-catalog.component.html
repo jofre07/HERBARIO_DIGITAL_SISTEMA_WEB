@@ -1,0 +1,32 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row"><span class="title-icon"><span class="mat-icon" translate="no">{{ icon }}</span></span><div><h1>{{ title }}</h1><p>Administra el catálogo de {{ plural.toLowerCase() }} del sistema.</p></div></div>
+    <button *appHasPermission="addPermission" type="button" class="btn add-button" (click)="openCreateModal()"><span class="mat-icon" translate="no">add</span> Agregar</button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ plural }} registrados</h2><p><strong>{{ totalItems }}</strong> registros encontrados</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'Buscar ' + plural.toLowerCase() + '...'"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle skeleton-stable-table">
+        <thead><tr><th>Nombre</th><th class="text-end">Acciones</th></tr></thead>
+        <tbody appTablePlaceholder *ngIf="loading" [columns]="2" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+        <tbody *ngIf="!loading">
+          <tr *ngFor="let item of items"><td class="catalog-name">{{ item.name }}</td><td class="text-end"><app-table-actions [editPermission]="editPermission" [deletePermission]="deletePermission" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions></td></tr>
+          <tr *ngIf="!items.length"><td colspan="2" class="text-center text-muted py-4">Sin registros</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-container"><app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="singular.toLowerCase()" [itemLabelPlural]="plural.toLowerCase()" (pageChange)="goToPage($event)"></app-pagination></div>
+  </div>
+</section>
+
+<app-form-modal [open]="formModalOpen" [title]="selectedId ? 'Editar ' + singular.toLowerCase() : 'Agregar ' + singular.toLowerCase()" subtitle="Completa la información solicitada." formId="environmental-catalog-form" [mode]="selectedId ? 'edit' : 'create'" [busy]="saving" [submitDisabled]="form.invalid" (closed)="resetForm()">
+  <form id="environmental-catalog-form" [formGroup]="form" (ngSubmit)="save()">
+    <label class="form-label fw-semibold" for="environmental-name">Nombre</label>
+    <input id="environmental-name" class="form-control" formControlName="name" [placeholder]="'Nombre del ' + singular.toLowerCase()" appControlValidationMessage />
+  </form>
+</app-form-modal>

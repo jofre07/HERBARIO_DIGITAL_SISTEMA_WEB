@@ -1,0 +1,130 @@
+<header class="login-navbar">
+  <div class="container public-content-container login-navbar__inner">
+    <a class="login-navbar__brand" routerLink="/" (click)="closeMenu()" [attr.aria-label]="'views.features.auth.login.login.ir_al_inicio' | uiText">
+      <span class="mat-icon" aria-hidden="true" translate="no">psychiatry</span>
+      <span>
+        <strong>{{ 'brand.name' | uiText }}</strong>
+        <small>{{ 'brand.tagline' | uiText }}</small>
+      </span>
+    </a>
+
+    <button
+      class="login-navbar__toggle"
+      type="button"
+      (click)="menuOpen = !menuOpen"
+      [attr.aria-expanded]="menuOpen"
+      aria-controls="login-navigation"
+      [attr.aria-label]="'views.features.auth.login.login.abrir_menu_de_navegacion' | uiText"
+    >
+      <span class="mat-icon" aria-hidden="true" translate="no">{{ menuOpen ? 'close' : 'menu' }}</span>
+    </button>
+
+    <nav class="login-navbar__navigation" id="login-navigation" [class.open]="menuOpen" [attr.aria-label]="'navigation.mainLabel' | uiText">
+      <a routerLink="/" (click)="closeMenu()">{{ 'navigation.home' | uiText }}</a>
+      <a routerLink="/catalogo" (click)="closeMenu()">{{ 'navigation.catalog' | uiText }}</a>
+      <a routerLink="/especimenes" (click)="closeMenu()">{{ 'navigation.specimens' | uiText }}</a>
+      <a routerLink="/mapa" (click)="closeMenu()">{{ 'navigation.map' | uiText }}</a>
+      <a routerLink="/galeria" (click)="closeMenu()">{{ 'navigation.gallery' | uiText }}</a>
+      <a routerLink="/colecciones" (click)="closeMenu()">{{ 'navigation.collections' | uiText }}</a>
+      <a routerLink="/acerca" (click)="closeMenu()">{{ 'navigation.about' | uiText }}</a>
+    </nav>
+  </div>
+</header>
+
+<main class="login-page">
+  <section class="login-hero" [style.--about-image]="aboutImageUrl ? 'url(' + aboutImageUrl + ')' : 'none'" [attr.aria-label]="'views.features.auth.login.login.presentacion_del_herbario_digital' | uiText">
+    <div class="hero-content">
+      <p class="hero-eyebrow">{{ 'views.features.auth.login.login.bienvenido_al' | uiText }}</p>
+      <h1>{{ 'brand.shortName' | uiText }}</h1>
+      <div class="hero-divider" aria-hidden="true">
+        <span></span>
+        <span class="mat-icon" translate="no">local_florist</span>
+      </div>
+      <p class="hero-description">
+        
+        {{ 'views.features.auth.login.login.plataforma_digital_para_la_gestion_consulta_y_co' | uiText }}
+      </p>
+    </div>
+
+    <div class="conservation-message">
+      <span class="conservation-icon mat-icon" aria-hidden="true" translate="no">eco</span>
+      <span>{{ 'views.features.auth.login.login.conservamos_hoy' | uiText }}<br>{{ 'views.features.auth.login.login.la_biodiversidad' | uiText }}<br>{{ 'views.features.auth.login.login.del_manana' | uiText }}</span>
+    </div>
+  </section>
+
+  <section class="login-panel">
+    <div class="login-content">
+      <div class="login-card">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="mat-icon" translate="no">psychiatry</span>
+        </div>
+
+        <header class="login-heading">
+          <h2>{{ 'navigation.login' | uiText }}</h2>
+          <p>{{ 'views.features.auth.login.login.ingresa_tus_credenciales_para_acceder' | uiText }}<br>{{ 'views.features.auth.login.login.a_la_plataforma' | uiText }}</p>
+        </header>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="form-field">
+            <label for="login-username">{{ 'views.features.admin.users.users.usuario' | uiText }}</label>
+            <div class="field-control" [class.is-invalid]="form.controls.username.invalid && form.controls.username.touched">
+              <span class="mat-icon field-icon" aria-hidden="true" translate="no">person</span>
+              <input
+                id="login-username"
+                type="text"
+                formControlName="username"
+                [placeholder]="'views.components.user_form.user_form.nombre_de_usuario' | uiText"
+                autocomplete="username"
+              >
+            </div>
+            <small class="field-error" *ngIf="form.controls.username.invalid && form.controls.username.touched">
+              
+              {{ 'views.features.auth.login.login.ingresa_tu_nombre_de_usuario' | uiText }}
+            </small>
+          </div>
+
+          <div class="form-field">
+            <label for="login-password">{{ 'views.components.user_form.user_form.contrasena' | uiText }}</label>
+            <div class="field-control" [class.is-invalid]="form.controls.password.invalid && form.controls.password.touched">
+              <span class="mat-icon field-icon" aria-hidden="true" translate="no">lock</span>
+              <input
+                id="login-password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                [placeholder]="'views.features.auth.login.login.tu_contrasena' | uiText"
+                autocomplete="current-password"
+              >
+              <button
+                class="password-toggle"
+                type="button"
+                (click)="showPassword = !showPassword"
+                [attr.aria-label]="showPassword ? ('views.components.user_form.user_form.ocultar_contrasena' | uiText) : ('views.components.user_form.user_form.mostrar_contrasena' | uiText)"
+                [title]="showPassword ? ('views.components.user_form.user_form.ocultar_contrasena' | uiText) : ('views.components.user_form.user_form.mostrar_contrasena' | uiText)"
+              >
+                <span class="mat-icon" aria-hidden="true" translate="no">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+              </button>
+            </div>
+            <small class="field-error" *ngIf="form.controls.password.invalid && form.controls.password.touched">
+              
+              {{ 'views.features.auth.login.login.ingresa_tu_contrasena' | uiText }}
+            </small>
+          </div>
+
+          <!-- <p class="access-help" id="login-help">{{ 'views.features.auth.login.login.olvidaste_tu_contrasena_contacta_al_administrado' | uiText }}</p> -->
+
+          <button class="submit-button" type="submit" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <span *ngIf="!loading" class="mat-icon" aria-hidden="true" translate="no">login</span>
+            {{ loading ? ('states.signingIn' | uiText) : ('navigation.login' | uiText) }}
+          </button>
+        </form>
+
+      </div>
+
+      <div class="security-note">
+        <p><span class="mat-icon" aria-hidden="true" translate="no">shield_lock</span>  {{ 'views.features.auth.login.login.acceso_seguro_y_protegido' | uiText }}</p>
+        <small>{{ 'views.features.auth.login.login.tus_datos_estan_protegidos_durante_la_sesion' | uiText }}</small>
+      </div>
+    </div>
+  </section>
+</main>

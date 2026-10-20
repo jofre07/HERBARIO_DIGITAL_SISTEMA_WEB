@@ -1,0 +1,40 @@
+:host { display: block; }
+.select-input { position: relative; }
+.select-trigger { display: flex; align-items: center; justify-content: space-between; gap: .75rem; width: 100%; min-height: 2.65rem; padding: .45rem .75rem; color: #334155; text-align: left; background: #fff; border: 1px solid #d7dee8; border-radius: .55rem; }
+.select-trigger:focus-visible { border-color: var(--green-500); outline: 3px solid rgba(76,175,80,.2); outline-offset: 2px; box-shadow: 0 0 0 .2rem rgba(76,175,80,.14); }
+.select-trigger .placeholder-text { color: #94a3b8; font-weight: 400; background: transparent; opacity: 1; }
+.select-trigger .mat-icon { color: #64748b; font-size: 1.25rem; }
+.select-panel { position: absolute; z-index: 1080; top: calc(100% + .4rem); right: 0; left: 0; overflow: hidden; background: #fff; border: 1px solid #dbe3ec; border-radius: .7rem; box-shadow: 0 14px 32px rgba(15,23,42,.16); }
+.open-upward .select-panel { top: auto; bottom: calc(100% + .4rem); }
+.inline-panel .select-panel { position: static; margin-top: .45rem; box-shadow: 0 8px 20px rgba(15,23,42,.1); }
+.inline-panel .options-list { max-height: 11.5rem; }
+.fixed-panel .select-panel { position: fixed; z-index: 1100; display: flex; flex-direction: column; }
+.fixed-panel .options-list { flex: 1 1 auto; min-height: 0; max-height: none; }
+.search-box { display: flex; align-items: center; gap: .45rem; padding: .65rem; border-bottom: 1px solid #edf1f5; }
+.search-box .mat-icon { color: #94a3b8; font-size: 1.2rem; }
+.search-box input { width: 100%; padding: .45rem .2rem; border: 0; outline: 0; }
+.selected-count { flex: 0 0 auto; padding: .25rem .5rem; color: var(--green-800); font-size: .68rem; font-weight: 700; white-space: nowrap; background: var(--green-50); border-radius: 999px; }
+.options-list { max-height: 17rem; padding: .35rem; overflow-y: auto; }
+.option { display: flex; align-items: center; gap: .65rem; width: 100%; padding: .58rem .6rem; color: #334155; font-size: .82rem; text-align: left; background: transparent; border: 0; border-radius: .45rem; cursor: pointer; }
+.option:hover { background: #f1f8f2; }
+.option:focus-visible { outline: 3px solid rgba(76,175,80,.22); outline-offset: -2px; background: #f1f8f2; }
+.option.selected { color: var(--green-800); background: var(--green-50); }
+.selection-mark { display: inline-grid; flex: 0 0 auto; place-items: center; width: 1.05rem; height: 1.05rem; border: 1px solid #b8c3d1; border-radius: .25rem; }
+.selection-mark.radio { border-radius: 50%; }
+.option.selected .selection-mark { color: #fff; background: var(--green-700); border-color: var(--green-700); }
+.selection-mark .mat-icon { font-size: .8rem; }
+.selection-dot { width: .52rem; height: .52rem; background: var(--green-700); border-radius: 50%; }
+.option-checkbox { flex: 0 0 auto; width: 1rem; height: 1rem; margin: 0; accent-color: var(--green-700); cursor: pointer; }
+.selected-chips { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: .35rem; min-width: 0; }
+.selected-chip { display: inline-flex; align-items: center; gap: .3rem; max-width: 16rem; padding: .25rem .38rem .25rem .55rem; color: #256a32; font-size: .72rem; font-weight: 600; background: var(--green-50); border: 1px solid var(--green-200); border-radius: 999px; }
+.selected-chip-count { padding-right: .55rem; color: #475569; background: #f1f5f9; border-color: #dbe3ea; }
+.chip-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip-remove { display: inline-grid; flex: 0 0 auto; place-items: center; width: 1rem; height: 1rem; color: #527158; font-size: .9rem; line-height: 1; border-radius: 50%; cursor: pointer; }
+.chip-remove:hover { color: #fff; background: var(--green-700); }
+.chip-remove:focus-visible { color: #fff; outline: 2px solid var(--green-700); outline-offset: 2px; background: var(--green-700); }
+.empty-options { margin: 0; padding: 1rem; color: #94a3b8; font-size: .8rem; text-align: center; }
+.is-disabled .select-trigger { background: #f8fafc; cursor: not-allowed; }
+
+@media (max-height: 700px) {
+  .inline-panel .options-list { max-height: 8.5rem; }
+}

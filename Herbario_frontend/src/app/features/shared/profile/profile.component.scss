@@ -1,0 +1,24 @@
+.profile-page { display: grid; gap: 1.4rem; max-width: 58rem; }
+.profile-header { display: flex; align-items: center; gap: .9rem; }
+.profile-title-icon { display: inline-grid; flex: 0 0 auto; place-items: center; width: 3rem; height: 3rem; color: var(--green-800); background: linear-gradient(145deg,var(--green-50),var(--green-100)); border: 1px solid var(--green-200); border-radius: .95rem; }
+.profile-title-icon .mat-icon { font-size: 1.55rem; }
+.profile-header h1 { margin: 0; color: #172033; font-size: clamp(1.35rem,2.5vw,1.75rem); font-weight: 760; letter-spacing: -.025em; }
+.profile-header p { margin: .3rem 0 0; color: #64748b; font-size: .9rem; }
+.profile-card { overflow: hidden; background: #fff; border: 1px solid rgba(226,232,240,.9); border-radius: 1.1rem; box-shadow: 0 8px 24px rgba(15,23,42,.055); }
+.profile-summary { display: flex; align-items: center; gap: 1rem; padding: 1.4rem; background: linear-gradient(135deg,#f7fbf7,#fff); border-bottom: 1px solid #eef2f7; }
+.profile-avatar { display: grid; flex: 0 0 auto; place-items: center; width: 3.5rem; height: 3.5rem; color: var(--green-800); background: var(--green-100); border: 1px solid var(--green-200); border-radius: .9rem; font-weight: 750; }
+.profile-summary > div { min-width: 0; }
+.profile-summary h2 { margin: 0; color: #263248; font-size: 1.05rem; font-weight: 720; }
+.profile-summary p { margin: .2rem 0 0; overflow: hidden; color: #64748b; font-size: .82rem; text-overflow: ellipsis; }
+.status-badge { display: inline-flex; align-items: center; gap: .4rem; min-height: 1.7rem; padding: .28rem .62rem; margin-left: auto; color: #267337; font-size: .7rem; font-weight: 680; background: #edf9ef; border-radius: 999px; }
+.status-badge > span { width: .42rem; height: .42rem; background: #34a853; border-radius: 50%; box-shadow: 0 0 0 3px rgba(52,168,83,.12); }
+.status-badge.inactive { color: #64748b; background: #f1f5f9; }
+.status-badge.inactive > span { background: #94a3b8; box-shadow: none; }
+.profile-details { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.25rem; padding: 1.4rem; }
+.profile-field { display: grid; gap: .3rem; min-width: 0; }
+.profile-field > span { color: #64748b; font-size: .76rem; }
+.profile-field > strong { overflow-wrap: anywhere; color: #334155; font-size: .9rem; }
+.profile-roles-field { grid-column: 1/-1; padding-top: 1.1rem; border-top: 1px solid #eef2f7; }
+.profile-roles { display: flex; flex-wrap: wrap; gap: .4rem; }
+.profile-roles span { padding: .3rem .65rem; color: #35683a; background: #eef8ef; border: 1px solid #d8eedb; border-radius: 999px; font-size: .72rem; font-weight: 650; }
+@media (max-width:575.98px) { .profile-title-icon { width: 2.65rem; height: 2.65rem; } .profile-summary { align-items: flex-start; flex-wrap: wrap; } .status-badge { margin-left: 0; } .profile-details { grid-template-columns: 1fr; } .profile-roles-field { grid-column: 1; } }

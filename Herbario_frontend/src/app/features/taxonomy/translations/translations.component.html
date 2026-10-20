@@ -1,0 +1,81 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" aria-hidden="true" translate="no">language</span></span>
+      <div><h1>{{ 'views.features.taxonomy.translations.translations.gestion_de_traducciones' | uiText }}</h1><p>{{ 'views.features.taxonomy.translations.translations.administra_los_registros_de_traducciones_del_sis' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'taxonomy.add_translation'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.taxonomy.translations.translations.traducciones_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.taxonomy.translations.translations.buscar_traducciones' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.taxonomy.common_names.common_names.nombre_comun' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.common_names.common_names.idioma' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.translations.translations.traduccion' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="4" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td><strong>{{ item.common_name }}</strong></td>
+                <td>{{ item.language_name || item.language_code }}</td>
+                <td>{{ item.translated_name }}</td>
+                <td class="text-end">
+                  <app-table-actions editPermission="taxonomy.change_translation" deletePermission="taxonomy.delete_translation" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="4"><div class="empty-state"><span class="mat-icon" aria-hidden="true" translate="no">translate</span><h3>{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</h3><p>{{ 'views.features.taxonomy.translations.translations.administra_los_registros_de_traducciones_del_sis' | uiText }}</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.taxonomy.translations.translations.traduccion_2' | uiText" [itemLabelPlural]="'views.features.taxonomy.translations.translations.traducciones' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.taxonomy.translations.translations.editar_traduccion' | uiText) : ('views.features.taxonomy.translations.translations.agregar_traduccion' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="translations-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="translations-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.common_names.common_names.nombre_comun' | uiText }}</label>
+            <select class="form-select" formControlName="common_name_id">
+              <option value="">{{ 'views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText }}</option>
+              <option *ngFor="let cn of commonNames" [value]="cn.id">{{ cn.common_name }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('common_name_id')?.invalid && form.get('common_name_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.common_names.common_names.idioma' | uiText }}</label>
+            <select class="form-select" formControlName="language_id">
+              <option value="">{{ 'views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText }}</option>
+              <option *ngFor="let l of languages" [value]="l.id">{{ l.name }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('language_id')?.invalid && form.get('language_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.translations.translations.nombre_traducido' | uiText }}</label>
+            <input class="form-control" formControlName="translated_name" />
+            <div class="text-danger small" *ngIf="form.get('translated_name')?.invalid && form.get('translated_name')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+        </form>
+</app-form-modal>

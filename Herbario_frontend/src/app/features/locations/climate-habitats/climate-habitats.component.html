@@ -1,0 +1,76 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" translate="no">forest</span></span>
+      <div><h1>{{ 'views.features.locations.climate_habitats.climate_habitats.gestion_de_climas_y_habitats' | uiText }}</h1><p>{{ 'views.features.locations.climate_habitats.climate_habitats.administra_los_registros_de_climas_y_habitats_de' | uiText }}</p></div>
+    </div>
+    <button type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.locations.climate_habitats.climate_habitats.climas_y_habitats_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.locations.climate_habitats.climate_habitats.buscar_climas_o_habitats' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.locations.climate_habitats.climate_habitats.ubicacion' | uiText }}</th>
+                <th>{{ 'views.features.locations.climate_habitats.climate_habitats.clima' | uiText }}</th>
+                <th>{{ 'views.features.locations.climate_habitats.climate_habitats.habitat' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="4" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td>{{ item.location_name || item.location_id }}</td>
+                <td>{{ item.climate || '-' }}</td>
+                <td>{{ item.habitat || '-' }}</td>
+                <td class="text-end">
+                  <app-table-actions (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="4" class="text-center text-muted py-4">{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.locations.climate_habitats.climate_habitats.clima_y_habitat' | uiText" [itemLabelPlural]="'views.features.locations.climate_habitats.climate_habitats.climas_y_habitats' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.locations.climate_habitats.climate_habitats.editar_clima_habitat' | uiText) : ('views.features.locations.climate_habitats.climate_habitats.agregar_clima_habitat' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="climate-habitats-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="climate-habitats-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.locations.climate_habitats.climate_habitats.ubicacion' | uiText }}</label>
+            <select class="form-select" formControlName="location_id">
+              <option value="">{{ 'views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText }}</option>
+              <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('location_id')?.invalid && form.get('location_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.locations.climate_habitats.climate_habitats.clima' | uiText }}</label>
+            <input class="form-control" formControlName="climate" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.locations.climate_habitats.climate_habitats.habitat' | uiText }}</label>
+            <input class="form-control" formControlName="habitat" />
+          </div>
+        </form>
+</app-form-modal>

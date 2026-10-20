@@ -1,0 +1,76 @@
+.confirmation-content {
+  text-align: center;
+}
+
+.confirmation-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 1.15rem;
+}
+
+.warning-tone .confirmation-icon {
+  color: #d97706;
+  background: #fffbeb;
+}
+
+.confirmation-icon .mat-icon {
+  font-size: 2rem;
+}
+
+.confirmation-content > p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.confirmation-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid #eef2f7;
+}
+
+.confirmation-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.65rem;
+  font-size: 0.84rem;
+  font-weight: 650;
+  border-radius: 0.72rem;
+}
+
+.confirmation-button {
+  color: #fff;
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.confirmation-button:hover:not(:disabled) {
+  color: #fff;
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.confirmation-button.warning-button {
+  background: #d97706;
+  border-color: #d97706;
+}
+
+.confirmation-button.warning-button:hover:not(:disabled) {
+  background: #b45309;
+  border-color: #b45309;
+}
+
+.confirmation-actions .mat-icon {
+  font-size: 1.05rem;
+}

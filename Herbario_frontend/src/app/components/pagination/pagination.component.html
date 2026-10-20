@@ -1,0 +1,50 @@
+<div class="pagination-shell" *ngIf="totalItems > 0">
+  <p class="pagination-summary">
+    
+    {{ 'views.components.pagination.pagination.mostrando' | uiText }} <strong>{{ firstItem }}–{{ lastItem }}</strong>  {{ 'views.components.pagination.pagination.de' | uiText }}
+    <strong>{{ totalItems }}</strong> {{ displayedItemLabel }}
+  </p>
+
+  <nav *ngIf="totalPages > 1" [attr.aria-label]="('views.components.pagination.pagination.paginacion_de' | uiText) + itemLabelPlural">
+    <ul class="pagination-list">
+      <li>
+        <button
+          type="button"
+          class="pagination-button pagination-arrow"
+          [disabled]="currentPage === 1"
+          [attr.aria-label]="'views.components.pagination.pagination.pagina_anterior' | uiText"
+          (click)="goToPage(currentPage - 1)"
+        >
+          <span class="mat-icon" aria-hidden="true" translate="no">chevron_left</span>
+        </button>
+      </li>
+
+      <li *ngFor="let page of pages">
+        <span *ngIf="page === 'ellipsis'" class="pagination-ellipsis">…</span>
+        <button
+          *ngIf="page !== 'ellipsis'"
+          type="button"
+          class="pagination-button"
+          [class.active]="page === currentPage"
+          [attr.aria-current]="page === currentPage ? 'page' : null"
+          [attr.aria-label]="('views.components.pagination.pagination.ir_a_la_pagina' | uiText) + page"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </li>
+
+      <li>
+        <button
+          type="button"
+          class="pagination-button pagination-arrow"
+          [disabled]="currentPage === totalPages"
+          [attr.aria-label]="'views.components.pagination.pagination.pagina_siguiente' | uiText"
+          (click)="goToPage(currentPage + 1)"
+        >
+          <span class="mat-icon" aria-hidden="true" translate="no">chevron_right</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

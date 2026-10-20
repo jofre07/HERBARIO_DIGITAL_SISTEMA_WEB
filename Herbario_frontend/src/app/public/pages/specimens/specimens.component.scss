@@ -1,0 +1,86 @@
+:host { display: block; color: #253025; background: #fafbf9; }
+.specimens-page { min-height: 100vh; padding: 6.25rem 0 3rem; }
+.page-heading { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 1.55rem; }
+.title-group { display: flex; align-items: center; gap: .9rem; }
+.title-icon { color: #557938; font-size: 2.75rem; }
+.title-group h1 { margin: 0 0 .25rem; font-family: Georgia, 'Times New Roman', serif; font-size: 2rem; font-weight: 600; }
+.title-group p { margin: 0; color: #727b72; font-size: .75rem; }
+.specimens-layout { display: block; }
+.stats-grid, .results-card { background: #fff; border: 1px solid #e1e6df; border-radius: .4rem; box-shadow: 0 4px 15px rgba(27,49,24,.035); }
+.filters-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.filters-heading h2 { margin: 0; font-size: .9rem; font-weight: 700; }
+.filters-heading button { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; color: #4e772d; background: transparent; border: 0; border-radius: 50%; }
+.filters-heading button:hover:not(:disabled) { background: #eef4e9; }
+.filters-heading button:disabled { color: #adb5aa; }
+.filters-heading button:focus-visible { outline: 3px solid rgba(82,122,49,.24); outline-offset: 2px; }
+.filters-heading .mat-icon { font-size: 1.15rem; }
+.filter-field { min-width: 0; margin: 0 0 .75rem; padding: 0; border: 0; }
+.filter-field > label, .filter-field legend { display: block; width: auto; margin: 0 0 .4rem; padding: 0; color: #3f483f; font-size: .72rem; font-weight: 700; line-height: 1.35; }
+.filter-field select, .filter-input { box-sizing: border-box; width: 100%; min-height: 2.2rem; color: #485148; font-size: .65rem; background: #fff; border: 1px solid #dfe5dc; border-radius: .3rem; }
+.filter-field select { padding: 0 .55rem; }
+.filter-input { display: flex; align-items: center; padding: 0 .5rem; }
+.filter-input .mat-icon { color: #929a92; font-size: .9rem; }
+.filter-input input { flex: 1; min-width: 0; padding: .52rem .35rem; font-size: .65rem; background: transparent; border: 0; outline: 0; }
+.filter-field select:focus, .filter-input:focus-within { border-color: #719456; outline: 0; box-shadow: 0 0 0 2px rgba(92,132,62,.1); }
+.specimens-results { min-width: 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); margin-bottom: 1rem; }
+.stat-card { display: flex; align-items: center; justify-content: center; gap: .75rem; min-height: 4.8rem; padding: .75rem; border-right: 1px solid #e3e8e0; }
+.stat-card:last-child { border-right: 0; }
+.stat-card > .mat-icon { color: #5e813e; font-size: 1.75rem; }
+.stat-card strong, .stat-card small { display: block; }
+.stat-card strong { font-size: 1.15rem; line-height: 1; }
+.stat-card small { margin-top: .2rem; color: #747d74; font-size: .58rem; }
+.results-card { overflow: hidden; }
+.results-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.1rem; padding: .75rem 1rem; border-bottom: 1px solid #e5e9e3; }
+.results-toolbar p { margin: 0; color: #697269; font-size: .6rem; }
+.toolbar-actions { display: flex; align-items: center; gap: .5rem; color: #515951; font-size: .6rem; font-weight: 600; }
+.toolbar-sort { display: block; min-width: 13rem; }
+.toolbar-actions ::ng-deep .toolbar-sort .select-trigger { min-height: 2.15rem; padding: 0 .55rem; color: #505950; font-size: .62rem; background: #fff; border: 1px solid #dce3d9; border-radius: .3rem; outline: 0; }
+.view-buttons { display: flex; overflow: hidden; border: 1px solid #dce3d9; border-radius: .3rem; }
+.view-buttons button { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; padding: 0; color: #758075; background: #fff; border: 0; }
+.view-buttons button.active { color: #fff; background: #587a37; }
+.view-buttons .mat-icon { font-size: 1rem; }
+.specimens-table { width: 100%; border-collapse: collapse; }
+.specimens-table th { padding: .75rem .65rem; color: #3e473e; font-size: .58rem; font-weight: 700; text-align: left; white-space: nowrap; background: #fbfcfa; border-bottom: 1px solid #dfe5dc; }
+.specimens-table td { padding: .55rem .65rem; color: #555f55; font-size: .6rem; vertical-align: middle; border-bottom: 1px solid #edf0eb; }
+.specimens-table tbody tr:hover { background: #fbfdf9; }
+.specimens-table td > small, .catalog-cell small { display: block; margin-top: .2rem; color: #7b847b; font-size: .52rem; }
+.catalog-cell { display: flex; align-items: center; gap: .6rem; min-width: 10rem; }
+.catalog-cell strong { color: #4b7331; font-size: .65rem; }
+.specimen-thumb { display: grid; flex: 0 0 auto; place-items: center; width: 3rem; height: 3.9rem; overflow: hidden; color: #6f8b59; background: #e8efe4; border: 1px solid #d5ded0; border-radius: .2rem; }
+.specimen-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.specimen-thumb .mat-icon { font-size: 1.3rem; }
+.species-name { display: block; color: #4d7333; font-family: Georgia,'Times New Roman',serif; font-size: .68rem; font-style: italic; }
+.meta-line { display: flex; align-items: center; gap: .25rem; }
+.meta-line .mat-icon { flex: 0 0 auto; color: #657065; font-size: .72rem; }
+.detail-button { display: inline-flex; align-items: center; gap: .25rem; padding: .35rem .55rem; color: #4e7137; font-size: .55rem; font-weight: 700; white-space: nowrap; background: #fff; border: 1px solid #91a882; border-radius: .25rem; }
+.detail-button:hover { background: #f1f6ee; }
+.detail-button .mat-icon { font-size: .72rem; }
+.results-state { display: flex; align-items: center; justify-content: center; gap: .55rem; min-height: 18rem; color: #6f786f; }
+.results-state.error { flex-direction: column; padding: 2rem; text-align: center; }
+.results-state.error > .mat-icon { color: #72945d; font-size: 2.4rem; }
+.results-state.error strong { color: #354339; font-size: .82rem; }
+.results-state.error button { padding: .4rem .7rem; color: #416630; font-size: .7rem; background: #fff; border: 1px solid #64844f; border-radius: .35rem; }
+.empty-state { flex-direction: column; }
+.empty-state > .mat-icon { color: #89a079; font-size: 2.4rem; }
+.empty-state small { font-size: .65rem; }
+.specimens-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .8rem; padding: 1rem; }
+.specimen-card { overflow: hidden; background: #fff; border: 1px solid #dfe5dc; border-radius: .35rem; }
+.grid-image { position: relative; height: 9rem; overflow: hidden; background: #e7efe2; }
+.grid-image img { width: 100%; height: 100%; object-fit: cover; }
+.grid-placeholder { display: grid; place-items: center; width: 100%; height: 100%; color: #eaf3e3; background-image: linear-gradient(rgba(13,46,18,.15),rgba(13,46,18,.28)),var(--about-image, none); background-position: center; background-size: cover; }
+.grid-placeholder .mat-icon { padding: .45rem; background: rgba(27,67,30,.68); border-radius: 50%; }
+.grid-image > span { position: absolute; top: .45rem; right: .45rem; padding: .25rem .45rem; color: #fff; font-size: .52rem; background: rgba(8,39,13,.82); border-radius: 999px; }
+.grid-content { padding: .75rem; }
+.grid-content > strong { color: #4b7331; font-size: .62rem; }
+.grid-content h2 { margin: .25rem 0 .15rem; font-family: Georgia,'Times New Roman',serif; font-size: .9rem; font-style: italic; }
+.grid-content > small { color: #737c73; font-size: .58rem; }
+.grid-content p { display: flex; align-items: center; gap: .25rem; margin: .65rem 0; color: #646e64; font-size: .58rem; }
+.grid-content p .mat-icon { color: #638344; font-size: .75rem; }
+.grid-content button { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: .5rem 0 0; color: #4d7234; font-size: .58rem; font-weight: 700; background: transparent; border: 0; border-top: 1px solid #edf0eb; }
+.grid-content button .mat-icon { font-size: .8rem; }
+.specimens-pagination { display: flex; justify-content: center; gap: .35rem; padding: 1rem; border-top: 1px solid #edf0eb; }
+.specimens-pagination button { display: grid; place-items: center; min-width: 2rem; height: 2rem; padding: 0 .45rem; color: #586158; font-size: .65rem; background: #fff; border: 1px solid #dfe5dc; border-radius: .25rem; }
+.specimens-pagination button.active { color: #fff; background: #527633; border-color: #527633; }
+.specimens-pagination button:disabled { color: #b1b7b1; background: #f6f7f5; }
+.specimens-pagination .mat-icon { font-size: .95rem; }

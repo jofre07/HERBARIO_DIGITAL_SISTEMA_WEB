@@ -1,0 +1,31 @@
+<app-modal
+  [open]="open"
+  [title]="title"
+  [subtitle]="subtitle"
+  [size]="size"
+  [closeDisabled]="busy"
+  (closed)="closed.emit()"
+>
+  <ng-content></ng-content>
+
+  <footer class="form-modal-actions">
+    <button
+      type="button"
+      class="btn btn-light"
+      [disabled]="busy"
+      (click)="closed.emit()"
+    >
+      {{ cancelText }}
+    </button>
+    <button
+      type="submit"
+      class="btn form-modal-submit"
+      [attr.form]="formId || null"
+      [disabled]="busy || submitDisabled"
+    >
+      <span *ngIf="busy" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span *ngIf="!busy" class="mat-icon" aria-hidden="true" translate="no">{{ actionIcon }}</span>
+      {{ actionText }}
+    </button>
+  </footer>
+</app-modal>

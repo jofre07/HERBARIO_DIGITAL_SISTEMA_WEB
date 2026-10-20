@@ -1,0 +1,154 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" translate="no">image</span></span>
+      <div><h1>{{ 'views.features.media.images.gestion_de_imagenes' | uiText }}</h1><p>{{ 'views.features.media.images.administra_los_registros_de_imagenes_del_sistema' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'media.add_herbariumimage'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.media.images.imagenes_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.media.images.buscar_imagenes' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.media.images.especimen' | uiText }}</th>
+                <th>Imagen</th>
+                <th>{{ 'views.features.media.images.credito' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="4" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td>{{ item.catalog_code || item.specimen_id }}</td>
+                <td>
+                  <button type="button" class="image-preview-button" [disabled]="!item.cover" [attr.aria-label]="'Ver imágenes del espécimen ' + item.catalog_code" (click)="openImagePreview(item)">
+                    <img *ngIf="item.cover" class="table-image-preview" [src]="item.cover.thumbnail_url" [alt]="'Imagen del espécimen ' + item.catalog_code" loading="lazy" decoding="async" />
+                    <span class="image-preview-hint" aria-hidden="true"><span class="mat-icon" translate="no">zoom_in</span></span>
+                  </button>
+                </td>
+                <td>{{ item.cover?.credit || '-' }}</td>
+                <td class="text-end">
+                  <app-table-actions
+                    editPermission="media.change_herbariumimage"
+                    deletePermission="media.delete_herbariumimage"
+                    (edit)="edit(item)"
+                    (delete)="remove(item)"
+                  ></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="4" class="text-center text-muted py-4">{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.media.images.imagen' | uiText" [itemLabelPlural]="'views.features.media.images.imagenes' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? 'Administrar fotos del espécimen' : ('views.features.media.images.agregar_imagen' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="images-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [busy]="saving"
+  [submitDisabled]="form.invalid || !selectedFiles.length"
+  [submitText]="selectedId ? 'Guardar cambios' : ''"
+  (closed)="resetForm()"
+>
+  <form id="images-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.media.images.especimen' | uiText }}</label>
+            <select class="form-select" formControlName="specimen_id" [attr.aria-busy]="loadingSpecimens" (change)="onSpecimenChange($any($event.target).value)">
+              <option value="">{{ loadingSpecimens ? 'Cargando especímenes...' : ('views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText) }}</option>
+              <option *ngFor="let sp of specimens" [value]="sp.id">{{ sp.catalog_code }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('specimen_id')?.invalid && form.get('specimen_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <div class="image-limit-summary" *ngIf="form.controls.specimen_id.value">
+              <span><strong>{{ specimenImageCount }}</strong> de {{ maxImagesPerSpecimen }} imágenes registradas</span>
+              <span>{{ checkingImageCount ? 'Consultando cupos...' : remainingSlots + ' cupo(s) disponible(s)' }}</span>
+            </div>
+            <label class="form-label fw-semibold" for="herbarium-image-files">Elegir archivos</label>
+            <label class="image-upload-zone" [class.compact]="!!selectedId" for="herbarium-image-files" [class.disabled]="!form.controls.specimen_id.value || ((!selectedId || addingToExisting) && remainingSlots === 0)">
+              <span class="mat-icon" aria-hidden="true" translate="no">cloud_upload</span>
+              <span class="upload-copy">
+                <strong>{{ selectedId ? 'Elegir archivo' : 'Seleccionar imágenes' }}</strong>
+                <small>Las nuevas fotos se agregarán sin modificar las existentes. JPG, PNG o WEBP · máximo 10 MB.</small>
+              </span>
+            </label>
+            <input
+              #imageFileInput
+              id="herbarium-image-files"
+              class="visually-hidden"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              [multiple]="!selectedId || addingToExisting"
+              [disabled]="!form.controls.specimen_id.value || ((!selectedId || addingToExisting) && remainingSlots === 0)"
+              (change)="onFilesSelected($event)"
+            />
+            <div class="selected-images" [class.replacement-preview]="!!selectedId" *ngIf="imagePreviews.length">
+              <figure *ngFor="let preview of imagePreviews; let index = index">
+                <img [src]="preview" [alt]="'Vista previa de ' + selectedFiles[index].name" />
+                <figcaption><span><strong *ngIf="selectedId">Nueva imagen</strong><span [title]="selectedFiles[index].name">{{ selectedFiles[index].name }}</span></span><button type="button" [attr.aria-label]="'Quitar ' + selectedFiles[index].name" (click)="removeSelectedFile(index)"><span class="mat-icon" aria-hidden="true" translate="no">close</span></button></figcaption>
+              </figure>
+            </div>
+            <div class="text-danger small mt-2" role="alert" *ngIf="fileError">{{ fileError }}</div>
+            <div class="existing-images saved-images" *ngIf="selectedId && editingImages.length">
+              <div class="existing-images-header">
+                <div><strong>Fotos guardadas</strong><span>Imágenes cargadas actualmente desde el servidor.</span></div>
+                <span>{{ editingImages.length }} de {{ maxImagesPerSpecimen }}</span>
+              </div>
+              <div class="existing-images-grid">
+                <article *ngFor="let image of editingImages; let index = index" class="existing-image-card">
+                  <div class="existing-image-select"><img [src]="image.variants.thumbnail.url" [alt]="'Foto guardada ' + (index + 1)" loading="lazy" decoding="async" /></div>
+                  <div class="existing-image-actions">
+                    <button *appHasPermission="'media.delete_herbariumimage'" type="button" class="delete-image-button" [disabled]="deletingImageId === image.id" (click)="removeExistingImage(image)">
+                      <span class="mat-icon" aria-hidden="true" translate="no">delete</span> {{ deletingImageId === image.id ? 'Eliminando...' : 'Eliminar' }}
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.media.images.credito' | uiText }}</label>
+            <input class="form-control" formControlName="credit" />
+          </div>
+        </form>
+</app-form-modal>
+
+<app-modal
+  [open]="!!previewedImage"
+  appearance="lightbox"
+  size="lg"
+  (closed)="closeImagePreview()"
+>
+  <div class="gallery-viewer" *ngIf="previewedImage as image">
+      <div class="gallery-image-stage gallery-image-loading" *ngIf="loadingImageDetail" role="status" aria-live="polite">
+        <span class="spinner-border text-success" aria-hidden="true"></span>
+        <span>Cargando imágenes...</span>
+      </div>
+      <div class="gallery-image-stage" *ngIf="activePreviewImage as activeImage">
+        <img [src]="activeImage.variants.large.url" [alt]="'Imagen del espécimen ' + image.catalog_code" decoding="async" />
+        <button *ngIf="hasMultipleImages" type="button" class="gallery-arrow gallery-arrow-previous" aria-label="Ver imagen anterior" (click)="showPreviousImage()">
+          <span class="mat-icon" aria-hidden="true" translate="no">chevron_left</span>
+        </button>
+        <button *ngIf="hasMultipleImages" type="button" class="gallery-arrow gallery-arrow-next" aria-label="Ver imagen siguiente" (click)="showNextImage()">
+          <span class="mat-icon" aria-hidden="true" translate="no">chevron_right</span>
+        </button>
+      </div>
+  </div>
+</app-modal>

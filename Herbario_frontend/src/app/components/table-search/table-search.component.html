@@ -1,0 +1,19 @@
+<div class="table-search">
+  <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+  <input
+    type="search"
+    [value]="query"
+    [placeholder]="placeholder"
+    [attr.aria-label]="'views.components.table_search.table_search.buscar_en_la_tabla' | uiText"
+    (input)="updateQuery($event)"
+  />
+  <button
+    *ngIf="query"
+    type="button"
+    [attr.aria-label]="'views.components.table_search.table_search.limpiar_busqueda' | uiText"
+    [title]="'views.components.table_search.table_search.limpiar_busqueda' | uiText"
+    (click)="clear()"
+  >
+    <span class="mat-icon" aria-hidden="true" translate="no">close</span>
+  </button>
+</div>

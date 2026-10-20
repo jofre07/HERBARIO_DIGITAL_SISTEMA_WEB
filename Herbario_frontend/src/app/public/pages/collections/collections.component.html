@@ -1,0 +1,161 @@
+<main class="collections-page">
+  <div class="container public-content-container collections-container">
+    <header class="collections-heading">
+      <div class="title-group">
+        <span class="mat-icon title-icon" aria-hidden="true" translate="no">folder_special</span>
+        <div>
+          <h1>{{ 'navigation.collections' | uiText }}</h1>
+          <p>{{ 'views.public.pages.collections.collections.explora_nuestras_colecciones_especiales_de_ejemp' | uiText }}</p>
+        </div>
+      </div>
+      <app-public-breadcrumb [current]="'navigation.collections' | uiText" />
+    </header>
+
+    <div class="collections-layout">
+      <app-public-filter-drawer [open]="filtersOpen" [context]="'navigation.collections' | uiText" [title]="'filters.title' | uiText" [description]="'filters.collectionsDescription' | uiText" [closeLabel]="'actions.closeFilters' | uiText" [canClear]="hasActiveFilters" [loading]="loading" [clearLabel]="'actions.clearFilters' | uiText" [applyLabel]="'actions.applyFilters' | uiText" (closed)="closeFilters()" (cleared)="clearFilters()" (applied)="applyFilters()">
+        <section class="sidebar-card category-card">
+          <h2>{{ 'views.public.pages.collections.collections.categorias_de_colecciones' | uiText }}</h2>
+          <button
+            type="button"
+            *ngFor="let category of categories"
+            (click)="selectCategory(category.value)"
+            [class.active]="selectedCategory === category.value"
+          >
+            <i class="bi {{ category.icon }}" aria-hidden="true"></i>
+            <span>{{ category.label }}</span>
+            <small>{{ category.count }}</small>
+          </button>
+        </section>
+
+        <section class="sidebar-card filter-card">
+          <div class="filter-field">
+            <label>{{ 'views.public.pages.advanced_search.advanced_search.estado_de_conservacion' | uiText }}</label>
+            <app-select-input
+              [(ngModel)]="selectedStatus"
+              [options]="statusOptions"
+              [searchable]="true"
+              [placeholder]="'filters.allStatuses' | uiText"
+              [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_estado' | uiText"
+              [emptyText]="'views.public.pages.collections.collections.no_hay_estados_disponibles' | uiText"
+            ></app-select-input>
+          </div>
+
+          <div class="filter-field">
+            <label>{{ 'views.features.specimens.specimens.familia' | uiText }}</label>
+            <app-select-input
+              [(ngModel)]="selectedFamily"
+              [options]="familyOptions"
+              [searchable]="true"
+              [placeholder]="'filters.allFamilies' | uiText"
+              [searchPlaceholder]="'filters.searchFamily' | uiText"
+              [emptyText]="'views.public.pages.collections.collections.no_hay_familias_disponibles' | uiText"
+            ></app-select-input>
+          </div>
+
+          <div class="filter-field">
+            <label>{{ 'views.public.pages.about.about.ubicacion' | uiText }}</label>
+            <app-select-input
+              [(ngModel)]="selectedLocation"
+              [options]="locationOptions"
+              [searchable]="true"
+              [placeholder]="'filters.allLocations' | uiText"
+              [searchPlaceholder]="'filters.searchLocation' | uiText"
+              [emptyText]="'views.public.pages.collections.collections.no_hay_ubicaciones_disponibles' | uiText"
+            ></app-select-input>
+          </div>
+
+        </section>
+      </app-public-filter-drawer>
+
+      <section class="collections-content">
+        <div class="collections-actions">
+          <button type="button" class="public-filter-trigger" [class.is-active]="hasActiveFilters" (click)="openFilters()" [attr.aria-expanded]="filtersOpen">
+            <span class="mat-icon" aria-hidden="true" translate="no">tune</span>{{ 'filters.title' | uiText }}
+            <span class="public-filter-count" *ngIf="activeFilterCount">{{ activeFilterCount }}</span>
+          </button>
+        </div>
+        <div class="stats-bar" [attr.aria-label]="'views.public.pages.collections.collections.estadisticas_de_colecciones' | uiText">
+          <article>
+            <i class="bi bi-folder2-open" aria-hidden="true"></i>
+            <div><strong [appCountUp]="stats.collections || collections.length"></strong><span>{{ 'navigation.collections' | uiText }}<br>{{ 'views.public.pages.collections.collections.registradas' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-journal-bookmark" aria-hidden="true"></i>
+            <div><strong [appCountUp]="collectionSpecimenCount"></strong><span>{{ 'navigation.specimens' | uiText }}<br>{{ 'views.public.pages.collections.collections.en_colecciones' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-flower1" aria-hidden="true"></i>
+            <div><strong [appCountUp]="stats.species"></strong><span>{{ 'views.public.pages.collections.collections.especies' | uiText }}<br>{{ 'views.public.pages.collections.collections.representadas' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-geo-alt" aria-hidden="true"></i>
+            <div><strong [appCountUp]="stats.locations"></strong><span>{{ 'views.public.pages.collections.collections.localidades' | uiText }}<br>{{ 'views.public.pages.collections.collections.cubiertas' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-camera" aria-hidden="true"></i>
+            <div><strong [appCountUp]="stats.images"></strong><span>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}<br>{{ 'views.public.pages.collections.collections.asociadas' | uiText }}</span></div>
+          </article>
+        </div>
+
+        <div *ngIf="loading" class="collections-skeleton-grid" [attr.aria-label]="'views.public.pages.collections.collections.cargando_colecciones' | uiText" aria-busy="true">
+          <article class="collections-skeleton-card" *ngFor="let card of [1,2,3,4,5,6,7,8]">
+            <div class="collections-skeleton-image skeleton-shimmer"></div>
+            <div class="collections-skeleton-body">
+              <span class="collections-skeleton-title skeleton-shimmer"></span>
+              <span class="collections-skeleton-line skeleton-shimmer"></span>
+              <span class="collections-skeleton-line skeleton-shimmer"></span>
+              <span class="collections-skeleton-short skeleton-shimmer"></span>
+              <div class="collections-skeleton-meta">
+                <span class="skeleton-shimmer"></span>
+                <span class="skeleton-shimmer"></span>
+              </div>
+              <span class="collections-skeleton-action skeleton-shimmer"></span>
+            </div>
+          </article>
+        </div>
+
+        <ng-container *ngIf="!loading">
+          <div class="collection-grid" *ngIf="filteredCollections.length; else emptyCollections">
+            <article class="collection-card" *ngFor="let collection of filteredCollections">
+              <div class="card-image">
+                <img *ngIf="collection.image_url; else collectionPlaceholder" [src]="collection.image_url" [alt]="collection.name">
+                <ng-template #collectionPlaceholder>
+                  <span class="collection-placeholder"><span class="mat-icon" translate="no">local_florist</span></span>
+                </ng-template>
+                <span class="specimen-badge">{{ 'dynamic.counts.specimens' | uiText: { count: (collection.specimen_count | number) } }}</span>
+              </div>
+
+              <div class="card-content">
+                <h2>{{ collection.name }}</h2>
+                <p>{{ collection.description || ('views.public.pages.collections.collections.coleccion_botanica_del_herbario_digital' | uiText) }}</p>
+                <div class="collection-meta">
+                  <span><span class="mat-icon" aria-hidden="true" translate="no">location_on</span>{{ 'dynamic.counts.locations' | uiText: { count: (collection.location_count | number) } }}</span>
+                  <span><span class="mat-icon" aria-hidden="true" translate="no">eco</span>{{ 'dynamic.counts.species' | uiText: { count: (collection.species_count | number) } }}</span>
+                </div>
+                <a routerLink="/especimenes" [queryParams]="{ collection: collection.id }">
+                  
+                  {{ 'views.public.pages.collections.collections.ver_coleccion' | uiText }} <span class="mat-icon" aria-hidden="true" translate="no">arrow_forward</span>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <nav class="collection-pagination" *ngIf="totalPages > 1" [attr.aria-label]="'views.public.pages.collections.collections.paginacion_de_colecciones' | uiText">
+            <button type="button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" [attr.aria-label]="'views.components.pagination.pagination.pagina_anterior' | uiText"><span class="mat-icon" translate="no">chevron_left</span></button>
+            <button type="button" *ngFor="let page of pages" (click)="goToPage(page)" [class.active]="page === currentPage">{{ page }}</button>
+            <button type="button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" [attr.aria-label]="'views.components.pagination.pagination.pagina_siguiente' | uiText"><span class="mat-icon" translate="no">chevron_right</span></button>
+          </nav>
+
+          <ng-template #emptyCollections>
+            <div class="collections-state empty-state">
+              <span class="mat-icon" aria-hidden="true" translate="no">folder_off</span>
+              <strong>{{ 'views.public.pages.collections.collections.no_se_encontraron_colecciones' | uiText }}</strong>
+              <small>{{ 'views.public.pages.collections.collections.prueba_seleccionando_otra_categoria_o_limpiando_' | uiText }}</small>
+            </div>
+          </ng-template>
+
+        </ng-container>
+      </section>
+    </div>
+  </div>
+</main>

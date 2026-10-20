@@ -1,0 +1,204 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" translate="no">biotech</span></span>
+      <div><h1>{{ 'views.features.specimens.specimens.gestion_de_especimenes' | uiText }}</h1><p>{{ 'views.features.specimens.specimens.administra_los_registros_de_especimenes_y_sus_ub' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'specimens.add_specimen'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.specimens.specimens.especimenes_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" [placeholder]="'views.features.specimens.specimens.buscar_especimenes' | uiText" (queryChange)="onSearch($event)"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle specimens-table">
+        <colgroup>
+          <col class="specimens-column--code">
+          <col class="specimens-column--species">
+          <col class="specimens-column--genus">
+          <col class="specimens-column--family">
+          <col class="specimens-column--collector">
+          <col class="specimens-column--location-count">
+          <col class="specimens-column--publication">
+          <col class="specimens-column--actions">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>{{ 'views.features.specimens.specimens.codigo' | uiText }}</th><th>{{ 'views.features.specimens.specimens.especie' | uiText }}</th><th>{{ 'views.features.specimens.specimens.genero' | uiText }}</th><th>{{ 'views.features.specimens.specimens.familia' | uiText }}</th><th>{{ 'views.features.specimens.specimens.colector' | uiText }}</th>
+            <th>{{ 'views.features.specimens.specimens.ubicaciones' | uiText }}</th><th>{{ 'views.features.specimens.specimens.publicacion' | uiText }}</th><th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+          </tr>
+        </thead>
+        <tbody
+          appTablePlaceholder
+          *ngIf="loading"
+          [columns]="8"
+          [rows]="tablePlaceholderRows"
+          [columnConfig]="tablePlaceholderColumns"
+        ></tbody>
+        <tbody *ngIf="!loading">
+          <tr *ngFor="let item of items">
+            <td>{{ item.catalog_code }}</td>
+            <td>{{ item.species_name }}</td>
+            <td>{{ item.genus_name }}</td>
+            <td>{{ item.family_name }}</td>
+            <td>{{ item.collector_name || '-' }}</td>
+            <td><span class="location-count">{{ item.location_count }}</span></td>
+            <td><span class="publication-badge" [class.published]="item.is_published">{{ item.is_published ? ('views.features.specimens.specimens.publicado' | uiText) : ('views.features.specimens.specimens.borrador' | uiText) }}</span></td>
+            <td class="text-end">
+              <app-table-actions editPermission="specimens.change_specimen" deletePermission="specimens.delete_specimen" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+            </td>
+          </tr>
+          <tr *ngIf="!items.length"><td colspan="8" class="text-center text-muted py-4">{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.specimens.specimens.especimen' | uiText" [itemLabelPlural]="'views.features.specimens.specimens.especimenes' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.specimens.specimens.editar_especimen' | uiText) : ('views.features.specimens.specimens.agregar_especimen' | uiText)"
+  [subtitle]="'views.features.specimens.specimens.registra_los_datos_y_una_o_mas_ubicaciones' | uiText"
+  size="lg"
+  formId="specimens-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [busy]="saving || loadingSpecimenDetail"
+  [submitText]="currentStep === 1 ? ('views.features.specimens.specimens.siguiente' | uiText) : (selectedId ? ('actions.saveChanges' | uiText) : ('views.features.specimens.specimens.crear_especimen' | uiText))"
+  [submitIcon]="currentStep === 1 ? 'arrow_forward' : ''"
+  [submitDisabled]="loadingFormOptions || loadingSpecimenDetail || (currentStep === 1 ? isStepOneInvalid : isStepTwoInvalid)"
+  (closed)="resetForm()"
+>
+  <form id="specimens-form" [formGroup]="form" [attr.aria-busy]="loadingFormOptions || loadingSpecimenDetail" (ngSubmit)="submitStep()">
+    <div class="form-stepper" [attr.aria-label]="'views.features.specimens.specimens.progreso_del_formulario' | uiText">
+      <div class="step-item" [class.active]="currentStep === 1" [class.completed]="currentStep === 2">
+        <span class="step-number">1</span><div><strong>{{ 'views.features.specimens.specimens.datos_del_especimen' | uiText }}</strong><small>{{ 'views.features.specimens.specimens.identificacion_y_coleccion' | uiText }}</small></div>
+      </div>
+      <span class="step-line" [class.completed]="currentStep === 2"></span>
+      <div class="step-item" [class.active]="currentStep === 2">
+        <span class="step-number">2</span><div><strong>{{ 'views.features.specimens.specimens.ubicaciones' | uiText }}</strong><small>{{ 'views.features.specimens.specimens.procedencia_y_ambiente' | uiText }}</small></div>
+      </div>
+    </div>
+
+    <section *ngIf="currentStep === 1" class="step-content">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'views.public.pages.gallery.gallery.codigo_de_catalogo' | uiText }}</label>
+          <input class="form-control" formControlName="catalog_code" />
+          <div class="text-danger small" *ngIf="form.get('catalog_code')?.invalid && form.get('catalog_code')?.touched">{{ 'views.features.specimens.specimens.ingresa_un_codigo_valido' | uiText }}</div>
+        </div>
+        <div class="col-md-6"><label class="form-label fw-semibold">{{ 'views.public.pages.gallery.gallery.fecha_de_coleccion' | uiText }}</label><input class="form-control" type="date" formControlName="collection_date" /></div>
+        <div class="col-md-6"><label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.numero_de_coleccion' | uiText }}</label><input class="form-control" formControlName="collection_number" /></div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+          <select class="form-select" formControlName="species_id" [attr.aria-busy]="loadingFormOptions"><option value="">{{ loadingFormOptions ? 'Cargando especies...' : ('views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText) }}</option><option *ngFor="let species of speciesList" [value]="species.id">{{ species.name }}</option></select>
+          <div class="text-danger small" *ngIf="form.get('species_id')?.invalid && form.get('species_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+        </div>
+        <div class="col-md-6"><label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.colector' | uiText }}</label><select class="form-select" formControlName="collector_id" [attr.aria-busy]="loadingFormOptions"><option value="">{{ loadingFormOptions ? 'Cargando colectores...' : ('views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText) }}</option><option *ngFor="let collector of collectors" [value]="collector.id">{{ collector.name }}</option></select></div>
+        <div class="col-md-6">
+          <div class="publication-control">
+            <div>
+              <label class="form-label fw-semibold mb-1" for="specimen-published">{{ 'views.features.specimens.specimens.publicar_en_el_portal' | uiText }}</label>
+              <small>{{ form.controls.is_published.value ? ('views.features.specimens.specimens.sera_visible_en_el_portal_publico' | uiText) : ('views.features.specimens.specimens.solo_sera_visible_en_administracion' | uiText) }}</small>
+            </div>
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" id="specimen-published" type="checkbox" role="switch" formControlName="is_published">
+            </div>
+          </div>
+        </div>
+        <div class="col-12"><label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.descripcion_morfologica' | uiText }}</label><textarea class="form-control" formControlName="morphological_description" rows="3"></textarea></div>
+      </div>
+    </section>
+
+    <section *ngIf="currentStep === 2" class="step-content">
+      <div class="step-section-heading">
+        <div><h3>{{ 'views.features.specimens.specimens.ubicaciones_del_especimen' | uiText }}</h3><p>{{ 'views.features.specimens.specimens.selecciona_ubicaciones_existentes_o_crea_nuevas_' | uiText }}</p></div>
+        <div class="heading-actions">
+          <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="saving" (click)="previousStep()"><span class="mat-icon" translate="no">arrow_back</span>  {{ 'views.features.specimens.specimens.volver' | uiText }}</button>
+          <button type="button" class="btn btn-sm btn-success" [disabled]="saving" (click)="addLocation()"><span class="mat-icon" translate="no">add_location</span>  {{ 'actions.add' | uiText }}</button>
+        </div>
+      </div>
+
+      <div class="alert alert-danger py-2" role="alert" *ngIf="hasDuplicateLocations">{{ 'views.features.specimens.specimens.una_ubicacion_existente_no_puede_agregarse_mas_d' | uiText }}</div>
+
+      <div #locationsList formArrayName="locations" class="locations-list">
+        <article class="location-card" *ngFor="let locationGroup of locations.controls; let index = index" [formGroupName]="index" [class.active]="activeLocationIndex === index">
+          <header class="location-card-header">
+            <button type="button" class="location-title" (click)="toggleLocation(index)" [attr.aria-expanded]="activeLocationIndex === index" [attr.aria-controls]="'location-panel-' + index">
+              <span class="location-number">{{ index + 1 }}</span>
+              <span><strong>{{ locationGroup.get('name')?.value || ('views.features.specimens.specimens.nueva_ubicacion' | uiText) }}</strong></span>
+              <span class="mat-icon accordion-icon" aria-hidden="true" translate="no">{{ activeLocationIndex === index ? 'expand_less' : 'expand_more' }}</span>
+            </button>
+            <div class="location-card-actions">
+              <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="locations.length === 1" (click)="removeLocation(index)" [attr.aria-label]="'views.features.specimens.specimens.quitar_ubicacion' | uiText"><span class="mat-icon" translate="no">delete</span></button>
+            </div>
+          </header>
+
+          <div class="location-card-body" *ngIf="activeLocationIndex === index" [id]="'location-panel-' + index">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label fw-semibold">{{ 'views.features.admin.roles.roles.nombre' | uiText }}</label>
+                <input class="form-control" formControlName="name" [placeholder]="'views.features.specimens.specimens.ej_campus_politecnico_calceta' | uiText" />
+                <div class="text-danger small" *ngIf="locationGroup.get('name')?.invalid && locationGroup.get('name')?.touched">{{ 'views.features.specimens.specimens.ingresa_un_nombre_valido' | uiText }}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">{{ 'views.features.locations.locations.latitud' | uiText }}</label>
+                <input class="form-control" type="number" step="0.00000001" min="-90" max="90" formControlName="latitude" (change)="updateMapFromCoordinates(index)" />
+                <div class="text-danger small" *ngIf="locationGroup.get('latitude')?.invalid && locationGroup.get('latitude')?.touched">{{ 'views.features.specimens.specimens.usa_un_valor_entre_90_y_90_con_maximo_8_decimale' | uiText }}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">{{ 'views.features.locations.locations.longitud' | uiText }}</label>
+                <input class="form-control" type="number" step="0.00000001" min="-180" max="180" formControlName="longitude" (change)="updateMapFromCoordinates(index)" />
+                <div class="text-danger small" *ngIf="locationGroup.get('longitude')?.invalid && locationGroup.get('longitude')?.touched">{{ 'views.features.specimens.specimens.usa_un_valor_entre_180_y_180_con_maximo_8_decima' | uiText }}</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.figura_del_mapa' | uiText }}</label>
+                <div class="marker-options" role="radiogroup" [attr.aria-label]="'views.features.specimens.specimens.seleccionar_figura_del_mapa' | uiText">
+                  <button
+                    *ngFor="let option of markerOptions"
+                    type="button"
+                    class="marker-option"
+                    [class.selected]="locationGroup.get('marker_icon')?.value === option.value"
+                    [attr.aria-checked]="locationGroup.get('marker_icon')?.value === option.value"
+                    role="radio"
+                    (click)="selectMarkerIcon(index, option.value)"
+                  >
+                    <span class="marker-option-preview"><i class="bi" [ngClass]="option.icon"></i></span>
+                    <span>{{ option.label }}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="coordinate-map-header"><label class="form-label fw-semibold mb-0">{{ 'views.features.specimens.specimens.seleccionar_punto_en_el_mapa' | uiText }}</label><small>{{ 'views.features.specimens.specimens.el_mapa_conserva_ocho_decimales' | uiText }}</small></div>
+                <div id="specimen-location-map" class="coordinate-map"></div>
+              </div>
+              <div class="col-12"><label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.comentario_general_de_la_ubicacion' | uiText }}</label><textarea class="form-control" formControlName="location_comment" rows="2"></textarea></div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.clima_para_este_especimen' | uiText }}</label>
+                <select class="form-select" formControlName="climate_id" [attr.aria-busy]="loadingFormOptions">
+                  <option value="">{{ loadingFormOptions ? 'Cargando climas...' : 'Sin clima registrado' }}</option>
+                  <option *ngFor="let climate of climates" [value]="climate.id">{{ climate.name }}</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.habitat_para_este_especimen' | uiText }}</label>
+                <select class="form-select" formControlName="habitat_id" [attr.aria-busy]="loadingFormOptions">
+                  <option value="">{{ loadingFormOptions ? 'Cargando hábitats...' : 'Sin hábitat registrado' }}</option>
+                  <option *ngFor="let habitat of habitats" [value]="habitat.id">{{ habitat.name }}</option>
+                </select>
+              </div>
+              <div class="col-12"><label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.observacion_de_la_asociacion' | uiText }}</label><textarea class="form-control" formControlName="comment" rows="2"></textarea></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </form>
+</app-form-modal>

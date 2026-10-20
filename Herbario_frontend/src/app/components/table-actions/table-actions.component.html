@@ -1,0 +1,34 @@
+<div class="table-action-buttons">
+  <button
+    *ngIf="showView"
+    type="button"
+    class="table-action-button view-button"
+    [attr.aria-label]="viewLabel"
+    [title]="viewLabel"
+    (click)="view.emit()"
+  >
+    <span class="mat-icon" aria-hidden="true" translate="no">visibility</span>
+  </button>
+  <button
+    *ngIf="canEdit"
+    type="button"
+    class="table-action-button edit-button"
+    [disabled]="editDisabled"
+    [attr.aria-label]="editLabel"
+    [title]="editLabel"
+    (click)="edit.emit()"
+  >
+    <span class="mat-icon" aria-hidden="true" translate="no">edit</span>
+  </button>
+  <button
+    *ngIf="canDelete"
+    type="button"
+    class="table-action-button delete-button"
+    [disabled]="deleteDisabled"
+    [attr.aria-label]="deleteLabel"
+    [title]="deleteLabel"
+    (click)="delete.emit()"
+  >
+    <span class="mat-icon" aria-hidden="true" translate="no">delete</span>
+  </button>
+</div>

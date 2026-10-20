@@ -1,0 +1,138 @@
+<form id="user-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="user-username">{{ 'views.components.user_form.user_form.nombre_de_usuario' | uiText }}</label>
+      <div class="field-with-icon">
+        <span class="mat-icon" aria-hidden="true" translate="no">person</span>
+        <input
+          id="user-username"
+          type="text"
+          class="form-control"
+          formControlName="username"
+          autocomplete="username"
+          [placeholder]="'views.components.user_form.user_form.ej_jperez' | uiText"
+        />
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="form.controls.username.touched && form.controls.username.hasError('required')"
+      >
+        
+        {{ 'views.components.user_form.user_form.el_nombre_de_usuario_es_obligatorio' | uiText }}
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="user-email">{{ 'views.components.user_form.user_form.correo_electronico' | uiText }}</label>
+      <div class="field-with-icon">
+        <span class="mat-icon" aria-hidden="true" translate="no">mail</span>
+        <input
+          id="user-email"
+          type="email"
+          class="form-control"
+          formControlName="email"
+          autocomplete="email"
+          [placeholder]="'views.components.user_form.user_form.usuario_correo_com' | uiText"
+        />
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="form.controls.email.touched && form.controls.email.invalid"
+      >
+        <span *ngIf="form.controls.email.hasError('required')">{{ 'views.components.user_form.user_form.el_correo_es_obligatorio' | uiText }}</span>
+        <span *ngIf="form.controls.email.hasError('email')">{{ 'views.components.user_form.user_form.ingresa_un_correo_valido' | uiText }}</span>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <label class="form-label" for="user-password">
+        
+        {{ 'views.components.user_form.user_form.contrasena' | uiText }}
+        <span *ngIf="editing" class="optional-label">{{ 'views.components.user_form.user_form.opcional' | uiText }}</span>
+      </label>
+      <div class="field-with-icon password-field">
+        <span class="mat-icon" aria-hidden="true" translate="no">lock</span>
+        <input
+          id="user-password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control"
+          formControlName="password"
+          autocomplete="new-password"
+          [placeholder]="editing ? ('views.components.user_form.user_form.dejala_vacia_para_conservar_la_actual' | uiText) : ('views.components.user_form.user_form.minimo_8_caracteres' | uiText)"
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          [attr.aria-label]="showPassword ? ('views.components.user_form.user_form.ocultar_contrasena' | uiText) : ('views.components.user_form.user_form.mostrar_contrasena' | uiText)"
+          (click)="showPassword = !showPassword"
+        >
+          <span class="mat-icon" aria-hidden="true" translate="no">
+            {{ showPassword ? 'visibility_off' : 'visibility' }}
+          </span>
+        </button>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="form.controls.password.touched && form.controls.password.invalid"
+      >
+        <span *ngIf="form.controls.password.hasError('required')">{{ 'views.components.user_form.user_form.la_contrasena_es_obligatoria' | uiText }}</span>
+        <span *ngIf="form.controls.password.hasError('minlength')">
+          
+          {{ 'views.components.user_form.user_form.debe_tener_al_menos_8_caracteres' | uiText }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="roles-heading">
+        <div>
+          <label class="form-label mb-1">{{ 'views.components.user_form.user_form.roles_del_usuario' | uiText }}</label>
+          <p>{{ 'views.components.user_form.user_form.selecciona_al_menos_un_rol_para_definir_su_nivel' | uiText }}</p>
+        </div>
+        <span class="role-counter">{{ 'dynamic.selection.selected' | uiText: { count: form.controls.role_ids.value.length } }}</span>
+      </div>
+
+      <div class="roles-grid" [class.is-invalid]="form.controls.role_ids.touched && form.controls.role_ids.invalid">
+        <label
+          *ngFor="let role of roles"
+          class="role-option"
+          [class.selected]="isRoleSelected(role.id)"
+        >
+          <input
+            type="checkbox"
+            class="visually-hidden"
+            [checked]="isRoleSelected(role.id)"
+            (change)="toggleRole(role.id)"
+          />
+          <span class="role-check">
+            <span class="mat-icon" aria-hidden="true" translate="no">check</span>
+          </span>
+          <span>{{ role.name }}</span>
+        </label>
+
+        <p *ngIf="!roles.length" class="roles-empty">
+          
+          {{ 'views.components.user_form.user_form.no_hay_roles_disponibles_para_asignar' | uiText }}
+        </p>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="form.controls.role_ids.touched && form.controls.role_ids.invalid"
+      >
+        <span *ngIf="form.controls.role_ids.hasError('atLeastOne')">{{ 'views.components.user_form.user_form.selecciona_al_menos_un_rol' | uiText }}</span>
+        <span *ngIf="form.controls.role_ids.getError('backend') as messages">{{ messages.join(' ') }}</span>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <label class="status-option">
+        <input type="checkbox" formControlName="is_active" />
+        <span class="status-switch" aria-hidden="true"></span>
+        <span>
+          <strong>{{ 'views.components.user_form.user_form.usuario_activo' | uiText }}</strong>
+          <small>{{ 'views.components.user_form.user_form.puede_iniciar_sesion_y_utilizar_las_funciones_as' | uiText }}</small>
+        </span>
+      </label>
+    </div>
+  </div>
+</form>

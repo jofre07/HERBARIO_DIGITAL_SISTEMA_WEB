@@ -1,0 +1,171 @@
+<main class="gallery-page">
+  <div class="container public-content-container gallery-container">
+    <header class="gallery-heading">
+      <div class="title-group">
+        <span class="mat-icon title-icon" aria-hidden="true" translate="no">photo_library</span>
+        <div>
+          <h1>{{ 'views.public.pages.gallery.gallery.galeria_de_imagenes' | uiText }}</h1>
+          <p>{{ 'views.public.pages.gallery.gallery.explora_las_imagenes_de_plantas_especimenes_y_de' | uiText }}</p>
+        </div>
+      </div>
+      <app-public-breadcrumb [current]="'navigation.gallery' | uiText" />
+    </header>
+
+    <div class="gallery-layout">
+      <app-public-filter-drawer [open]="filtersOpen" [context]="'navigation.gallery' | uiText" [title]="'filters.title' | uiText" [description]="'filters.galleryDescription' | uiText" [closeLabel]="'actions.closeFilters' | uiText" [canClear]="hasActiveFilters" [loading]="loading" [clearLabel]="'actions.clearFilters' | uiText" [applyLabel]="'actions.applyFilters' | uiText" (closed)="closeFilters()" (cleared)="clearFilters()" (applied)="applyDrawerFilters()">
+        <div class="filter-field">
+          <label for="gallery-search">{{ 'views.public.pages.gallery.gallery.buscar_en_la_galeria' | uiText }}</label>
+          <div class="filter-input">
+            <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+            <input id="gallery-search" type="search" [(ngModel)]="searchQuery" (input)="onSearchInput()" [placeholder]="'views.public.pages.gallery.gallery.especie_familia_codigo' | uiText">
+          </div>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.familia' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="selectedFamily"
+            (ngModelChange)="onFamilyChange()"
+            [options]="familyOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allFamilies' | uiText"
+            [searchPlaceholder]="'filters.searchFamily' | uiText"
+            [emptyText]="'views.public.pages.collections.collections.no_hay_familias_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.genero' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="selectedGenus"
+            (ngModelChange)="onGenusChange()"
+            [options]="genusOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allGenera' | uiText"
+            [searchPlaceholder]="'filters.searchGenus' | uiText"
+            [emptyText]="'views.public.pages.gallery.gallery.no_hay_generos_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="selectedSpecies"
+            [options]="speciesOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allSpecies' | uiText"
+            [searchPlaceholder]="'filters.searchSpecies' | uiText"
+            [emptyText]="'views.public.pages.gallery.gallery.no_hay_especies_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.about.about.ubicacion' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="selectedLocation"
+            [options]="locationOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allLocations' | uiText"
+            [searchPlaceholder]="'filters.searchLocation' | uiText"
+            [emptyText]="'views.public.pages.collections.collections.no_hay_ubicaciones_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.advanced_search.advanced_search.estado_de_conservacion' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="selectedStatus"
+            [options]="statusOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allStatuses' | uiText"
+            [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_estado' | uiText"
+            [emptyText]="'views.public.pages.collections.collections.no_hay_estados_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+      </app-public-filter-drawer>
+
+      <section class="gallery-results">
+        <div class="results-toolbar">
+          <div class="image-total">
+            <span class="mat-icon" aria-hidden="true" translate="no">photo_camera</span>
+            <span><strong [appCountUp]="totalItems"></strong><small>{{ 'views.public.pages.gallery.gallery.imagenes_disponibles' | uiText }}</small></span>
+          </div>
+
+          <div class="toolbar-actions">
+            <button type="button" class="public-filter-trigger" [class.is-active]="hasActiveFilters" (click)="openFilters()" [attr.aria-expanded]="filtersOpen">
+              <span class="mat-icon" aria-hidden="true" translate="no">tune</span>{{ 'filters.title' | uiText }}
+              <span class="public-filter-count" *ngIf="activeFilterCount">{{ activeFilterCount }}</span>
+            </button>
+            <label for="gallery-sort">{{ 'views.public.pages.catalog.catalog.ordenar_por' | uiText }}</label>
+            <app-select-input class="toolbar-sort" controlId="gallery-sort" [(ngModel)]="selectedSort" [options]="sortOptions" (ngModelChange)="onFilterChange()" />
+            <span class="view-label">{{ 'views.public.pages.catalog.catalog.ver' | uiText }}</span>
+            <div class="view-buttons">
+              <button type="button" [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'" [attr.aria-label]="'views.public.pages.catalog.catalog.vista_de_cuadricula' | uiText" [title]="'views.public.pages.catalog.catalog.vista_de_cuadricula' | uiText">
+                <span class="mat-icon" aria-hidden="true" translate="no">grid_view</span>
+              </button>
+              <button type="button" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'" [attr.aria-label]="'views.public.pages.catalog.catalog.vista_de_lista' | uiText" [title]="'views.public.pages.catalog.catalog.vista_de_lista' | uiText">
+                <span class="mat-icon" aria-hidden="true" translate="no">view_list</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="loading" class="gallery-skeleton-grid" [class.list-view]="viewMode === 'list'" [attr.aria-label]="'views.public.pages.gallery.gallery.cargando_imagenes' | uiText" aria-busy="true">
+          <article class="gallery-skeleton-card" *ngFor="let card of [1,2,3,4,5,6,7,8,9,10]">
+            <div class="gallery-skeleton-image skeleton-shimmer"></div>
+            <div class="gallery-skeleton-body">
+              <span class="gallery-skeleton-title skeleton-shimmer"></span>
+              <span class="gallery-skeleton-short skeleton-shimmer"></span>
+              <span class="gallery-skeleton-line skeleton-shimmer"></span>
+              <span class="gallery-skeleton-medium skeleton-shimmer"></span>
+            </div>
+          </article>
+        </div>
+
+        <ng-container *ngIf="!loading">
+          <div class="image-grid" [class.list-view]="viewMode === 'list'" *ngIf="paginatedItems.length; else emptyGallery">
+            <article class="image-card" *ngFor="let item of paginatedItems">
+              <button class="card-image" type="button" (click)="openLightbox(item)" [attr.aria-label]="('views.public.pages.gallery.gallery.ampliar_imagen_de' | uiText) + item.species_name">
+                <img *ngIf="item.url; else imagePlaceholder" [src]="item.variants?.medium?.url || item.url" [alt]="item.species_name || item.catalog_code" loading="lazy" decoding="async">
+                <ng-template #imagePlaceholder>
+                  <span class="image-placeholder"><span class="mat-icon" translate="no">local_florist</span></span>
+                </ng-template>
+                <span class="type-badge">{{ imageTypeLabel(item.image_type) }}</span>
+                <span class="zoom-badge"><span class="mat-icon" aria-hidden="true" translate="no">zoom_in</span></span>
+              </button>
+
+              <div class="card-content">
+                <h2><em>{{ item.species_name || item.catalog_code }}</em></h2>
+                <p>{{ item.family_name || ('views.public.pages.advanced_search.advanced_search.familia_no_registrada' | uiText) }}</p>
+                <div class="image-meta">
+                  <span><span class="mat-icon" aria-hidden="true" translate="no">location_on</span>{{ item.location_names[0] || ('views.public.pages.specimens.specimens.sin_ubicacion' | uiText) }}</span>
+                  <span><span class="mat-icon" aria-hidden="true" translate="no">calendar_today</span>{{ item.collection_date ? (item.collection_date | date:'dd/MM/yyyy') : ('views.public.pages.gallery.gallery.sin_fecha' | uiText) }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <ng-template #emptyGallery>
+            <div class="gallery-state empty-state">
+              <span class="mat-icon" aria-hidden="true" translate="no">image_not_supported</span>
+              <strong>{{ 'views.public.pages.gallery.gallery.no_se_encontraron_imagenes' | uiText }}</strong>
+              <small>{{ 'views.public.pages.catalog.catalog.prueba_modificando_o_limpiando_los_filtros' | uiText }}</small>
+            </div>
+          </ng-template>
+
+          <footer class="results-footer" *ngIf="paginatedItems.length">
+            <nav class="gallery-pagination" *ngIf="totalPages > 1" [attr.aria-label]="'views.public.pages.gallery.gallery.paginacion_de_la_galeria' | uiText">
+              <button type="button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" [attr.aria-label]="'views.components.pagination.pagination.pagina_anterior' | uiText"><span class="mat-icon" translate="no">chevron_left</span></button>
+              <button type="button" *ngFor="let page of pages" (click)="goToPage(page)" [class.active]="page === currentPage">{{ page }}</button>
+              <button type="button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" [attr.aria-label]="'views.components.pagination.pagination.pagina_siguiente' | uiText"><span class="mat-icon" translate="no">chevron_right</span></button>
+            </nav>
+            <p>{{ 'dynamic.counts.imagesRange' | uiText: { start: resultStart, end: resultEnd, total: (totalItems | number) } }}</p>
+          </footer>
+        </ng-container>
+      </section>
+    </div>
+  </div>
+</main>
+
+<app-image-lightbox *ngIf="lightboxItem" [images]="lightboxImages" [initialIndex]="lightboxIndex" (closed)="closeLightbox()" />

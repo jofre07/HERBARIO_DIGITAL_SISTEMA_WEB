@@ -1,0 +1,36 @@
+<nav class="public-navbar" [class.scrolled]="scrolled" [attr.aria-label]="'navigation.mainLabel' | uiText">
+  <div class="container public-content-container navbar-inner">
+    <a class="public-brand" routerLink="/" (click)="closeMenu()">
+      <img class="brand-logo" src="/images/logo-herbario.svg" alt="" aria-hidden="true">
+      <span><strong>{{ 'brand.name' | uiText }}</strong><small>{{ 'brand.tagline' | uiText }}</small></span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-controls="public-navigation"
+      [attr.aria-label]="'navigation.openMenu' | uiText"
+    >
+      <span class="mat-icon" aria-hidden="true" translate="no">{{ isMenuOpen ? 'close' : 'menu' }}</span>
+    </button>
+
+    <div class="navigation" id="public-navigation" [class.open]="isMenuOpen">
+      <ul>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">{{ 'navigation.home' | uiText }}</a></li>
+        <li><a routerLink="/catalogo" routerLinkActive="active" (click)="closeMenu()">{{ 'navigation.catalog' | uiText }}</a></li>
+        <li><a routerLink="/especimenes" routerLinkActive="active" (click)="closeMenu()">{{ 'navigation.specimens' | uiText }}</a></li>
+        <li><a routerLink="/mapa" routerLinkActive="active" (click)="closeMenu()">{{ 'navigation.map' | uiText }}</a></li>
+        <li><a routerLink="/galeria" routerLinkActive="active" (click)="closeMenu()">{{ 'navigation.gallery' | uiText }}</a></li>
+        <li><a routerLink="/colecciones" routerLinkActive="active" (click)="closeMenu()">{{ 'navigation.collections' | uiText }}</a></li>
+        <li><a routerLink="/acerca" routerLinkActive="active" (click)="closeMenu()">{{ 'navigation.about' | uiText }}</a></li>
+      </ul>
+
+      <a class="login-link" routerLink="/login" (click)="closeMenu()">
+        <span class="mat-icon" aria-hidden="true" translate="no">person</span>
+        {{ 'navigation.login' | uiText }}
+      </a>
+    </div>
+  </div>
+</nav>

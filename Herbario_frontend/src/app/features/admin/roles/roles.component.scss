@@ -1,0 +1,43 @@
+@use '../../styles/crud-page' as *;
+
+.role-name {
+  color: #263248;
+  font-size: .86rem;
+  font-weight: 680;
+}
+
+.permission-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  max-width: 64rem;
+}
+
+.permission-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.65rem;
+  padding: 0.25rem 0.55rem;
+  color: #35683a;
+  font-size: 0.7rem;
+  font-weight: 650;
+  line-height: 1.2;
+  background: #eef8ef;
+  border: 1px solid #d3ead6;
+  border-radius: 999px;
+}
+
+.permissions-toggle {
+  padding: 0.28rem 0.58rem;
+  color: var(--green-800);
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px dashed var(--green-400);
+  border-radius: 999px;
+}
+
+.permissions-toggle:hover {
+  background: var(--green-50);
+}

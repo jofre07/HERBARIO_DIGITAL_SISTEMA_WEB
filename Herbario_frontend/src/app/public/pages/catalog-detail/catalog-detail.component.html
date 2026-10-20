@@ -1,0 +1,189 @@
+<main class="catalog-detail-page">
+  <div class="public-content-container detail-container">
+    <div class="detail-navigation">
+      <a routerLink="/catalogo" class="back-link" [attr.aria-label]="'views.public.pages.catalog_detail.catalog_detail.volver_al_catalogo' | uiText">
+        <span class="mat-icon" translate="no" aria-hidden="true">arrow_back</span>
+        
+        {{ 'views.public.pages.catalog_detail.catalog_detail.volver_al_catalogo' | uiText }}
+      </a>
+      <app-public-breadcrumb [items]="breadcrumbItems" />
+    </div>
+
+    <section class="detail-loading" *ngIf="loading" aria-live="polite">
+      <span class="spinner-border text-success" role="status"></span>
+      <p>{{ 'views.public.pages.catalog_detail.catalog_detail.cargando_informacion_de_la_especie' | uiText }}</p>
+    </section>
+
+    <section class="detail-state" *ngIf="!loading && (loadError || !species)">
+      <span class="mat-icon" translate="no" aria-hidden="true">eco</span>
+      <h1>{{ loadError ? ('views.public.pages.catalog_detail.catalog_detail.no_se_pudo_cargar_la_especie' | uiText) : ('views.public.pages.catalog_detail.catalog_detail.especie_no_encontrada' | uiText) }}</h1>
+      <p>{{ loadError ? ('views.public.pages.catalog_detail.catalog_detail.ocurrio_un_problema_al_consultar_la_informacion' | uiText) : ('views.public.pages.catalog_detail.catalog_detail.el_registro_solicitado_no_esta_disponible_public' | uiText) }}</p>
+      <a routerLink="/catalogo">{{ 'views.public.pages.catalog_detail.catalog_detail.volver_al_catalogo' | uiText }}</a>
+    </section>
+
+    <ng-container *ngIf="!loading && species as item">
+      <section class="species-hero">
+        <div class="species-media">
+          <div class="main-image">
+            <img *ngIf="selectedImageUrl; else mainImagePlaceholder" [src]="selectedImageUrl" [alt]="('views.public.pages.catalog_detail.catalog_detail.imagen_de' | uiText) + item.name">
+            <ng-template #mainImagePlaceholder>
+              <div class="image-placeholder">
+                <span class="mat-icon" translate="no" aria-hidden="true">local_florist</span>
+                <small>{{ 'views.public.pages.catalog_detail.catalog_detail.sin_imagenes_registradas' | uiText }}</small>
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="additional-photos" *ngIf="thumbnailUrls.length">
+            <small>{{ 'views.public.pages.catalog_detail.catalog_detail.otras_fotografias' | uiText }}</small>
+            <div class="thumbnail-list" [attr.aria-label]="'views.public.pages.catalog_detail.catalog_detail.fotografias_adicionales_de_la_especie' | uiText">
+              <button
+                *ngFor="let url of thumbnailUrls"
+                type="button"
+                class="thumbnail"
+                (click)="selectImage(url)"
+                [attr.aria-label]="('views.public.pages.catalog_detail.catalog_detail.mostrar_imagen_de' | uiText) + item.name"
+              >
+                <img [src]="url" [alt]="('views.public.pages.catalog_detail.catalog_detail.miniatura_de' | uiText) + item.name">
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="species-summary">
+          <span class="family-badge">{{ item.family_name || ('views.public.pages.advanced_search.advanced_search.familia_no_registrada' | uiText) }}</span>
+          <h1><em>{{ item.name }}</em></h1>
+          <p class="common-name">{{ item.common_names[0] || ('views.public.pages.catalog_detail.catalog_detail.sin_nombre_comun_registrado' | uiText) }}</p>
+
+          <div class="summary-tags">
+            <span><i class="bi bi-diagram-3" aria-hidden="true"></i>{{ item.genus_name || ('views.public.pages.catalog_detail.catalog_detail.genero_no_registrado' | uiText) }}</span>
+            <span *ngIf="item.conservation_status"><i class="bi bi-shield-check" aria-hidden="true"></i>{{ item.conservation_status }}</span>
+          </div>
+
+          <p class="species-introduction">{{ item.comment || ('views.public.pages.catalog_detail.catalog_detail.no_se_ha_registrado_una_descripcion_para_esta_es' | uiText) }}</p>
+
+          <div class="summary-stats">
+            <article><strong>{{ item.specimen_count }}</strong><span>{{ 'navigation.specimens' | uiText }}</span></article>
+            <article><strong>{{ item.location_names.length }}</strong><span>{{ 'views.public.pages.collections.collections.localidades' | uiText }}</span></article>
+            <article><strong>{{ item.image_count }}</strong><span>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail-card">
+        <nav class="detail-tabs" [attr.aria-label]="'views.public.pages.catalog_detail.catalog_detail.secciones_de_la_especie' | uiText">
+          <button
+            *ngFor="let tab of tabs"
+            type="button"
+            [class.active]="activeTab === tab.key"
+            (click)="setTab(tab.key)"
+          >
+            <i class="bi {{ tab.icon }}" aria-hidden="true"></i>
+            {{ tab.label }}
+          </button>
+        </nav>
+
+        <div class="tab-content">
+          <section *ngIf="activeTab === 'descripcion'" class="content-section">
+            <header><i class="bi bi-file-text" aria-hidden="true"></i><h2>{{ 'views.public.pages.catalog_detail.catalog_detail.descripcion' | uiText }}</h2></header>
+            <p class="description-text">{{ item.comment || ('views.public.pages.catalog_detail.catalog_detail.no_se_ha_registrado_una_descripcion_para_esta_es' | uiText) }}</p>
+          </section>
+
+          <section *ngIf="activeTab === 'taxonomia'" class="content-section">
+            <header><i class="bi bi-diagram-3" aria-hidden="true"></i><h2>{{ 'views.public.pages.catalog_detail.catalog_detail.taxonomia' | uiText }}</h2></header>
+            <dl class="taxonomy-grid">
+              <div><dt>{{ 'views.features.specimens.specimens.familia' | uiText }}</dt><dd>{{ item.family_name || ('views.public.pages.advanced_search.advanced_search.no_registrada' | uiText) }}</dd></div>
+              <div><dt>{{ 'views.features.specimens.specimens.genero' | uiText }}</dt><dd><em>{{ item.genus_name || ('views.public.pages.catalog_detail.catalog_detail.no_registrado' | uiText) }}</em></dd></div>
+              <div><dt>{{ 'views.features.specimens.specimens.especie' | uiText }}</dt><dd><em>{{ item.name }}</em></dd></div>
+            </dl>
+          </section>
+
+          <section *ngIf="activeTab === 'nombres-comunes'" class="content-section">
+            <header><i class="bi bi-translate" aria-hidden="true"></i><h2>{{ 'views.public.pages.catalog_detail.catalog_detail.nombres_comunes' | uiText }}</h2></header>
+            <div class="chip-list" *ngIf="item.common_names.length; else noCommonNames">
+              <span *ngFor="let commonName of item.common_names"><i class="bi bi-tag" aria-hidden="true"></i>{{ commonName }}</span>
+            </div>
+            <ng-template #noCommonNames><p class="empty-copy">{{ 'views.public.pages.catalog_detail.catalog_detail.no_hay_nombres_comunes_registrados' | uiText }}</p></ng-template>
+          </section>
+
+          <section *ngIf="activeTab === 'conservacion'" class="content-section">
+            <header><i class="bi bi-shield-check" aria-hidden="true"></i><h2>{{ 'views.public.pages.about.about.conservacion' | uiText }}</h2></header>
+            <div class="conservation-card" *ngIf="item.conservation_status; else noConservation">
+              <span class="mat-icon" translate="no" aria-hidden="true">verified_user</span>
+              <div><small>{{ 'views.public.pages.catalog_detail.catalog_detail.estado_registrado' | uiText }}</small><strong>{{ item.conservation_status }}</strong></div>
+            </div>
+            <ng-template #noConservation><p class="empty-copy">{{ 'views.public.pages.catalog_detail.catalog_detail.esta_especie_no_tiene_un_estado_de_conservacion_' | uiText }}</p></ng-template>
+          </section>
+
+          <section *ngIf="activeTab === 'clima-habitat'" class="content-section">
+            <header><i class="bi bi-geo-alt" aria-hidden="true"></i><h2>{{ 'views.public.pages.catalog_detail.catalog_detail.clima_y_habitat' | uiText }}</h2></header>
+            <div class="environment-grid" *ngIf="locationRecords.length; else noEnvironment">
+              <article *ngFor="let record of locationRecords">
+                <div class="environment-title">
+                  <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+                  <div><strong>{{ record.location.location_name || ('views.public.pages.catalog_detail.catalog_detail.ubicacion_sin_nombre' | uiText) }}</strong><small>{{ record.specimen.catalog_code }}<span *ngIf="record.location.is_primary">  {{ 'views.public.pages.catalog_detail.catalog_detail.principal' | uiText }}</span></small></div>
+                </div>
+                <dl>
+                  <div><dt>{{ 'views.features.locations.climate_habitats.climate_habitats.clima' | uiText }}</dt><dd>{{ record.location.climate_name || ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</dd></div>
+                  <div><dt>{{ 'views.public.pages.advanced_search.advanced_search.habitat' | uiText }}</dt><dd>{{ record.location.habitat_name || ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</dd></div>
+                </dl>
+              </article>
+            </div>
+            <ng-template #noEnvironment><p class="empty-copy">{{ 'views.public.pages.catalog_detail.catalog_detail.no_hay_ubicaciones_ni_condiciones_ambientales_re' | uiText }}</p></ng-template>
+          </section>
+
+          <section *ngIf="activeTab === 'mapa'" class="content-section">
+            <header><i class="bi bi-map" aria-hidden="true"></i><h2>{{ 'views.public.pages.catalog_detail.catalog_detail.mapa_de_ubicaciones' | uiText }}</h2></header>
+            <div #speciesMap class="species-map" *ngIf="locationRecords.length"></div>
+            <p class="empty-copy" *ngIf="!locationRecords.length">{{ 'views.public.pages.catalog_detail.catalog_detail.no_hay_ubicaciones_disponibles_para_mostrar' | uiText }}</p>
+          </section>
+
+          <section *ngIf="activeTab === 'especimenes'" class="content-section">
+            <div class="section-toolbar">
+              <header><i class="bi bi-collection" aria-hidden="true"></i><h2>{{ 'navigation.specimens' | uiText }}</h2><span>{{ specimens.length }}</span></header>
+              <app-table-search [(query)]="specimenSearchQuery" [placeholder]="'views.features.specimens.specimens.buscar_especimenes' | uiText"></app-table-search>
+            </div>
+            <div class="specimen-table-wrap">
+              <table class="specimen-table">
+                <thead><tr><th>{{ 'views.public.pages.gallery.gallery.codigo_de_catalogo' | uiText }}</th><th>{{ 'views.public.pages.gallery.gallery.fecha_de_coleccion' | uiText }}</th><th>{{ 'views.features.specimens.specimens.colector' | uiText }}</th><th>{{ 'views.features.specimens.specimens.ubicaciones' | uiText }}</th><th>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</th></tr></thead>
+                <tbody>
+                  <tr *ngFor="let specimen of specimens | tableFilter: specimenSearchQuery">
+                    <td><strong>{{ specimen.catalog_code }}</strong><small>{{ specimen.collection_number || ('views.public.pages.advanced_search.advanced_search.sin_numero_de_coleccion' | uiText) }}</small></td>
+                    <td>{{ specimen.collection_date ? (specimen.collection_date | date:'dd/MM/yyyy') : ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</td>
+                    <td>{{ specimen.collector_name || ('views.public.pages.advanced_search.advanced_search.sin_registrar' | uiText) }}</td>
+                    <td>{{ specimen.locations.length }}</td>
+                    <td>{{ specimen.image_count }}</td>
+                  </tr>
+                  <tr *ngIf="!(specimens | tableFilter: specimenSearchQuery).length"><td colspan="5" class="empty-cell">{{ 'views.public.pages.catalog_detail.catalog_detail.no_se_encontraron_especimenes' | uiText }}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section *ngIf="activeTab === 'galeria'" class="content-section">
+            <header><i class="bi bi-images" aria-hidden="true"></i><h2>{{ 'navigation.gallery' | uiText }}</h2><span>{{ galleryImagesLoaded ? galleryImagesTotal : imageUrls.length }}</span></header>
+            <div class="gallery-loading" *ngIf="galleryImagesLoading && !galleryImagesLoaded" aria-live="polite">
+              <span class="spinner-border spinner-border-sm text-success" aria-hidden="true"></span>
+              <span>Cargando imágenes…</span>
+            </div>
+            <div class="gallery-grid" *ngIf="imageUrls.length; else noGalleryImages">
+              <button *ngFor="let url of imageUrls; let imageIndex = index" type="button" (click)="openGalleryImage(imageIndex)" [attr.aria-label]="'Visualizar imagen ' + (imageIndex + 1) + ' de ' + item.name">
+                <img [src]="url" [alt]="('views.public.pages.catalog_detail.catalog_detail.imagen_de' | uiText) + item.name">
+              </button>
+            </div>
+            <div class="gallery-load-more" *ngIf="galleryImagesLoaded && imageUrls.length < galleryImagesTotal">
+              <button type="button" (click)="loadMoreGalleryImages()" [disabled]="galleryImagesLoading">
+                <span class="spinner-border spinner-border-sm" *ngIf="galleryImagesLoading" aria-hidden="true"></span>
+                {{ galleryImagesLoading ? 'Cargando…' : 'Cargar más imágenes' }}
+              </button>
+              <small>{{ imageUrls.length }} de {{ galleryImagesTotal }}</small>
+            </div>
+            <ng-template #noGalleryImages><p class="empty-copy" *ngIf="galleryImagesLoaded && !galleryImagesLoading">{{ 'views.public.pages.catalog_detail.catalog_detail.no_hay_imagenes_registradas_para_los_especimenes' | uiText }}</p></ng-template>
+          </section>
+        </div>
+      </section>
+    </ng-container>
+  </div>
+</main>
+
+<app-image-lightbox *ngIf="galleryOpen" [images]="lightboxImages" [initialIndex]="galleryStartIndex" (closed)="closeGalleryImage()" />

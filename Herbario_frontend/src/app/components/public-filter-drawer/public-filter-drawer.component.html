@@ -1,0 +1,49 @@
+<ng-container *ngIf="open">
+  <button
+    type="button"
+    class="drawer-backdrop"
+    [attr.aria-label]="closeLabel"
+    (click)="requestClose()"
+  ></button>
+
+  <aside
+    #panel
+    class="filter-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="public-filter-drawer-title"
+    aria-describedby="public-filter-drawer-description"
+  >
+    <header class="drawer-header">
+      <div class="drawer-heading-copy">
+        <span class="drawer-context" *ngIf="context">{{ context }}</span>
+        <div class="drawer-title-row">
+          <span class="mat-icon" aria-hidden="true" translate="no">filter_alt</span>
+          <div>
+            <h2 id="public-filter-drawer-title">{{ title }}</h2>
+            <p id="public-filter-drawer-description">{{ description }}</p>
+          </div>
+        </div>
+      </div>
+      <button #closeButton type="button" class="drawer-close" [attr.aria-label]="closeLabel" (click)="requestClose()">
+        <span class="mat-icon" aria-hidden="true" translate="no">close</span>
+      </button>
+    </header>
+
+    <div class="drawer-body">
+      <ng-content></ng-content>
+    </div>
+
+    <footer class="drawer-footer">
+      <button type="button" class="drawer-clear" [disabled]="!canClear || loading" (click)="cleared.emit()">
+        <span class="mat-icon" aria-hidden="true" translate="no">restart_alt</span>
+        {{ clearLabel }}
+      </button>
+      <button type="button" class="drawer-apply" [disabled]="loading" (click)="requestApply()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span *ngIf="!loading" class="mat-icon" aria-hidden="true" translate="no">filter_alt</span>
+        {{ applyLabel }}
+      </button>
+    </footer>
+  </aside>
+</ng-container>

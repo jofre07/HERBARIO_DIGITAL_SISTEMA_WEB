@@ -1,0 +1,20 @@
+node_modules/*
+.editorconfig
+package-lock.json
+.vscode
+
+# Dependencias
+node_modules/
+
+# Build
+dist/
+
+# Cache de Angular
+.angular/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/

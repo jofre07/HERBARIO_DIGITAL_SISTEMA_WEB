@@ -1,0 +1,52 @@
+<div
+  *ngIf="open"
+  class="app-modal-backdrop"
+  role="presentation"
+>
+  <section
+    #modalPanel
+    class="app-modal-panel"
+    [class.app-modal-sm]="size === 'sm'"
+    [class.app-modal-lg]="size === 'lg'"
+    [class.app-modal-lightbox]="appearance === 'lightbox'"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    [attr.aria-labelledby]="title ? titleId : null"
+    [attr.aria-label]="title ? null : 'Visor de imágenes'"
+    [attr.aria-describedby]="subtitle ? subtitleId : null"
+  >
+    <header class="app-modal-header" *ngIf="appearance === 'default'">
+      <div>
+        <h2 [id]="titleId">{{ title }}</h2>
+        <p *ngIf="subtitle" [id]="subtitleId">{{ subtitle }}</p>
+      </div>
+      <button
+        #closeButton
+        type="button"
+        class="app-modal-close"
+        [attr.aria-label]="'views.components.modal.modal.cerrar_modal' | uiText"
+        [disabled]="closeDisabled"
+        (click)="close()"
+      >
+        <span class="mat-icon" aria-hidden="true" translate="no">close</span>
+      </button>
+    </header>
+
+    <button
+      *ngIf="appearance === 'lightbox'"
+      #closeButton
+      type="button"
+      class="app-modal-close app-modal-lightbox-close"
+      [attr.aria-label]="'views.components.modal.modal.cerrar_modal' | uiText"
+      [disabled]="closeDisabled"
+      (click)="close()"
+    >
+      <span class="mat-icon" aria-hidden="true" translate="no">close</span>
+    </button>
+
+    <div class="app-modal-body">
+      <ng-content></ng-content>
+    </div>
+  </section>
+</div>

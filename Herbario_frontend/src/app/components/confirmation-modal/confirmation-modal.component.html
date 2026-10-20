@@ -1,0 +1,36 @@
+<app-modal
+  [open]="open"
+  [title]="title"
+  [subtitle]="subtitle"
+  size="sm"
+  [closeDisabled]="busy"
+  (closed)="close()"
+>
+  <div class="confirmation-content" [class.warning-tone]="tone === 'warning'">
+    <div class="confirmation-icon">
+      <span class="mat-icon" aria-hidden="true" translate="no">{{ icon }}</span>
+    </div>
+
+    <p>{{ message }}</p>
+    <ng-content></ng-content>
+
+    <footer class="confirmation-actions">
+      <button type="button" class="btn btn-light" [disabled]="busy" (click)="close()">
+        {{ cancelText }}
+      </button>
+      <button
+        type="button"
+        class="btn confirmation-button"
+        [class.warning-button]="tone === 'warning'"
+        [disabled]="busy"
+        (click)="confirmed.emit()"
+      >
+        <span *ngIf="busy" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span *ngIf="!busy" class="mat-icon" aria-hidden="true" translate="no">
+          {{ tone === 'danger' ? 'delete' : 'check' }}
+        </span>
+        {{ busy ? busyText : confirmText }}
+      </button>
+    </footer>
+  </div>
+</app-modal>

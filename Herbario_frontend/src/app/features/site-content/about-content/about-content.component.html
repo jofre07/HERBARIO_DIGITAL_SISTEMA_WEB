@@ -1,0 +1,65 @@
+<section class="content-page">
+  <header class="page-header">
+    <div><span class="eyebrow">Contenido público</span><h1>Editar página “Acerca de”</h1><p>Administra la información institucional que se muestra en el sitio.</p></div>
+    <div class="header-actions">
+      <button type="button" class="button secondary" (click)="previewOpen = true" [disabled]="loading"><i class="bi bi-eye"></i> Vista previa</button>
+      <button type="button" class="button primary" (click)="save()" [disabled]="!canEdit || loading || saving || form.pristine"><span *ngIf="saving" class="spinner-border spinner-border-sm"></span><i *ngIf="!saving" class="bi bi-check2"></i> {{ saving ? 'Guardando…' : 'Guardar cambios' }}</button>
+    </div>
+  </header>
+
+  <div *ngIf="!canEdit && !loading" class="notice" role="status"><i class="bi bi-info-circle"></i> Tienes acceso de lectura. Para modificar el contenido necesitas el permiso de edición.</div>
+  <div *ngIf="loading" class="state-panel" role="status" aria-live="polite" aria-busy="true"><span class="spinner-border text-success" aria-hidden="true"></span><p>Cargando contenido…</p></div>
+  <div *ngIf="loadError && !loading" class="state-panel error" role="alert"><i class="bi bi-exclamation-circle"></i><p>No se pudo cargar el contenido.</p><button type="button" class="button secondary" (click)="loadContent()">Reintentar</button></div>
+
+  <form *ngIf="!loading && !loadError" [formGroup]="form" class="editor-form" (ngSubmit)="save()">
+    <fieldset [disabled]="!canEdit || saving">
+      <article class="editor-card">
+        <header><span class="section-icon"><i class="bi bi-card-text"></i></span><div><h2>Introducción</h2><p>Presentación principal de la página y su imagen destacada.</p></div></header>
+        <div class="section-body intro-layout">
+          <div class="fields-column">
+            <label>Título <span>*</span><input type="text" formControlName="introduction_title" maxlength="160"></label>
+            <label>Descripción <span>*</span><textarea formControlName="introduction_body" rows="7" maxlength="2000"></textarea><small>{{ form.controls.introduction_body.value.length }}/2000</small></label>
+          </div>
+          <div class="image-field">
+            <span class="field-label">Imagen destacada</span>
+            <div class="image-preview"><img *ngIf="displayedImage; else noEditorImage" [src]="displayedImage" alt="Vista previa de la imagen de introducción"><ng-template #noEditorImage><span class="empty-image"><i class="bi bi-image"></i>Sin imagen seleccionada</span></ng-template></div>
+            <div class="image-actions"><label class="button secondary upload-button"><i class="bi bi-upload"></i> Cambiar imagen<input type="file" accept="image/jpeg,image/png,image/webp" (change)="selectImage($event)"></label><button type="button" class="button danger" (click)="clearImage()"><i class="bi bi-trash3"></i> Quitar</button></div>
+            <small>JPG, PNG o WebP. Máximo 10 MB.</small><p *ngIf="imageError" class="field-error" role="alert">{{ imageError }}</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="editor-card" formArrayName="impact_items">
+        <header><span class="section-icon"><i class="bi bi-grid"></i></span><div><h2>Áreas de impacto</h2><p>Edita las cuatro tarjetas destacadas de la introducción.</p></div></header>
+        <div class="section-body card-grid"><div class="nested-card" *ngFor="let card of impactItems.controls; let index = index" [formGroupName]="index"><strong>Tarjeta {{ index + 1 }}</strong><label>Título <span>*</span><input type="text" formControlName="title" maxlength="160"></label><label>Descripción <span>*</span><textarea formControlName="description" rows="3" maxlength="500"></textarea></label></div></div>
+      </article>
+
+      <article class="editor-card">
+        <header><span class="section-icon"><i class="bi bi-compass"></i></span><div><h2>Identidad institucional</h2><p>Misión, visión y valores del herbario.</p></div></header>
+        <div class="section-body two-columns"><label>Misión <span>*</span><textarea formControlName="mission" rows="6" maxlength="1500"></textarea></label><label>Visión <span>*</span><textarea formControlName="vision" rows="6" maxlength="1500"></textarea></label></div>
+        <div class="section-body values-section" formArrayName="values"><div class="subheading"><strong>Valores</strong><button type="button" class="text-button" (click)="addValue()" [disabled]="values.length >= 10"><i class="bi bi-plus-lg"></i> Agregar valor</button></div><div class="value-row" *ngFor="let control of values.controls; let index = index"><input type="text" [formControlName]="index" maxlength="120" [attr.aria-label]="'Valor ' + (index + 1)"><button type="button" (click)="removeValue(index)" [disabled]="values.length <= 1" [attr.aria-label]="'Eliminar valor ' + (index + 1)"><i class="bi bi-trash3"></i></button></div></div>
+      </article>
+
+      <article class="editor-card">
+        <header><span class="section-icon"><i class="bi bi-people"></i></span><div><h2>Equipo institucional</h2><p>Encabezado y funciones que se presentan al público.</p></div></header>
+        <div class="section-body two-columns"><label>Título <span>*</span><input type="text" formControlName="team_title" maxlength="160"></label><label>Texto de apoyo <span>*</span><input type="text" formControlName="team_subtitle" maxlength="300"></label></div>
+        <div class="section-body card-grid" formArrayName="team_members"><div class="nested-card" *ngFor="let card of teamMembers.controls; let index = index" [formGroupName]="index"><strong>Función {{ index + 1 }}</strong><label>Nombre <span>*</span><input type="text" formControlName="title" maxlength="160"></label><label>Descripción <span>*</span><textarea formControlName="description" rows="3" maxlength="500"></textarea></label></div></div>
+      </article>
+
+      <article class="editor-card">
+        <header><span class="section-icon"><i class="bi bi-telephone"></i></span><div><h2>Contacto</h2><p>Estos datos también se actualizan en el pie de página público.</p></div></header>
+        <div class="section-body contact-grid"><label>Dirección <span>*</span><input type="text" formControlName="contact_address" maxlength="300"></label><label>Correo electrónico <span>*</span><input type="email" formControlName="contact_email"></label><label>Teléfono <span>*</span><input type="tel" formControlName="contact_phone" maxlength="40"></label><label>Institución <span>*</span><input type="text" formControlName="institution" maxlength="160"></label></div>
+      </article>
+    </fieldset>
+
+    <footer class="form-footer"><span *ngIf="form.dirty"><i class="bi bi-circle-fill"></i> Hay cambios sin guardar</span><button type="submit" class="button primary" [disabled]="!canEdit || saving || form.pristine">{{ saving ? 'Guardando…' : 'Guardar cambios' }}</button></footer>
+  </form>
+</section>
+
+<app-modal [open]="previewOpen" title="Vista previa del contenido" subtitle="Así se verá la información publicada." size="lg" (closed)="previewOpen = false">
+  <div class="content-preview">
+    <img *ngIf="displayedImage" [src]="displayedImage" alt="Imagen de introducción"><div><span>Introducción</span><h2>{{ form.controls.introduction_title.value }}</h2><p>{{ form.controls.introduction_body.value }}</p></div>
+    <section><h3>Misión</h3><p>{{ form.controls.mission.value }}</p></section><section><h3>Visión</h3><p>{{ form.controls.vision.value }}</p></section>
+    <section class="preview-wide"><h3>{{ form.controls.team_title.value }}</h3><p>{{ form.controls.team_subtitle.value }}</p></section>
+  </div>
+</app-modal>

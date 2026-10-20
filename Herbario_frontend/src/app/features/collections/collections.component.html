@@ -1,0 +1,99 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" translate="no">collections_bookmark</span></span>
+      <div><h1>{{ 'views.features.collections.collections.gestion_de_colecciones' | uiText }}</h1><p>{{ 'views.features.collections.collections.administra_los_registros_de_colecciones_del_sist' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'collections_app.add_collection'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.collections.collections.colecciones_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.collections.collections.buscar_colecciones' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.admin.roles.roles.nombre' | uiText }}</th>
+                <th>{{ 'views.features.collections.collections.descripcion' | uiText }}</th>
+                <th>{{ 'views.features.collections.collections.tipo' | uiText }}</th>
+                <th>{{ 'views.features.collections.collections.especimenes' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="5" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td>{{ item.name }}</td>
+                <td>{{ item.description || '-' }}</td>
+                <td><span class="collection-type-badge">{{ collectionTypeLabel(item.collection_type) }}</span></td>
+                <td>{{ (item.specimen_ids || []).length }}</td>
+                <td class="text-end">
+                  <app-table-actions editPermission="collections_app.change_collection" deletePermission="collections_app.delete_collection" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="5" class="text-center text-muted py-4">{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.collections.collections.coleccion' | uiText" [itemLabelPlural]="'views.features.collections.collections.colecciones' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.collections.collections.editar_coleccion' | uiText) : ('views.features.collections.collections.agregar_coleccion' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="collections-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="collections-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.admin.roles.roles.nombre' | uiText }}</label>
+            <input class="form-control" formControlName="name" />
+            <div class="text-danger small" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="collection-specimens">{{ 'navigation.specimens' | uiText }}</label>
+            <app-select-input
+              id="collection-specimens"
+              formControlName="specimen_ids"
+              [options]="specimenOptions"
+              [multiple]="true"
+              [searchable]="true"
+              panelMode="overlay"
+              [disabled]="loadingSpecimens"
+              [placeholder]="'views.features.collections.collections.selecciona_uno_o_varios_especimenes' | uiText"
+              [searchPlaceholder]="'views.features.collections.collections.buscar_por_codigo_o_especie' | uiText"
+              [emptyText]="'views.features.collections.collections.no_hay_especimenes_disponibles' | uiText"
+            ></app-select-input>            
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.collections.collections.tipo' | uiText }}</label>
+            <select class="form-select" formControlName="collection_type">
+              <option *ngFor="let type of collectionTypes" [value]="type.value">{{ type.label }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.collections.collections.descripcion' | uiText }}</label>
+            <textarea class="form-control" formControlName="description" rows="3"></textarea>
+            <div class="form-text">
+              {{ loadingSpecimens ? ('views.features.collections.collections.cargando_especimenes' | uiText) : ('views.features.collections.collections.busca_y_selecciona_los_especimenes_que_pertenece' | uiText) }}
+            </div>
+            <div class="text-danger small mt-1" *ngIf="!loadingSpecimens && !specimenOptions.length">
+              
+              {{ 'views.features.collections.collections.no_hay_especimenes_disponibles_para_seleccionar' | uiText }}
+            </div>
+          </div>
+        </form>
+</app-form-modal>

@@ -1,0 +1,56 @@
+@use '../../styles/crud-page' as *;
+
+.featured-status {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  color: #7b847b;
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.featured-status.active {
+  color: #527a31;
+}
+
+.featured-status .mat-icon {
+  font-size: 1rem;
+}
+
+.featured-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .85rem 1rem;
+  background: #f5f8f2;
+  border: 1px solid #dce6d6;
+  border-radius: .5rem;
+}
+
+.featured-control strong,
+.featured-control small {
+  display: block;
+}
+
+.featured-control strong {
+  color: #263526;
+  font-size: .82rem;
+}
+
+.featured-control small {
+  margin-top: .2rem;
+  color: #6f796e;
+  font-size: .68rem;
+}
+
+.featured-control .form-check-input {
+  width: 2.4rem;
+  height: 1.3rem;
+  cursor: pointer;
+}
+
+.featured-control .form-check-input:checked {
+  background-color: #3fa34d;
+  border-color: #3fa34d;
+}

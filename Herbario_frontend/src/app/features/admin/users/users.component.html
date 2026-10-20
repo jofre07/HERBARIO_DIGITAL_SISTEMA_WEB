@@ -1,0 +1,177 @@
+<section class="users-page">
+  <header class="page-header">
+    <div>
+      <div class="title-row">
+        <span class="title-icon">
+          <span class="mat-icon" aria-hidden="true" translate="no">group</span>
+        </span>
+        <div>
+          <h1>{{ 'views.features.admin.users.users.gestion_de_usuarios' | uiText }}</h1>
+          <p>{{ 'views.features.admin.users.users.administra_las_cuentas_roles_y_accesos_del_siste' | uiText }}</p>
+        </div>
+      </div>
+    </div>
+
+    <button
+      *appHasPermission="'auth.add_user'"
+      type="button"
+      class="btn add-user-button"
+      [disabled]="loadingRoles"
+      (click)="openCreateModal()"
+    >
+      <span class="mat-icon" aria-hidden="true" translate="no">person_add</span>
+      
+      {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="users-card">
+    <div class="table-toolbar">
+      <div>
+        <h2>{{ 'views.features.admin.users.users.usuarios_registrados' | uiText }}</h2>
+        <p>
+          <span class="total-indicator">{{ totalItems }}</span>
+          {{ totalItems === 1 ? ('views.features.admin.users.users.usuario_encontrado' | uiText) : ('views.features.admin.users.users.usuarios_encontrados' | uiText) }}
+        </p>
+      </div>
+
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.admin.users.users.buscar_usuarios' | uiText"></app-table-search>
+
+      <app-page-size-selector
+        [pageSize]="pageSize"
+        [options]="pageSizeOptions"
+        (pageSizeChange)="changePageSize($event)"
+      ></app-page-size-selector>
+    </div>
+
+    <p class="visually-hidden" role="status" aria-live="polite">{{ loading ? 'Cargando usuarios…' : totalItems + ' usuarios disponibles.' }}</p>
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Usuarios registrados. Desplázate horizontalmente para consultar todas las columnas." [attr.aria-busy]="loading">
+      <table class="users-table skeleton-stable-table">
+        <thead>
+          <tr>
+            <th>{{ 'views.features.admin.users.users.usuario' | uiText }}</th>
+            <th>{{ 'views.components.user_form.user_form.correo_electronico' | uiText }}</th>
+            <th>{{ 'views.features.admin.users.users.roles' | uiText }}</th>
+            <th>{{ 'views.features.admin.users.users.estado' | uiText }}</th>
+            <th class="actions-column">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+          </tr>
+        </thead>
+
+        <tbody appTablePlaceholder *ngIf="loading" [columns]="5" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+
+        <tbody *ngIf="!loading">
+          <tr *ngFor="let user of users; trackBy: trackByUserId">
+            <td>
+              <div class="user-cell">
+                <span class="user-avatar">{{ getInitials(user.username) }}</span>
+                <span>
+                  <strong>{{ user.username }}</strong>
+                </span>
+              </div>
+            </td>
+            <td>
+              <span class="email-value" [class.no-value]="!user.email">
+                {{ user.email || ('views.features.admin.users.users.sin_correo_registrado' | uiText) }}
+              </span>
+            </td>
+            <td>
+              <div class="roles-list" *ngIf="user.roles.length; else noRoles">
+                <span class="role-badge" *ngFor="let role of user.roles">{{ role }}</span>
+              </div>
+              <ng-template #noRoles>
+                <span class="no-value">{{ 'views.features.admin.users.users.sin_roles' | uiText }}</span>
+              </ng-template>
+            </td>
+            <td>
+              <span class="status-badge" [class.inactive]="!user.is_active">
+                <span class="status-dot"></span>
+                {{ user.is_active ? ('views.features.admin.users.users.activo' | uiText) : ('views.features.admin.users.users.inactivo' | uiText) }}
+              </span>
+            </td>
+            <td class="actions-column">
+              <app-table-actions
+                editPermission="auth.change_user"
+                deletePermission="auth.delete_user"
+                [editLabel]="('views.features.admin.users.users.editar_usuario' | uiText) + user.username"
+                [deleteLabel]="('views.features.admin.users.users.eliminar_usuario_2' | uiText) + user.username"
+                (edit)="openEditModal(user)"
+                (delete)="openDeleteModal(user)"
+              ></app-table-actions>
+            </td>
+          </tr>
+
+          <tr *ngIf="!users.length">
+            <td colspan="5">
+              <div class="empty-state">
+                <span class="empty-icon">
+                  <span class="mat-icon" aria-hidden="true" translate="no">person_search</span>
+                </span>
+                <h3>{{ 'views.features.admin.users.users.no_hay_usuarios_registrados' | uiText }}</h3>
+                <p>{{ 'views.features.admin.users.users.agrega_el_primer_usuario_para_comenzar_a_gestion' | uiText }}</p>
+                <button *appHasPermission="'auth.add_user'" type="button" class="btn add-user-button" (click)="openCreateModal()">
+                  <span class="mat-icon" aria-hidden="true" translate="no">person_add</span>
+                  
+                  {{ 'actions.add' | uiText }}
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-container" *ngIf="!loading">
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalItems]="totalItems"
+        [pageSize]="pageSize"
+        [itemLabel]="'views.features.admin.users.users.usuario_2' | uiText"
+        [itemLabelPlural]="'views.features.admin.users.users.usuarios' | uiText"
+        (pageChange)="goToPage($event)"
+      ></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedUser ? ('views.features.admin.users.users.editar_usuario_2' | uiText) : ('views.features.admin.users.users.agregar_usuario' | uiText)"
+  [subtitle]="selectedUser
+    ? ('views.features.admin.users.users.actualiza_la_informacion_el_estado_o_los_roles_a' | uiText)
+    : ('views.features.admin.users.users.completa_los_datos_para_registrar_un_nuevo_usuar' | uiText)"
+  size="lg"
+  formId="user-form"
+  [mode]="selectedUser ? 'edit' : 'create'"
+  [busy]="saving"
+  [submitText]="selectedUser ? ('actions.saveChanges' | uiText) : ('views.features.admin.users.users.crear_usuario' | uiText)"
+  (closed)="closeFormModal()"
+>
+  <app-user-form
+    *ngIf="formModalOpen"
+    [user]="selectedUser"
+    [roles]="roles"
+    [saving]="saving"
+    (submitted)="saveUser($event)"
+  ></app-user-form>
+</app-form-modal>
+
+<app-confirmation-modal
+  [open]="deleteModalOpen"
+  [title]="'views.features.admin.users.users.eliminar_usuario' | uiText"
+  [subtitle]="'views.features.admin.users.users.esta_accion_desactivara_el_acceso_del_usuario' | uiText"
+  message="¿Estás seguro de que deseas eliminar este usuario?"
+  icon="person_remove"
+  [confirmText]="'views.features.admin.users.users.si_eliminar' | uiText"
+  [busyText]="'views.features.admin.users.users.eliminando' | uiText"
+  [busy]="deleting"
+  (closed)="closeDeleteModal()"
+  (confirmed)="deleteUser()"
+>
+  <div class="delete-user-summary" *ngIf="userPendingDelete">
+    <span class="user-avatar">{{ getInitials(userPendingDelete.username) }}</span>
+    <span>
+      <strong>{{ userPendingDelete.username }}</strong>
+      <small>{{ userPendingDelete.email || ('views.features.admin.users.users.sin_correo_registrado' | uiText) }}</small>
+    </span>
+  </div>
+</app-confirmation-modal>

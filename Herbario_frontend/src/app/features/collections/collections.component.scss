@@ -1,0 +1,14 @@
+@use '../styles/crud-page' as *;
+
+.collection-type-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.7rem;
+  padding: .28rem .62rem;
+  color: #35683a;
+  font-size: .7rem;
+  font-weight: 680;
+  background: #eef8ef;
+  border: 1px solid #d8eedb;
+  border-radius: 999px;
+}

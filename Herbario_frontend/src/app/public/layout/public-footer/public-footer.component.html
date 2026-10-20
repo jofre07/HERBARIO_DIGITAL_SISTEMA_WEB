@@ -1,0 +1,42 @@
+<footer class="public-footer">
+  <div class="container public-content-container footer-content">
+    <section class="footer-main">
+      <div class="footer-brand">
+        <div class="brand-heading">
+          <img class="footer-brand-logo" src="/images/logo-herbario.svg" alt="" aria-hidden="true">
+          <div><strong>{{ 'brand.shortName' | uiText }}</strong><span>{{ 'brand.tagline' | uiText }}</span></div>
+        </div>
+        <p>{{ 'footer.description' | uiText }}</p>
+      </div>
+
+      <nav class="footer-navigation" [attr.aria-label]="'navigation.footerLabel' | uiText">
+        <div>
+          <h2>{{ 'footer.explore' | uiText }}</h2>
+          <a routerLink="/catalogo">{{ 'navigation.catalog' | uiText }}</a>
+          <a routerLink="/especimenes">{{ 'navigation.specimens' | uiText }}</a>
+          <a routerLink="/mapa">{{ 'navigation.map' | uiText }}</a>
+          <a routerLink="/galeria">{{ 'navigation.gallery' | uiText }}</a>
+        </div>
+        <div>
+          <h2>{{ 'footer.information' | uiText }}</h2>
+          <a routerLink="/colecciones">{{ 'navigation.collections' | uiText }}</a>
+          <a routerLink="/busqueda-avanzada">{{ 'navigation.advancedSearch' | uiText }}</a>
+          <a routerLink="/acerca">{{ 'navigation.about' | uiText }}</a>
+          <a routerLink="/login">{{ 'navigation.administration' | uiText }}</a>
+        </div>
+      </nav>
+
+      <address class="footer-contact">
+        <h2>{{ 'footer.contact' | uiText }}</h2>
+        <span><i class="bi bi-geo-alt" aria-hidden="true"></i>{{ contact.address }}</span>
+        <a [href]="'mailto:' + contact.email"><i class="bi bi-envelope" aria-hidden="true"></i>{{ contact.email }}</a>
+        <a [href]="telephoneHref"><i class="bi bi-telephone" aria-hidden="true"></i>{{ contact.phone }}</a>
+      </address>
+    </section>
+
+    <div class="footer-bottom">
+      <span>{{ 'footer.copyright' | uiText:{ year: currentYear } }}</span>
+      <span>{{ 'footer.closing' | uiText }}</span>
+    </div>
+  </div>
+</footer>

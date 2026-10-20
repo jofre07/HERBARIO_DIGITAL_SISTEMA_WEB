@@ -1,0 +1,133 @@
+<!-- Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V3 -->
+<main class="home-page">
+<section class="home-hero">
+  <div class="container public-content-container hero-inner">
+    <div class="hero-copy">
+      <h1>{{ 'brand.shortName' | uiText }}</h1>
+      <h2>{{ 'views.public.pages.home.home.explora_descubre_y_conserva' | uiText }}<br>{{ 'views.public.pages.home.home.nuestra_biodiversidad_vegetal' | uiText }}</h2>
+      <p>{{ 'views.public.pages.home.home.plataforma_digital_para_la_gestion_consulta_y_di' | uiText }}</p>
+
+      <div class="hero-search" role="search">
+        <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+        <input
+          type="search"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          [placeholder]="'views.public.pages.home.home.buscar_por_especie_familia_genero_o_nombre_comun' | uiText"
+          [attr.aria-label]="'views.public.pages.home.home.buscar_en_el_catalogo' | uiText"
+        >
+        <button type="button" (click)="onSearch()">
+          <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+          
+          {{ 'actions.search' | uiText }}
+        </button>
+      </div>
+
+      <div
+        class="popular-searches"
+        *ngIf="loadingPopularSearches || popularSearches.length"
+        [attr.aria-busy]="loadingPopularSearches"
+      >
+        <span>{{ 'views.public.pages.home.home.busqueda_popular' | uiText }}</span>
+        <ng-container *ngIf="loadingPopularSearches; else popularSearchButtons">
+          <span class="popular-search-skeleton popular-search-skeleton--sm" aria-hidden="true"></span>
+          <span class="popular-search-skeleton popular-search-skeleton--md" aria-hidden="true"></span>
+          <span class="popular-search-skeleton popular-search-skeleton--lg" aria-hidden="true"></span>
+          <span class="popular-search-skeleton popular-search-skeleton--sm" aria-hidden="true"></span>
+        </ng-container>
+        <ng-template #popularSearchButtons>
+          <button *ngFor="let term of popularSearches" type="button" (click)="searchPopular(term)">
+            {{ term }}
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quick-section">
+  <div class="container public-content-container">
+    <h2 class="section-heading"><span class="mat-icon" aria-hidden="true" translate="no">link</span>  {{ 'views.public.pages.home.home.accesos_rapidos' | uiText }}</h2>
+    <div class="quick-grid">
+      <a class="quick-card" routerLink="/catalogo">
+        <span class="mat-icon quick-icon" translate="no">eco</span>
+        <span><strong>{{ 'views.public.pages.catalog.catalog.catalogo_de_especies' | uiText }}</strong><small>{{ 'views.public.pages.home.home.explora_todas_las_especies_registradas' | uiText }}</small></span>
+      </a>
+      <a class="quick-card" routerLink="/mapa">
+        <span class="mat-icon quick-icon" translate="no">location_on</span>
+        <span><strong>{{ 'views.public.pages.home.home.mapa_interactivo' | uiText }}</strong><small>{{ 'views.public.pages.home.home.visualiza_ubicaciones_de_recoleccion' | uiText }}</small></span>
+      </a>
+      <a class="quick-card" routerLink="/galeria">
+        <span class="mat-icon quick-icon" translate="no">photo_library</span>
+        <span><strong>{{ 'views.public.pages.gallery.gallery.galeria_de_imagenes' | uiText }}</strong><small>{{ 'views.public.pages.home.home.descubre_imagenes_de_los_especimenes' | uiText }}</small></span>
+      </a>
+      <a class="quick-card" routerLink="/busqueda-avanzada">
+        <span class="mat-icon quick-icon" translate="no">search</span>
+        <span><strong>{{ 'views.public.pages.home.home.consulta_avanzada' | uiText }}</strong><small>{{ 'views.public.pages.home.home.realiza_busquedas_con_multiples_filtros' | uiText }}</small></span>
+      </a>
+      <a class="quick-card" routerLink="/colecciones">
+        <span class="mat-icon quick-icon" translate="no">star</span>
+        <span><strong>{{ 'views.public.pages.home.home.colecciones_especiales' | uiText }}</strong><small>{{ 'views.public.pages.home.home.explora_colecciones_destacadas' | uiText }}</small></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="stats-section" [attr.aria-label]="'views.public.pages.home.home.estadisticas_del_herbario' | uiText">
+  <div class="container public-content-container stats-grid">
+    <div class="stat-item">
+      <span class="mat-icon" translate="no">eco</span>
+      <span><strong [appCountUp]="stats.species"></strong><small>{{ 'views.public.pages.home.home.especies_registradas' | uiText }}</small></span>
+    </div>
+    <div class="stat-item">
+      <span class="mat-icon" translate="no">science</span>
+      <span><strong [appCountUp]="stats.specimens"></strong><small>{{ 'navigation.specimens' | uiText }}</small></span>
+    </div>
+    <div class="stat-item">
+      <span class="mat-icon" translate="no">park</span>
+      <span><strong [appCountUp]="stats.families"></strong><small>{{ 'views.public.pages.home.home.familias' | uiText }}</small></span>
+    </div>
+    <div class="stat-item">
+      <span class="mat-icon" translate="no">local_florist</span>
+      <span><strong [appCountUp]="stats.genera"></strong><small>{{ 'views.public.pages.home.home.generos' | uiText }}</small></span>
+    </div>
+    <div class="stat-item">
+      <span class="mat-icon" translate="no">photo_camera</span>
+      <span><strong [appCountUp]="stats.images"></strong><small>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</small></span>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="container public-content-container">
+    <div class="featured-heading">
+      <h2 class="section-heading"><span class="mat-icon" aria-hidden="true" translate="no">eco</span>  {{ 'collections.types.destacada' | uiText }}</h2>
+      <a routerLink="/catalogo">{{ 'views.public.pages.home.home.ver_todas' | uiText }}</a>
+    </div>
+
+    <div class="featured-grid" *ngIf="featuredSpecies.length; else featuredState">
+      <a class="species-card" *ngFor="let species of featuredSpecies" [routerLink]="['/catalogo', species.id]">
+        <div class="species-image">
+          <img *ngIf="species.image_url; else speciesPlaceholder" [src]="species.image_url" [alt]="species.name">
+          <ng-template #speciesPlaceholder>
+            <div class="image-placeholder"><span class="mat-icon" translate="no">local_florist</span></div>
+          </ng-template>
+        </div>
+        <div class="species-info">
+          <strong>{{ species.name }}</strong>
+          <small>{{ species.family_name }}</small>
+          <span><span class="mat-icon" aria-hidden="true" translate="no">account_tree</span>{{ species.genus_name }}</span>
+        </div>
+      </a>
+    </div>
+
+    <ng-template #featuredState>
+      <div class="featured-empty">
+        <span *ngIf="loadingCatalog" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        {{ loadingCatalog ? ('views.public.pages.home.home.cargando_especies' | uiText) : ('views.public.pages.home.home.aun_no_hay_especies_disponibles' | uiText) }}
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+</main>

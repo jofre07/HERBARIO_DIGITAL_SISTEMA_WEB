@@ -1,0 +1,87 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" aria-hidden="true" translate="no">account_tree</span></span>
+      <div>
+        <h1>{{ 'views.features.taxonomy.families.families.gestion_de_familias' | uiText }}</h1>
+        <p>{{ 'views.features.taxonomy.families.families.administra_las_familias_taxonomicas_registradas' | uiText }}</p>
+      </div>
+    </div>
+    <button *appHasPermission="'taxonomy.add_family'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div>
+        <h2>{{ 'views.features.taxonomy.families.families.familias_registradas' | uiText }}</h2>
+        <p><strong>{{ totalItems }}</strong> {{ totalItems === 1 ? ('views.features.taxonomy.families.families.registro_encontrado' | uiText) : ('views.features.admin.roles.roles.registros_encontrados' | uiText) }}</p>
+      </div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.taxonomy.families.families.buscar_familias' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle crud-table skeleton-stable-table">
+        <thead><tr><th>{{ 'views.features.admin.roles.roles.nombre' | uiText }}</th><th>{{ 'views.features.collectors.collectors.comentario' | uiText }}</th><th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th></tr></thead>
+        <tbody appTablePlaceholder *ngIf="loading" [columns]="3" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+        <tbody *ngIf="!loading">
+          <tr *ngFor="let item of items">
+            <td><strong>{{ item.name }}</strong></td>
+            <td>{{ item.comment || ('views.features.taxonomy.families.families.sin_comentario' | uiText) }}</td>
+            <td class="text-end">
+              <app-table-actions
+                editPermission="taxonomy.change_family"
+                deletePermission="taxonomy.delete_family"
+                [editLabel]="('views.features.taxonomy.families.families.editar_familia' | uiText) + item.name"
+                [deleteLabel]="('views.features.taxonomy.families.families.eliminar_familia_2' | uiText) + item.name"
+                (edit)="edit(item)"
+                (delete)="remove(item)"
+              ></app-table-actions>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && !items.length">
+            <td colspan="3"><div class="empty-state"><span class="mat-icon" aria-hidden="true" translate="no">account_tree_off</span><h3>{{ 'views.features.taxonomy.families.families.no_hay_familias_registradas' | uiText }}</h3><p>{{ 'views.features.taxonomy.families.families.agrega_la_primera_familia_para_comenzar' | uiText }}</p></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.taxonomy.families.families.familia' | uiText" [itemLabelPlural]="'views.features.taxonomy.families.families.familias' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.taxonomy.families.families.editar_familia_2' | uiText) : ('views.features.taxonomy.families.families.agregar_familia' | uiText)"
+  [subtitle]="'views.features.taxonomy.families.families.completa_la_informacion_de_la_familia_taxonomica' | uiText"
+  formId="family-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [busy]="saving"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="family-form" [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label class="form-label fw-semibold">{{ 'views.features.admin.roles.roles.nombre' | uiText }}</label>
+      <input class="form-control" formControlName="name" />
+      <div class="text-danger small mt-1" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">{{ 'views.features.taxonomy.families.families.el_nombre_es_obligatorio' | uiText }}</div>
+    </div>
+    <div>
+      <label class="form-label fw-semibold">{{ 'views.features.collectors.collectors.comentario' | uiText }}</label>
+      <textarea class="form-control" formControlName="comment" rows="4"></textarea>
+    </div>
+  </form>
+</app-form-modal>
+
+<app-confirmation-modal
+  [open]="deleteModalOpen"
+  [title]="'views.features.taxonomy.families.families.eliminar_familia' | uiText"
+  [subtitle]="'views.features.taxonomy.families.families.esta_accion_no_se_puede_deshacer' | uiText"
+  [message]="('views.features.taxonomy.families.families.estas_seguro_de_eliminar_la_familia' | uiText) + (pendingDelete?.name || '') + '?'"
+  [busy]="deleting"
+  [confirmText]="'views.features.admin.users.users.si_eliminar' | uiText"
+  (closed)="closeDeleteModal()"
+  (confirmed)="confirmDelete()"
+></app-confirmation-modal>

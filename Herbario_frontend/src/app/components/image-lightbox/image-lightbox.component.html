@@ -1,0 +1,23 @@
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes">
+  <div #lightboxPanel class="lightbox-panel" tabindex="-1" *ngIf="currentImage as image">
+    <button #closeButton class="lightbox-close" type="button" (click)="close()" aria-label="Cerrar visor">
+      <span class="mat-icon" aria-hidden="true" translate="no">close</span>
+    </button>
+
+    <button *ngIf="images.length > 1" class="lightbox-arrow previous" type="button" (click)="previous()" aria-label="Ver imagen anterior">
+      <span class="mat-icon" aria-hidden="true" translate="no">chevron_left</span>
+    </button>
+
+    <img [src]="image.url" [alt]="image.alt">
+
+    <button *ngIf="images.length > 1" class="lightbox-arrow next" type="button" (click)="next()" aria-label="Ver imagen siguiente">
+      <span class="mat-icon" aria-hidden="true" translate="no">chevron_right</span>
+    </button>
+
+    <div class="lightbox-caption" *ngIf="image.title || image.subtitle">
+      <strong><em>{{ image.title }}</em></strong>
+      <span>{{ image.subtitle }}</span>
+      <small *ngIf="images.length > 1" aria-live="polite">{{ index + 1 }} de {{ images.length }}</small>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,165 @@
+<main class="catalog-page">
+  <div class="container public-content-container">
+    <header class="catalog-heading">
+      <div class="title-group">
+        <span class="mat-icon title-icon" aria-hidden="true" translate="no">menu_book</span>
+        <div>
+          <h1>{{ 'views.public.pages.catalog.catalog.catalogo_de_especies' | uiText }}</h1>
+          <p>{{ 'views.public.pages.catalog.catalog.explora_y_consulta_las_especies_registradas_en_e' | uiText }}</p>
+        </div>
+      </div>
+      <app-public-breadcrumb [current]="'views.public.pages.catalog.catalog.catalogo_de_especies' | uiText" />
+    </header>
+
+    <div class="catalog-layout">
+      <app-public-filter-drawer
+        [open]="mobileFiltersOpen"
+        [context]="'navigation.catalog' | uiText"
+        [title]="'filters.title' | uiText"
+        [description]="'filters.catalogDescription' | uiText"
+        [closeLabel]="'actions.closeFilters' | uiText"
+        [canClear]="hasActiveFilters"
+        [loading]="loading"
+        [clearLabel]="'actions.clearFilters' | uiText"
+        [applyLabel]="'actions.applyFilters' | uiText"
+        (closed)="closeMobileFilters()"
+        (cleared)="clearFilters()"
+        (applied)="applyMobileFilters()"
+      >
+        <div class="filter-field">
+          <label for="catalog-family">{{ 'views.features.specimens.specimens.familia' | uiText }}</label>
+          <app-select-input controlId="catalog-family" [(ngModel)]="selectedFamily" [options]="familyOptions" [placeholder]="'views.public.pages.catalog.catalog.todas' | uiText" [searchPlaceholder]="'filters.searchFamily' | uiText" [searchable]="true" (ngModelChange)="onFamilyChange()" />
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-genus">{{ 'views.features.specimens.specimens.genero' | uiText }}</label>
+          <app-select-input controlId="catalog-genus" [(ngModel)]="selectedGenus" [options]="genusOptions" [placeholder]="'views.public.pages.catalog.catalog.todos' | uiText" [searchPlaceholder]="'filters.searchGenus' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-species">{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+          <div class="filter-input">
+            <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+            <input id="catalog-species" type="search" [(ngModel)]="searchQuery" (input)="onSearchInput()" [placeholder]="'filters.searchSpecies' | uiText">
+          </div>
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-common-name">{{ 'views.public.pages.advanced_search.advanced_search.nombre_comun' | uiText }}</label>
+          <div class="filter-input">
+            <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+            <input id="catalog-common-name" type="search" [(ngModel)]="commonNameQuery" (input)="onSearchInput()" [placeholder]="'filters.searchCommonName' | uiText">
+          </div>
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-status">{{ 'views.public.pages.advanced_search.advanced_search.estado_de_conservacion' | uiText }}</label>
+          <app-select-input controlId="catalog-status" [(ngModel)]="selectedStatus" [options]="statusOptions" [placeholder]="'views.public.pages.catalog.catalog.todos' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_estado' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-location">{{ 'views.public.pages.about.about.ubicacion' | uiText }}</label>
+          <app-select-input controlId="catalog-location" [(ngModel)]="selectedLocation" [options]="locationOptions" [placeholder]="'views.public.pages.catalog.catalog.todas' | uiText" [searchPlaceholder]="'filters.searchLocation' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-climate">{{ 'views.features.locations.climate_habitats.climate_habitats.clima' | uiText }}</label>
+          <app-select-input controlId="catalog-climate" [(ngModel)]="selectedClimate" [options]="climateOptions" [placeholder]="'views.public.pages.catalog.catalog.todos' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_clima' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="catalog-habitat">{{ 'views.public.pages.advanced_search.advanced_search.habitat' | uiText }}</label>
+          <app-select-input controlId="catalog-habitat" [(ngModel)]="selectedHabitat" [options]="habitatOptions" [placeholder]="'views.public.pages.catalog.catalog.todos' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_habitat' | uiText" [searchable]="true" />
+        </div>
+
+      </app-public-filter-drawer>
+
+      <section class="catalog-results">
+        <div class="results-toolbar">
+          <div class="species-total">
+            <span class="mat-icon" aria-hidden="true" translate="no">eco</span>
+            <span><strong [appCountUp]="totalItems"></strong><small>{{ 'views.public.pages.catalog.catalog.especies_encontradas' | uiText }}</small></span>
+          </div>
+
+          <div class="toolbar-actions">
+            <button type="button" class="public-filter-trigger" [class.is-active]="hasActiveFilters" (click)="openMobileFilters()" [attr.aria-expanded]="mobileFiltersOpen">
+              <span class="mat-icon" aria-hidden="true" translate="no">tune</span>{{ 'filters.title' | uiText }}
+              <span class="public-filter-count" *ngIf="activeFilterCount">{{ activeFilterCount }}</span>
+            </button>
+            <label for="catalog-sort">{{ 'views.public.pages.catalog.catalog.ordenar_por' | uiText }}</label>
+            <app-select-input class="toolbar-sort" controlId="catalog-sort" [(ngModel)]="selectedSort" [options]="sortOptions" (ngModelChange)="onFilterChange()" />
+            <span class="view-label">{{ 'views.public.pages.catalog.catalog.ver' | uiText }}</span>
+            <div class="view-buttons">
+              <button type="button" [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'" [title]="'views.public.pages.catalog.catalog.vista_de_cuadricula' | uiText" [attr.aria-label]="'views.public.pages.catalog.catalog.vista_de_cuadricula' | uiText">
+                <span class="mat-icon" translate="no">grid_view</span>
+              </button>
+              <button type="button" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'" [title]="'views.public.pages.catalog.catalog.vista_de_lista' | uiText" [attr.aria-label]="'views.public.pages.catalog.catalog.vista_de_lista' | uiText">
+                <span class="mat-icon" translate="no">view_list</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="loading" class="catalog-skeleton-grid" [attr.aria-label]="'views.public.pages.catalog.catalog.cargando_especies' | uiText" aria-busy="true">
+          <article class="catalog-skeleton-card" *ngFor="let placeholder of [1,2,3,4,5,6,7,8]">
+            <div class="catalog-skeleton-image skeleton-shimmer"></div>
+            <div class="catalog-skeleton-body">
+              <span class="catalog-skeleton-line catalog-skeleton-title skeleton-shimmer"></span>
+              <span class="catalog-skeleton-line catalog-skeleton-short skeleton-shimmer"></span>
+              <span class="catalog-skeleton-line skeleton-shimmer"></span>
+              <span class="catalog-skeleton-line catalog-skeleton-medium skeleton-shimmer"></span>
+            </div>
+          </article>
+        </div>
+
+        <ng-container *ngIf="!loading">
+          <div class="catalog-grid" [class.list-view]="viewMode === 'list'" *ngIf="paginatedItems.length; else emptyCatalog">
+            <article class="catalog-card" *ngFor="let item of paginatedItems">
+              <a class="card-image" [routerLink]="['/catalogo', item.id]" [attr.aria-label]="('views.public.pages.catalog.catalog.ver_2' | uiText) + item.name">
+                <img *ngIf="item.image_url; else catalogImagePlaceholder" [src]="item.image_url" [alt]="item.name">
+                <ng-template #catalogImagePlaceholder>
+                  <div class="catalog-image-placeholder"><span class="mat-icon" translate="no">local_florist</span></div>
+                </ng-template>
+                <span class="specimen-badge">{{ 'dynamic.counts.specimens' | uiText: { count: (item.specimen_count || 0) } }}</span>
+              </a>
+
+              <div class="card-content">
+                <h2>{{ item.name }}</h2>
+                <p class="family-name">{{ item.family_name }}</p>
+                <div class="species-meta">
+                  <span><span class="mat-icon" aria-hidden="true" translate="no">location_on</span>{{ item.location_names[0] || ('views.public.pages.specimens.specimens.sin_ubicacion' | uiText) }}</span>
+                  <span><span class="mat-icon" aria-hidden="true" translate="no">shield</span>{{ item.conservation_status || ('views.public.pages.catalog.catalog.sin_estado_registrado' | uiText) }}</span>
+                </div>
+                <a class="detail-link" [routerLink]="['/catalogo', item.id]">
+                  
+                  {{ 'actions.viewDetail' | uiText }} <span class="mat-icon" aria-hidden="true" translate="no">arrow_forward</span>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <ng-template #emptyCatalog>
+            <div class="catalog-state empty-state">
+              <span class="mat-icon" aria-hidden="true" translate="no">search_off</span>
+              <strong>{{ 'views.public.pages.catalog.catalog.no_se_encontraron_especies' | uiText }}</strong>
+              <small>{{ 'views.public.pages.catalog.catalog.prueba_modificando_o_limpiando_los_filtros' | uiText }}</small>
+            </div>
+          </ng-template>
+
+          <footer class="results-footer" *ngIf="paginatedItems.length">
+            <p>{{ 'dynamic.counts.speciesRange' | uiText: { start: resultStart, end: resultEnd, total: (totalItems | number) } }}</p>
+            <nav class="catalog-pagination" *ngIf="totalPages > 1" [attr.aria-label]="'views.public.pages.catalog.catalog.paginacion_del_catalogo' | uiText">
+              <button type="button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" [attr.aria-label]="'views.components.pagination.pagination.pagina_anterior' | uiText">
+                <span class="mat-icon" translate="no">chevron_left</span>
+              </button>
+              <button type="button" *ngFor="let page of pages" (click)="goToPage(page)" [class.active]="page === currentPage">{{ page }}</button>
+              <button type="button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" [attr.aria-label]="'views.components.pagination.pagination.pagina_siguiente' | uiText">
+                <span class="mat-icon" translate="no">chevron_right</span>
+              </button>
+            </nav>
+          </footer>
+        </ng-container>
+      </section>
+    </div>
+  </div>
+</main>

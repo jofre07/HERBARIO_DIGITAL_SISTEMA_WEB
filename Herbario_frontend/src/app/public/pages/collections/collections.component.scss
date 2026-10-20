@@ -1,0 +1,86 @@
+:host { display: block; color: #253025; background: #fafbf9; }
+.collections-page { min-height: 100vh; padding: 6.25rem 0 3rem; }
+.collections-container { max-width: var(--public-content-max-width); }
+.collections-heading { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 1.6rem; }
+.title-group { display: flex; align-items: center; gap: .9rem; }
+.title-icon { color: #557938; font-size: 2.65rem; }
+.title-group h1 { margin: 0 0 .25rem; font-family: Georgia,'Times New Roman',serif; font-size: 2rem; font-weight: 600; }
+.title-group p { margin: 0; color: #727b72; font-size: .75rem; }
+
+.collections-layout { display: block; }
+.collections-sidebar { display: grid; gap: .75rem; }
+.sidebar-card,.stats-bar { background: #fff; border: 1px solid #e1e6df; border-radius: .4rem; box-shadow: 0 4px 15px rgba(27,49,24,.035); }
+.sidebar-card { padding: 1rem; }
+.collections-actions { display: flex; justify-content: flex-end; margin-bottom: .75rem; }
+.sidebar-card h2 { margin: 0 0 .85rem; font-size: .78rem; font-weight: 800; }
+.category-card > button { display: grid; grid-template-columns: 1rem minmax(0,1fr) auto; align-items: center; gap: .5rem; width: 100%; min-height: 2.2rem; padding: .38rem .45rem; color: #394339; font-size: .63rem; text-align: left; background: transparent; border: 0; border-radius: .3rem; }
+.category-card > button:hover,.category-card > button.active { color: #456b2f; background: #f0f5ec; }
+.category-card i { color: #63864a; font-size: .83rem; }
+.category-card small { min-width: 1.7rem; padding: .17rem .35rem; color: #66834f; font-size: .52rem; text-align: center; background: #edf4e8; border-radius: 1rem; }
+.filter-heading { display: flex; align-items: center; justify-content: space-between; }
+.clear-button { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; color: #4e772d; background: transparent; border: 0; border-radius: 50%; }
+.clear-button:hover:not(:disabled) { background: #eef4e9; }
+.clear-button:disabled { color: #adb5aa; }
+.clear-button:focus-visible { outline: 3px solid rgba(82,122,49,.24); outline-offset: 2px; }
+.clear-button .mat-icon { font-size: 1.15rem; }
+.filter-field { margin-bottom: .75rem; }
+.filter-field label { display: block; margin-bottom: .4rem; color: #3f483f; font-size: .72rem; font-weight: 700; }
+.apply-button { display: flex; align-items: center; justify-content: center; gap: .35rem; width: 100%; min-height: 2.75rem; margin-top: .3rem; color: #fff; font-size: .75rem; font-weight: 700; background: #527a31; border: 0; border-radius: .4rem; }
+.apply-button:hover { background: #426529; }
+.apply-button .mat-icon { font-size: .9rem; }
+
+.collections-content { min-width: 0; }
+.stats-bar { display: grid; grid-template-columns: repeat(5,1fr); min-height: 5.25rem; margin-bottom: 1rem; }
+.stats-bar article { display: flex; align-items: center; justify-content: center; gap: .65rem; padding: .7rem; }
+.stats-bar article + article { border-left: 1px solid #e8ece6; }
+.stats-bar i { color: #5c813f; font-size: 1.65rem; }
+.stats-bar article div { display: grid; }
+.stats-bar strong { font-size: 1rem; line-height: 1; }
+.stats-bar span { margin-top: .2rem; color: #747d73; font-size: .55rem; line-height: 1.2; }
+.collection-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .75rem; }
+.collection-card { min-width: 0; overflow: hidden; background: #fff; border: 1px solid #dfe5dc; border-radius: .35rem; transition: transform 160ms ease,box-shadow 160ms ease; }
+.collection-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(35,65,30,.1); }
+.card-image { position: relative; height: 10.4rem; overflow: hidden; background: #e7eee2; }
+.card-image img { width: 100%; height: 100%; object-fit: cover; }
+.collection-placeholder { display: grid; place-items: center; width: 100%; height: 100%; color: #eef5e9; background: linear-gradient(rgba(12,43,16,.12),rgba(12,43,16,.28)),url('/images/home-botanical-hero.png') center/cover; }
+.collection-placeholder .mat-icon { padding: .5rem; font-size: 1.8rem; background: rgba(29,69,31,.68); border-radius: 50%; }
+.specimen-badge { position: absolute; top: .45rem; right: .45rem; padding: .25rem .45rem; color: #fff; font-size: .52rem; font-weight: 700; background: rgba(31,74,24,.88); border-radius: 999px; }
+.card-content { display: flex; flex-direction: column; min-height: 10.4rem; padding: .75rem; }
+.card-content h2 { margin: 0 0 .35rem; overflow: hidden; font-family: Georgia,'Times New Roman',serif; font-size: .83rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.card-content > p { display: -webkit-box; min-height: 2.8rem; margin: 0 0 .55rem; overflow: hidden; color: #667065; font-size: .58rem; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.collection-meta { display: flex; gap: .85rem; margin-top: auto; padding-bottom: .55rem; }
+.collection-meta span { display: flex; align-items: center; gap: .25rem; color: #667065; font-size: .54rem; }
+.collection-meta .mat-icon { color: #668849; font-size: .7rem; }
+.card-content > a { display: flex; align-items: center; justify-content: space-between; padding-top: .5rem; color: #4d7433; font-size: .58rem; font-weight: 700; text-decoration: none; border-top: 1px solid #edf0eb; }
+.card-content > a .mat-icon { font-size: .8rem; }
+.collections-state { display: flex; align-items: center; justify-content: center; gap: .6rem; min-height: 19rem; color: #6e786e; background: #fff; border: 1px solid #e2e7df; border-radius: .4rem; }
+.empty-state { flex-direction: column; }
+.empty-state > .mat-icon { color: #8ca17e; font-size: 2.4rem; }
+.empty-state small { font-size: .7rem; }
+.collection-pagination { display: flex; justify-content: center; gap: .35rem; margin-top: 1rem; }
+.collection-pagination button { display: grid; place-items: center; min-width: 2rem; height: 2rem; padding: 0 .45rem; color: #586158; font-size: .65rem; background: #fff; border: 1px solid #dfe5dc; border-radius: .25rem; }
+.collection-pagination button.active { color: #fff; background: #527633; border-color: #527633; }
+.collection-pagination button:disabled { color: #b1b7b1; background: #f6f7f5; }
+.collection-pagination .mat-icon { font-size: .95rem; }
+
+@media (max-width:1199.98px) { .collection-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (max-width:991.98px) {
+  .collections-layout { grid-template-columns: 1fr; }
+  .collections-sidebar { grid-template-columns: 1fr 1fr; }
+  .collection-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:767.98px) {
+  .collections-heading { align-items: flex-start; flex-direction: column; }
+  .collections-sidebar { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); }
+  .stats-bar article { border-bottom: 1px solid #e8ece6; }
+  .stats-bar article:nth-child(odd) { border-left: 0; }
+  .stats-bar article:last-child { grid-column: 1/-1; border-bottom: 0; }
+}
+@media (max-width:480px) {
+  .collections-page { padding-top: 5.5rem; }
+  .collection-grid { grid-template-columns: 1fr; }
+  .title-group h1 { font-size: 1.55rem; }
+  .card-image { height: 13rem; }
+  .category-card > button { min-height: 2.75rem; font-size: .72rem; }
+}

@@ -1,0 +1,65 @@
+.table-action-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.table-action-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: #fff;
+  border: 1px solid;
+  border-radius: 0.65rem;
+  touch-action: manipulation;
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.table-action-button:focus-visible {
+  outline: 3px solid rgba(75, 143, 79, 0.28);
+  outline-offset: 2px;
+}
+
+.table-action-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.table-action-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.table-action-button .mat-icon {
+  font-size: 1.05rem;
+}
+
+.edit-button {
+  color: #2563eb;
+  border-color: #dbeafe;
+}
+
+.view-button {
+  color: #15803d;
+  border-color: #d1fae5;
+}
+
+.view-button:hover:not(:disabled) {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.edit-button:hover:not(:disabled) {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.delete-button {
+  color: #dc2626;
+  border-color: #fee2e2;
+}
+
+.delete-button:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #fecaca;
+}

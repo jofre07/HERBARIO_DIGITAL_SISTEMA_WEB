@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.public-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: #808880;
+  font-size: .68rem;
+}
+
+.public-breadcrumb a {
+  color: #747d74;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.public-breadcrumb a:hover {
+  color: #547739;
+}
+
+.breadcrumb-label {
+  color: #747d74;
+}
+
+.public-breadcrumb .breadcrumb-separator {
+  color: #a6ada3;
+  font-size: .75rem;
+}
+
+.public-breadcrumb strong {
+  color: #547739;
+  font-weight: 600;
+}
+
+@media (max-width: 767.98px) {
+  :host {
+    display: none;
+  }
+}

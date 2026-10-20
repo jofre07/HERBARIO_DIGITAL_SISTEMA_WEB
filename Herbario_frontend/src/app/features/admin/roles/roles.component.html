@@ -1,0 +1,112 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" aria-hidden="true" translate="no">admin_panel_settings</span></span>
+      <div><h1>{{ 'views.features.admin.roles.roles.gestion_de_roles' | uiText }}</h1><p>{{ 'views.features.admin.roles.roles.administra_los_registros_de_roles_del_sistema' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'auth.add_group'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.admin.roles.roles.roles_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.admin.roles.roles.buscar_roles' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle roles-table skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.admin.roles.roles.nombre' | uiText }}</th>
+                <th>{{ 'views.features.admin.roles.roles.permisos' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="3" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td><strong class="role-name">{{ item.name }}</strong></td>
+                <td>
+                  <div class="permission-summary" *ngIf="item.permissions?.length; else noPermissions">
+                    <span class="permission-badge" *ngFor="let permission of visiblePermissions(item)">
+                      {{ permissionLabel(permission) }}
+                    </span>
+                    <button
+                      *ngIf="remainingPermissions(item)"
+                      type="button"
+                      class="permissions-toggle"
+                      [attr.aria-expanded]="isExpanded(item.id)"
+                      (click)="togglePermissions(item.id)"
+                    >
+                      {{ isExpanded(item.id) ? ('views.features.admin.roles.roles.mostrar_menos' | uiText) : '+' + remainingPermissions(item) + ('views.features.admin.roles.roles.permisos_2' | uiText) }}
+                    </button>
+                  </div>
+                  <ng-template #noPermissions><span class="text-muted">{{ 'views.features.admin.roles.roles.sin_permisos' | uiText }}</span></ng-template>
+                </td>
+                <td class="text-end">
+                  <app-table-actions editPermission="auth.change_group" deletePermission="auth.delete_group" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length">
+                <td colspan="3">
+                  <div class="empty-state">
+                    <span class="mat-icon" aria-hidden="true" translate="no">shield_person</span>
+                    <h3>{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</h3>
+                    <p>{{ 'views.features.admin.roles.roles.administra_los_registros_de_roles_del_sistema' | uiText }}</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.admin.roles.roles.rol' | uiText" [itemLabelPlural]="'views.features.admin.roles.roles.roles' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen()"
+  [title]="selectedId ? ('views.features.admin.roles.roles.editar_rol' | uiText) : ('views.features.admin.roles.roles.agregar_rol' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="roles-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="roles-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.admin.roles.roles.nombre' | uiText }}</label>
+            <input class="form-control" formControlName="name" />
+            <div class="text-danger small" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="role-permissions">{{ 'views.features.admin.roles.roles.permisos' | uiText }}</label>
+            <app-select-input
+              id="role-permissions"
+              formControlName="permission_ids"
+              [options]="permissionOptions()"
+              [multiple]="true"
+              [searchable]="true"
+              panelMode="overlay"
+              [disabled]="loadingPermissions()"
+              [attr.aria-describedby]="'permissions-help'"
+              [placeholder]="'views.features.admin.roles.roles.selecciona_los_permisos' | uiText"
+              [searchPlaceholder]="'views.features.admin.roles.roles.buscar_permiso_por_nombre_o_codigo' | uiText"
+              [emptyText]="'views.features.admin.roles.roles.no_hay_permisos_disponibles' | uiText"
+            ></app-select-input>
+            <div id="permissions-help" class="form-text">
+              {{ loadingPermissions()
+                ? ('views.features.admin.roles.roles.cargando_permisos' | uiText)
+                : ('views.features.admin.roles.roles.busca_y_selecciona_uno_o_varios_permisos' | uiText) }}
+            </div>
+            <div class="text-danger small mt-1" *ngIf="!loadingPermissions() && !permissions().length">
+              
+              {{ 'views.features.admin.roles.roles.no_hay_permisos_disponibles_2' | uiText }}
+            </div>
+          </div>
+        </form>
+</app-form-modal>

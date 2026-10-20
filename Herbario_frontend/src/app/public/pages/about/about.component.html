@@ -1,0 +1,40 @@
+<main class="about-page">
+  <section class="about-title-band">
+    <div class="container public-content-container title-band-content">
+      <div><h1>{{ 'views.public.pages.about.about.acerca_del' | uiText }} <span>{{ 'brand.shortName' | uiText }}</span></h1><app-public-breadcrumb [current]="'navigation.about' | uiText" /></div>
+      <div class="decorative-branch" aria-hidden="true"><i class="bi bi-leaf-fill leaf leaf-one"></i><i class="bi bi-leaf-fill leaf leaf-two"></i><i class="bi bi-leaf-fill leaf leaf-three"></i><i class="bi bi-leaf-fill leaf leaf-four"></i></div>
+    </div>
+  </section>
+
+  <div class="container public-content-container about-content">
+    <section class="introduction-card" [class.no-image]="!content.introduction_image_url">
+      <figure class="introduction-photo" *ngIf="content.introduction_image_url"><img [src]="content.introduction_image_url" alt="Ejemplar botánico preservado en una lámina de herbario"></figure>
+      <div class="introduction-copy">
+        <h2>{{ content.introduction_title }}</h2><p>{{ content.introduction_body }}</p>
+        <div class="impact-grid">
+          <article *ngFor="let item of content.impact_items; let index = index"><span class="impact-icon"><i class="bi" [ngClass]="impactIcons[index] || 'bi-leaf'"></i></span><h3>{{ item.title }}</h3><p>{{ item.description }}</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles-band" [attr.aria-label]="'views.public.pages.about.about.mision_vision_y_valores' | uiText">
+      <article><span class="principle-icon"><i class="bi bi-leaf"></i></span><div><h2>{{ 'views.public.pages.about.about.mision' | uiText }}</h2><p>{{ content.mission }}</p></div></article>
+      <article><span class="principle-icon"><i class="bi bi-eye"></i></span><div><h2>{{ 'views.public.pages.about.about.vision' | uiText }}</h2><p>{{ content.vision }}</p></div></article>
+      <article><span class="principle-icon"><i class="bi bi-heart"></i></span><div><h2>{{ 'views.public.pages.about.about.valores' | uiText }}</h2><ul><li *ngFor="let value of content.values">{{ value }}</li></ul></div></article>
+    </section>
+
+    <section class="team-section">
+      <header><h2>{{ content.team_title }}</h2><span aria-hidden="true"></span><p>{{ content.team_subtitle }}</p></header>
+      <div class="team-grid">
+        <article *ngFor="let member of content.team_members; let index = index"><span class="team-icon"><i class="bi" [ngClass]="teamIcons[index] || 'bi-person'"></i></span><div><h3>{{ member.title }}</h3><p>{{ member.description }}</p></div></article>
+      </div>
+    </section>
+
+    <address class="contact-band">
+      <div><i class="bi bi-geo-alt"></i><span><strong>{{ 'views.public.pages.about.about.ubicacion' | uiText }}</strong>{{ content.contact_address }}</span></div>
+      <a [href]="'mailto:' + content.contact_email"><i class="bi bi-envelope"></i><span><strong>{{ 'views.components.user_form.user_form.correo_electronico' | uiText }}</strong>{{ content.contact_email }}</span></a>
+      <a [href]="telephoneHref(content.contact_phone)"><i class="bi bi-telephone"></i><span><strong>{{ 'views.public.pages.about.about.telefono' | uiText }}</strong>{{ content.contact_phone }}</span></a>
+      <div><i class="bi bi-building"></i><span><strong>{{ 'views.public.pages.about.about.institucion' | uiText }}</strong>{{ content.institution }}</span></div>
+    </address>
+  </div>
+</main>

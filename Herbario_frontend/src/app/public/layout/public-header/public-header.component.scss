@@ -1,0 +1,191 @@
+:host {
+  display: block;
+}
+
+.public-navbar {
+  position: fixed;
+  z-index: 1030;
+  top: 0;
+  right: 0;
+  left: 0;
+  min-height: 4.25rem;
+  color: #fff;
+  background: rgba(7, 32, 13, .96);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.public-navbar.scrolled {
+  background: rgba(7, 32, 13, .985);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.25rem;
+  gap: 1.5rem;
+}
+
+.public-brand {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .55rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.brand-logo {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  object-fit: contain;
+}
+
+.public-brand strong,
+.public-brand small {
+  display: block;
+}
+
+.public-brand strong {
+  font-size: .86rem;
+  letter-spacing: .02em;
+  line-height: 1.05;
+}
+
+.public-brand small {
+  margin-top: .12rem;
+  color: rgba(255, 255, 255, .68);
+  font-size: .57rem;
+}
+
+.navigation {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(1.2rem, 3vw, 3rem);
+}
+
+.navigation ul {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(.15rem, .8vw, .75rem);
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navigation li {
+  display: flex;
+}
+
+.navigation li a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 .65rem;
+  color: rgba(255, 255, 255, .72);
+  font-size: .68rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navigation li a:hover,
+.navigation li a.active {
+  color: #fff;
+}
+
+.navigation li a.active::after {
+  position: absolute;
+  right: .55rem;
+  bottom: 0;
+  left: .55rem;
+  height: 2px;
+  content: '';
+  background: #9abb53;
+}
+
+.login-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .4rem;
+  padding: .58rem .85rem;
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: #4d682b;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: .25rem;
+}
+
+.login-link:hover {
+  color: #fff;
+  background: #607d35;
+}
+
+.login-link .mat-icon {
+  font-size: 1rem;
+}
+
+.menu-toggle {
+  display: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: .35rem;
+}
+
+@media (max-width: 991.98px) {
+  .menu-toggle {
+    display: grid;
+  }
+
+  .navigation {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: none;
+    padding: 1rem max(1rem, calc((100vw - 720px) / 2));
+    background: #08250e;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .2);
+  }
+
+  .navigation.open {
+    display: block;
+  }
+
+  .navigation ul {
+    display: block;
+  }
+
+  .navigation li a {
+    width: 100%;
+    padding: .75rem .5rem;
+  }
+
+  .navigation li a.active::after {
+    top: .55rem;
+    right: auto;
+    bottom: .55rem;
+    left: 0;
+    width: 2px;
+    height: auto;
+  }
+
+  .login-link {
+    margin-top: .7rem;
+  }
+}

@@ -1,0 +1,102 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" aria-hidden="true" translate="no">local_florist</span></span>
+      <div><h1>{{ 'views.features.taxonomy.species.species.gestion_de_especies' | uiText }}</h1><p>{{ 'views.features.taxonomy.species.species.administra_los_registros_de_especies_del_sistema' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'taxonomy.add_species'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.taxonomy.species.species.especies_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.taxonomy.species.species.buscar_especies' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.admin.roles.roles.nombre' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.species.species.genero' | uiText }}</th>
+                <th>{{ 'views.features.specimens.specimens.familia' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.species.species.destacada' | uiText }}</th>
+                <th>{{ 'views.features.collectors.collectors.comentario' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="6" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td><strong>{{ item.name }}</strong></td>
+                <td>{{ item.genus_name }}</td>
+                <td>{{ item.family_name }}</td>
+                <td>
+                  <span class="featured-status" [class.active]="item.is_featured">
+                    <span class="mat-icon" aria-hidden="true" translate="no">{{ item.is_featured ? 'star' : 'star_outline' }}</span>
+                    {{ item.is_featured ? ('views.features.taxonomy.species.species.si' | uiText) : ('views.features.taxonomy.species.species.no' | uiText) }}
+                  </span>
+                </td>
+                <td>{{ item.comment || '-' }}</td>
+                <td class="text-end">
+                  <app-table-actions editPermission="taxonomy.change_species" deletePermission="taxonomy.delete_species" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="6"><div class="empty-state"><span class="mat-icon" aria-hidden="true" translate="no">psychiatry</span><h3>{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</h3><p>{{ 'views.features.taxonomy.species.species.administra_los_registros_de_especies_del_sistema' | uiText }}</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.taxonomy.species.species.especie' | uiText" [itemLabelPlural]="'views.features.taxonomy.species.species.especies' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.taxonomy.species.species.editar_especie' | uiText) : ('views.features.taxonomy.species.species.agregar_especie' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="species-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="species-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.admin.roles.roles.nombre' | uiText }}</label>
+            <input class="form-control" formControlName="name" />
+            <div class="text-danger small" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.species.species.genero' | uiText }}</label>
+            <select class="form-select" formControlName="genus_id">
+              <option value="">{{ 'views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText }}</option>
+              <option *ngFor="let g of genera" [value]="g.id">{{ g.name }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('genus_id')?.invalid && form.get('genus_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.collectors.collectors.comentario' | uiText }}</label>
+            <textarea class="form-control" formControlName="comment" rows="3"></textarea>
+          </div>
+          <div class="featured-control">
+            <div>
+              <strong>{{ 'views.features.taxonomy.species.species.especie_destacada' | uiText }}</strong>
+              <small>{{ 'views.features.taxonomy.species.species.se_mostrara_en_la_seccion_destacada_de_inicio_se' | uiText }}</small>
+            </div>
+            <div class="form-check form-switch m-0">
+              <input
+                class="form-check-input"
+                id="species-featured"
+                type="checkbox"
+                role="switch"
+                formControlName="is_featured"
+                [attr.aria-label]="'views.features.taxonomy.species.species.marcar_como_especie_destacada' | uiText"
+              >
+            </div>
+          </div>
+        </form>
+</app-form-modal>

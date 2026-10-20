@@ -1,0 +1,208 @@
+<main class="map-page">
+  <div class="container public-content-container map-page__container">
+    <header class="map-heading">
+      <div class="map-heading__title">
+        <span class="map-heading__icon" aria-hidden="true"><i class="bi bi-geo-alt-fill"></i></span>
+        <div>
+          <h1>{{ 'views.public.pages.map.map.mapa_de_colecciones' | uiText }}</h1>
+          <p>{{ 'views.public.pages.map.map.explora_las_ubicaciones_de_recoleccion_de_especi' | uiText }}</p>
+        </div>
+      </div>
+
+      <app-public-breadcrumb [current]="'views.public.pages.map.map.mapa_de_colecciones' | uiText" />
+    </header>
+
+    <section class="map-workspace">
+      <app-public-filter-drawer [open]="filtersOpen" [context]="'navigation.map' | uiText" [title]="'filters.title' | uiText" [description]="'filters.mapDescription' | uiText" [closeLabel]="'actions.closeFilters' | uiText" [canClear]="hasActiveFilters" [loading]="loading" [clearLabel]="'actions.clearFilters' | uiText" [applyLabel]="'actions.applyFilters' | uiText" (closed)="closeFilters()" (cleared)="clearFilters()" (applied)="applyFilters()">
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.familia' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="filterFamily"
+            (ngModelChange)="onFamilyChange()"
+            [options]="familyOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allFamilies' | uiText"
+            [searchPlaceholder]="'filters.searchFamily' | uiText"
+            [emptyText]="'views.public.pages.collections.collections.no_hay_familias_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.genero' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="filterGenus"
+            (ngModelChange)="onGenusChange()"
+            [options]="genusOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allGenera' | uiText"
+            [searchPlaceholder]="'filters.searchGenus' | uiText"
+            [emptyText]="'views.public.pages.gallery.gallery.no_hay_generos_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="filterSpecies"
+            [options]="speciesOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allSpecies' | uiText"
+            [searchPlaceholder]="'filters.searchSpecies' | uiText"
+            [emptyText]="'views.public.pages.gallery.gallery.no_hay_especies_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.advanced_search.advanced_search.nombre_comun' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="filterCommonName"
+            [options]="commonNameOptions"
+            [searchable]="true"
+            [placeholder]="'views.public.pages.advanced_search.advanced_search.todos_los_nombres' | uiText"
+            [searchPlaceholder]="'filters.searchCommonName' | uiText"
+            [emptyText]="'views.public.pages.map.map.no_hay_nombres_comunes_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+        <div class="filter-field">
+          <label>{{ 'views.public.pages.map.map.nombre_del_colector' | uiText }}</label>
+          <app-select-input
+            [(ngModel)]="filterCollector"
+            [options]="collectorOptions"
+            [searchable]="true"
+            [placeholder]="'filters.allCollectors' | uiText"
+            [searchPlaceholder]="'filters.searchCollector' | uiText"
+            [emptyText]="'views.public.pages.map.map.no_hay_colectores_disponibles' | uiText"
+          ></app-select-input>
+        </div>
+
+      </app-public-filter-drawer>
+
+      <div class="map-filter-action">
+        <button type="button" class="public-filter-trigger" [class.is-active]="hasActiveFilters" (click)="openFilters()" [attr.aria-expanded]="filtersOpen">
+          <span class="mat-icon" aria-hidden="true" translate="no">tune</span>{{ 'filters.title' | uiText }}
+          <span class="public-filter-count" *ngIf="activeFilterCount">{{ activeFilterCount }}</span>
+        </button>
+      </div>
+
+      <div class="map-center">
+        <div class="map-frame">
+          <div #mapContainer class="map-canvas"></div>
+
+          <div class="map-skeleton-overlay" *ngIf="loading" [attr.aria-label]="'views.public.pages.map.map.cargando_ubicaciones' | uiText" aria-busy="true">
+            <span class="map-skeleton-road map-skeleton-road-one skeleton-shimmer"></span>
+            <span class="map-skeleton-road map-skeleton-road-two skeleton-shimmer"></span>
+            <span class="map-skeleton-area map-skeleton-area-one skeleton-shimmer"></span>
+            <span class="map-skeleton-area map-skeleton-area-two skeleton-shimmer"></span>
+            <span class="map-skeleton-marker map-skeleton-marker-one skeleton-shimmer"></span>
+            <span class="map-skeleton-marker map-skeleton-marker-two skeleton-shimmer"></span>
+            <span class="map-skeleton-marker map-skeleton-marker-three skeleton-shimmer"></span>
+          </div>
+
+          <div class="map-legend">
+            <strong>{{ 'views.public.pages.map.map.leyenda' | uiText }}</strong>
+            <span *ngFor="let option of markerIconOptions">
+              <i class="bi {{ option.icon }}" aria-hidden="true"></i>
+              {{ option.label }}
+            </span>
+          </div>
+        </div>
+
+        <div class="map-stats" [attr.aria-label]="'views.public.pages.map.map.resumen_del_mapa' | uiText">
+          <article>
+            <i class="bi bi-map" aria-hidden="true"></i>
+            <div><strong [appCountUp]="visibleStats.locations"></strong><span>{{ 'views.public.pages.collections.collections.localidades' | uiText }}<br>{{ 'views.public.pages.collections.collections.registradas' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-leaf" aria-hidden="true"></i>
+            <div><strong [appCountUp]="visibleStats.specimens"></strong><span>{{ 'navigation.specimens' | uiText }}<br>{{ 'views.public.pages.map.map.georreferenciados' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-flower1" aria-hidden="true"></i>
+            <div><strong [appCountUp]="visibleStats.species"></strong><span>{{ 'views.public.pages.collections.collections.especies' | uiText }}<br>{{ 'views.public.pages.collections.collections.representadas' | uiText }}</span></div>
+          </article>
+          <article>
+            <i class="bi bi-person" aria-hidden="true"></i>
+            <div><strong [appCountUp]="visibleStats.collectors"></strong><span>{{ 'views.public.pages.map.map.colectores' | uiText }}<br>{{ 'views.public.pages.map.map.registrados' | uiText }}</span></div>
+          </article>
+        </div>
+      </div>
+
+      <aside class="results-column" [attr.aria-label]="'views.public.pages.map.map.resultados_del_mapa' | uiText">
+        <div class="results-actions">
+          <a class="list-button" routerLink="/especimenes">
+            <i class="bi bi-list-ul" aria-hidden="true"></i>
+            
+            {{ 'views.public.pages.map.map.ver_en_lista' | uiText }}
+          </a>
+          <span class="records-badge">
+            <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+            {{ 'dynamic.counts.records' | uiText: { count: (filteredMapPoints.length | number) } }}
+          </span>
+        </div>
+
+        <div class="results-panel">
+          <div class="results-panel__heading">
+            <h2>{{ 'views.public.pages.map.map.especimenes_en_el_mapa' | uiText }}</h2>
+            <span>{{ filteredMapPoints.length }}</span>
+          </div>
+
+          <div class="map-results-skeleton" *ngIf="loading" [attr.aria-label]="'views.public.pages.map.map.cargando_resultados' | uiText" aria-busy="true">
+            <div class="map-result-skeleton-item" *ngFor="let item of [1,2,3,4,5]">
+              <span class="map-result-skeleton-image skeleton-shimmer"></span>
+              <span class="map-result-skeleton-content">
+                <i class="map-result-skeleton-title skeleton-shimmer"></i>
+                <i class="map-result-skeleton-line skeleton-shimmer"></i>
+                <i class="map-result-skeleton-short skeleton-shimmer"></i>
+              </span>
+            </div>
+          </div>
+
+          <ng-container *ngIf="!loading">
+            <div class="result-list" *ngIf="filteredMapPoints.length; else emptyResults">
+              <button
+                class="result-item"
+                type="button"
+                *ngFor="let point of paginatedMapPoints"
+                (click)="focusPoint(point)"
+                [attr.aria-label]="('views.public.pages.map.map.ubicar' | uiText) + point.species_name + ('views.public.pages.map.map.en_el_mapa' | uiText)"
+              >
+                <span class="result-item__image">
+                  <img *ngIf="point.image_url; else plantPlaceholder" [src]="point.image_url" [alt]="point.species_name">
+                  <ng-template #plantPlaceholder><i class="bi bi-flower1" aria-hidden="true"></i></ng-template>
+                </span>
+                <span class="result-item__content">
+                  <strong><em>{{ point.species_name }}</em></strong>
+                  <small>{{ point.family_name }}</small>
+                  <small><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>{{ point.location_name }}</small>
+                  <small><i class="bi bi-person" aria-hidden="true"></i>{{ point.collector_name || ('views.public.pages.map.map.colector_no_registrado' | uiText) }}</small>
+                </span>
+                <i class="bi bi-arrow-right result-item__arrow" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <ng-template #emptyResults>
+              <div class="empty-results">
+                <i class="bi bi-map" aria-hidden="true"></i>
+                <strong>{{ 'views.public.pages.map.map.sin_resultados' | uiText }}</strong>
+                <p>{{ 'views.public.pages.map.map.no_hay_ubicaciones_que_coincidan_con_los_filtros' | uiText }}</p>
+              </div>
+            </ng-template>
+          </ng-container>
+
+          <nav class="map-results-pagination" *ngIf="!loading && totalResultPages > 1" aria-label="Paginación de especímenes en el mapa">
+            <button type="button" (click)="goToResultPage(currentResultPage - 1)" [disabled]="currentResultPage === 1" [attr.aria-label]="'views.components.pagination.pagination.pagina_anterior' | uiText">
+              <span class="mat-icon" aria-hidden="true" translate="no">chevron_left</span>
+            </button>
+            <span><strong>{{ currentResultPage }}</strong> / {{ totalResultPages }}</span>
+            <button type="button" (click)="goToResultPage(currentResultPage + 1)" [disabled]="currentResultPage === totalResultPages" [attr.aria-label]="'views.components.pagination.pagination.pagina_siguiente' | uiText">
+              <span class="mat-icon" aria-hidden="true" translate="no">chevron_right</span>
+            </button>
+          </nav>
+
+          <a class="all-results-button" routerLink="/especimenes">{{ 'views.public.pages.map.map.ver_todos_los_resultados' | uiText }}</a>
+        </div>
+      </aside>
+    </section>
+  </div>
+</main>

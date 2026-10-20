@@ -1,0 +1,267 @@
+<main class="specimens-page">
+  <div class="container public-content-container">
+    <header class="page-heading">
+      <div class="title-group">
+        <span class="mat-icon title-icon" aria-hidden="true" translate="no">psychiatry</span>
+        <div>
+          <h1>{{ 'navigation.specimens' | uiText }}</h1>
+          <p>{{ 'views.public.pages.specimens.specimens.consulta_y_explora_los_especimenes_recolectados_' | uiText }}</p>
+        </div>
+      </div>
+      <app-public-breadcrumb [current]="'navigation.specimens' | uiText" />
+    </header>
+
+    <div class="specimens-layout">
+      <app-public-filter-drawer [open]="filtersOpen" [context]="'navigation.specimens' | uiText" [title]="'filters.title' | uiText" [description]="'filters.specimensDescription' | uiText" [closeLabel]="'actions.closeFilters' | uiText" [canClear]="hasActiveFilters" [loading]="loading" [clearLabel]="'actions.clearFilters' | uiText" [applyLabel]="'actions.applyFilters' | uiText" (closed)="closeFilters()" (cleared)="clearFilters()" (applied)="applyDrawerFilters()">
+        <div class="filter-field">
+          <label for="specimen-code">{{ 'views.public.pages.gallery.gallery.codigo_de_catalogo' | uiText }}</label>
+          <div class="filter-input">
+            <span class="mat-icon" aria-hidden="true" translate="no">search</span>
+            <input id="specimen-code" type="search" [(ngModel)]="searchQuery" (input)="onSearchInput()" [placeholder]="'views.public.pages.specimens.specimens.buscar_codigo' | uiText">
+          </div>
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-family">{{ 'views.features.specimens.specimens.familia' | uiText }}</label>
+          <app-select-input controlId="specimen-family" [(ngModel)]="selectedFamily" [options]="familyOptions" [placeholder]="'filters.allFamilies' | uiText" [searchPlaceholder]="'filters.searchFamily' | uiText" [searchable]="true" (ngModelChange)="onFamilyChange()" />
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-genus">{{ 'views.features.specimens.specimens.genero' | uiText }}</label>
+          <app-select-input controlId="specimen-genus" [(ngModel)]="selectedGenus" [options]="genusOptions" [placeholder]="'filters.allGenera' | uiText" [searchPlaceholder]="'filters.searchGenus' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-species">{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+          <app-select-input controlId="specimen-species" [(ngModel)]="selectedSpecies" [options]="speciesOptions" [placeholder]="'filters.allSpecies' | uiText" [searchPlaceholder]="'filters.searchSpecies' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-collector">{{ 'views.features.specimens.specimens.colector' | uiText }}</label>
+          <app-select-input controlId="specimen-collector" [(ngModel)]="selectedCollector" [options]="collectorOptions" [placeholder]="'filters.allCollectors' | uiText" [searchPlaceholder]="'filters.searchCollector' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-location">{{ 'views.public.pages.about.about.ubicacion' | uiText }}</label>
+          <app-select-input controlId="specimen-location" [(ngModel)]="selectedLocation" [options]="locationOptions" [placeholder]="'filters.allLocations' | uiText" [searchPlaceholder]="'filters.searchLocation' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-habitat">{{ 'views.public.pages.advanced_search.advanced_search.habitat' | uiText }}</label>
+          <app-select-input controlId="specimen-habitat" [(ngModel)]="selectedHabitat" [options]="habitatOptions" [placeholder]="'filters.allHabitats' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_habitat' | uiText" [searchable]="true" />
+        </div>
+
+        <div class="filter-field">
+          <label for="specimen-status">{{ 'views.public.pages.advanced_search.advanced_search.estado_de_conservacion' | uiText }}</label>
+          <app-select-input controlId="specimen-status" [(ngModel)]="selectedStatus" [options]="statusOptions" [placeholder]="'views.public.pages.catalog.catalog.todos' | uiText" [searchPlaceholder]="'views.public.pages.advanced_search.advanced_search.buscar_estado' | uiText" [searchable]="true" />
+        </div>
+
+      </app-public-filter-drawer>
+
+      <section class="specimens-results">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="mat-icon" aria-hidden="true" translate="no">science</span>
+            <span><strong [appCountUp]="stats.specimens"></strong><small>{{ 'views.features.specimens.specimens.especimenes_registrados' | uiText }}</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="mat-icon" aria-hidden="true" translate="no">calendar_month</span>
+            <span><strong [appCountUp]="stats.species"></strong><small>{{ 'views.public.pages.specimens.specimens.especies_representadas' | uiText }}</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="mat-icon" aria-hidden="true" translate="no">location_on</span>
+            <span><strong [appCountUp]="stats.locations"></strong><small>{{ 'views.public.pages.specimens.specimens.localidades_registradas' | uiText }}</small></span>
+          </div>
+          <div class="stat-card">
+            <span class="mat-icon" aria-hidden="true" translate="no">photo_camera</span>
+            <span><strong [appCountUp]="stats.images"></strong><small>{{ 'views.public.pages.specimens.specimens.imagenes_asociadas' | uiText }}</small></span>
+          </div>
+        </div>
+
+        <div #resultsCard class="results-card">
+          <div class="results-toolbar">
+            <p>{{ 'dynamic.counts.specimensRange' | uiText: { start: resultStart, end: resultEnd, total: (totalItems | number) } }}</p>
+            <div class="toolbar-actions">
+              <button type="button" class="public-filter-trigger" [class.is-active]="hasActiveFilters" (click)="openFilters()" [attr.aria-expanded]="filtersOpen">
+                <span class="mat-icon" aria-hidden="true" translate="no">tune</span>{{ 'filters.title' | uiText }}
+                <span class="public-filter-count" *ngIf="activeFilterCount">{{ activeFilterCount }}</span>
+              </button>
+              <label for="specimen-sort">{{ 'views.public.pages.catalog.catalog.ordenar_por' | uiText }}</label>
+              <app-select-input class="toolbar-sort" controlId="specimen-sort" [(ngModel)]="selectedSort" [options]="sortOptions" (ngModelChange)="onFilterChange()" />
+              <span>{{ 'views.public.pages.catalog.catalog.ver' | uiText }}</span>
+              <div class="view-buttons">
+                <button type="button" [class.active]="viewMode === 'table'" (click)="viewMode = 'table'" [title]="'views.public.pages.specimens.specimens.vista_de_tabla' | uiText" [attr.aria-label]="'views.public.pages.specimens.specimens.vista_de_tabla' | uiText"><span class="mat-icon" translate="no">view_list</span></button>
+                <button type="button" [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'" [title]="'views.public.pages.catalog.catalog.vista_de_cuadricula' | uiText" [attr.aria-label]="'views.public.pages.catalog.catalog.vista_de_cuadricula' | uiText"><span class="mat-icon" translate="no">grid_view</span></button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="loading" class="specimens-skeleton" [attr.aria-label]="'views.public.pages.specimens.specimens.cargando_especimenes' | uiText" aria-busy="true">
+            <div class="specimens-skeleton-table" *ngIf="viewMode === 'table'">
+              <div class="specimens-skeleton-row specimens-skeleton-header">
+                <span *ngFor="let column of [1,2,3,4,5,6,7]" class="skeleton-shimmer"></span>
+              </div>
+              <div class="specimens-skeleton-row" *ngFor="let row of [1,2,3,4,5,6,7]">
+                <span class="specimens-skeleton-catalog skeleton-shimmer"></span>
+                <span class="skeleton-shimmer"></span>
+                <span class="skeleton-shimmer"></span>
+                <span class="skeleton-shimmer"></span>
+                <span class="skeleton-shimmer"></span>
+                <span class="specimens-skeleton-short skeleton-shimmer"></span>
+                <span class="specimens-skeleton-action skeleton-shimmer"></span>
+              </div>
+            </div>
+
+            <div class="specimens-skeleton-grid" *ngIf="viewMode === 'grid'">
+              <article class="specimens-skeleton-card" *ngFor="let card of [1,2,3,4,5,6]">
+                <div class="specimens-skeleton-card-image skeleton-shimmer"></div>
+                <div class="specimens-skeleton-card-body">
+                  <span class="skeleton-shimmer"></span>
+                  <span class="specimens-skeleton-card-title skeleton-shimmer"></span>
+                  <span class="specimens-skeleton-card-short skeleton-shimmer"></span>
+                  <span class="skeleton-shimmer"></span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <ng-container *ngIf="!loading">
+            <div class="results-state error" *ngIf="loadError">
+              <span class="mat-icon" aria-hidden="true" translate="no">cloud_off</span>
+              <strong>{{ 'states.loadError' | uiText }}</strong>
+              <button type="button" (click)="retry()">{{ 'actions.retry' | uiText }}</button>
+            </div>
+
+            <div class="table-responsive" *ngIf="!loadError && viewMode === 'table' && paginatedItems.length">
+              <table class="specimens-table">
+                <thead>
+                  <tr>
+                    <th>{{ 'views.public.pages.gallery.gallery.codigo_de_catalogo' | uiText }}</th>
+                    <th>{{ 'views.features.specimens.specimens.especie' | uiText }}</th>
+                    <th>{{ 'views.public.pages.gallery.gallery.fecha_de_coleccion' | uiText }}</th>
+                    <th>{{ 'views.features.specimens.specimens.colector' | uiText }}</th>
+                    <th>{{ 'views.public.pages.about.about.ubicacion' | uiText }}</th>
+                    <th>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</th>
+                    <th>{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of paginatedItems">
+                    <td>
+                      <div class="catalog-cell">
+                        <div class="specimen-thumb">
+                          <img *ngIf="item.image_urls[0]; else specimenThumbPlaceholder" [src]="item.image_urls[0]" [alt]="item.catalog_code">
+                          <ng-template #specimenThumbPlaceholder><span class="mat-icon" translate="no">psychiatry</span></ng-template>
+                        </div>
+                        <span><strong>{{ item.catalog_code }}</strong><small>{{ 'dynamic.counts.collectionNumber' | uiText: { number: (item.collection_number || ('views.public.pages.catalog_detail.catalog_detail.no_registrado' | uiText)) } }}</small></span>
+                      </div>
+                    </td>
+                    <td><strong class="species-name">{{ item.species_name }}</strong><small>{{ item.family_name }}</small></td>
+                    <td><span class="meta-line"><span class="mat-icon" translate="no">calendar_today</span>{{ item.collection_date ? (item.collection_date | date:'dd/MM/yyyy') : ('views.public.pages.advanced_search.advanced_search.no_registrada' | uiText) }}</span></td>
+                    <td><span class="meta-line"><span class="mat-icon" translate="no">person</span>{{ item.collector_name || ('views.public.pages.catalog_detail.catalog_detail.no_registrado' | uiText) }}</span></td>
+                    <td>
+                      <ng-container *ngIf="primaryLocation(item) as location; else noTableLocation">
+                        <span class="meta-line"><span class="mat-icon" translate="no">location_on</span>{{ location.location_name }}</span>
+                        <small>{{ location.latitude }}, {{ location.longitude }}</small>
+                      </ng-container>
+                      <ng-template #noTableLocation><small>{{ 'views.public.pages.specimens.specimens.sin_ubicacion' | uiText }}</small></ng-template>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="image-count-button"
+                        [disabled]="!item.image_urls.length"
+                        (click)="openImages(item)"
+                        [attr.aria-label]="'Ver ' + item.image_count + ' imágenes del espécimen ' + item.catalog_code"
+                      >
+                        <span class="mat-icon" translate="no">photo</span>{{ item.image_count }}
+                      </button>
+                    </td>
+                    <td><button class="detail-button" type="button" (click)="openDetails(item)">{{ 'actions.viewDetail' | uiText }} <span class="mat-icon" translate="no">visibility</span></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="specimens-grid" *ngIf="!loadError && viewMode === 'grid' && paginatedItems.length">
+              <article class="specimen-card" *ngFor="let item of paginatedItems">
+                <div class="grid-image">
+                  <img *ngIf="item.image_urls[0]; else gridPlaceholder" [src]="item.image_urls[0]" [alt]="item.catalog_code">
+                  <ng-template #gridPlaceholder><div class="grid-placeholder" [style.--about-image]="aboutImageUrl ? 'url(' + aboutImageUrl + ')' : 'none'"><span class="mat-icon" translate="no">psychiatry</span></div></ng-template>
+                  <span>{{ 'dynamic.counts.images' | uiText: { count: item.image_count } }}</span>
+                </div>
+                <div class="grid-content">
+                  <strong>{{ item.catalog_code }}</strong>
+                  <h2>{{ item.species_name }}</h2>
+                  <small>{{ item.family_name }}</small>
+                  <p><span class="mat-icon" translate="no">location_on</span>{{ primaryLocation(item)?.location_name || ('views.public.pages.specimens.specimens.sin_ubicacion' | uiText) }}</p>
+                  <button type="button" (click)="openDetails(item)">{{ 'actions.viewDetail' | uiText }} <span class="mat-icon" translate="no">arrow_forward</span></button>
+                </div>
+              </article>
+            </div>
+
+            <div class="results-state empty-state" *ngIf="!loadError && !paginatedItems.length">
+              <span class="mat-icon" translate="no">search_off</span><strong>{{ 'views.public.pages.advanced_search.advanced_search.no_se_encontraron_especimenes' | uiText }}</strong><small>{{ 'views.public.pages.catalog.catalog.prueba_modificando_o_limpiando_los_filtros' | uiText }}</small>
+            </div>
+
+            <nav class="specimens-pagination" *ngIf="!loadError && totalPages > 1" [attr.aria-label]="'views.public.pages.specimens.specimens.paginacion_de_especimenes' | uiText">
+              <button type="button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" [attr.aria-label]="'views.components.pagination.pagination.pagina_anterior' | uiText"><span class="mat-icon" translate="no">chevron_left</span></button>
+              <button type="button" *ngFor="let page of pages" (click)="goToPage(page)" [class.active]="page === currentPage">{{ page }}</button>
+              <button type="button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" [attr.aria-label]="'views.components.pagination.pagination.pagina_siguiente' | uiText"><span class="mat-icon" translate="no">chevron_right</span></button>
+            </nav>
+          </ng-container>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<app-modal
+  [open]="!!selectedItem"
+  [title]="'views.public.pages.specimens.specimens.detalle_del_especimen' | uiText"
+  [subtitle]="selectedItem ? ('views.public.pages.specimens.specimens.codigo_de_catalogo' | uiText) + selectedItem.catalog_code : ''"
+  size="lg"
+  (closed)="closeDetails()"
+>
+  <div class="specimen-details" *ngIf="selectedItem as item">
+    <section class="detail-section">
+      <h3>{{ 'views.public.pages.specimens.specimens.informacion_de_coleccion' | uiText }}</h3>
+      <div class="detail-grid">
+        <div class="detail-field"><span>{{ 'views.features.specimens.specimens.codigo' | uiText }}</span><strong>{{ item.catalog_code }}</strong></div>
+        <div class="detail-field"><span>{{ 'views.public.pages.specimens.specimens.n_de_coleccion' | uiText }}</span><strong>{{ item.collection_number || ('views.public.pages.catalog_detail.catalog_detail.no_registrado' | uiText) }}</strong></div>
+        <div class="detail-field"><span>{{ 'views.public.pages.gallery.gallery.fecha_de_coleccion' | uiText }}</span><strong>{{ item.collection_date ? (item.collection_date | date:'dd/MM/yyyy') : ('views.public.pages.advanced_search.advanced_search.no_registrada' | uiText) }}</strong></div>
+        <div class="detail-field"><span>{{ 'views.features.specimens.specimens.colector' | uiText }}</span><strong>{{ item.collector_name || ('views.public.pages.catalog_detail.catalog_detail.no_registrado' | uiText) }}</strong></div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h3>{{ 'views.public.pages.specimens.specimens.clasificacion_taxonomica' | uiText }}</h3>
+      <div class="detail-grid detail-grid-three">
+        <div class="detail-field"><span>{{ 'views.features.specimens.specimens.familia' | uiText }}</span><strong>{{ item.family_name || ('views.public.pages.advanced_search.advanced_search.no_registrada' | uiText) }}</strong></div>
+        <div class="detail-field"><span>{{ 'views.features.specimens.specimens.genero' | uiText }}</span><strong>{{ item.genus_name || ('views.public.pages.catalog_detail.catalog_detail.no_registrado' | uiText) }}</strong></div>
+        <div class="detail-field"><span>{{ 'views.features.specimens.specimens.especie' | uiText }}</span><strong><em>{{ item.species_name || ('views.public.pages.advanced_search.advanced_search.no_registrada' | uiText) }}</em></strong></div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h3>{{ 'views.features.specimens.specimens.descripcion_morfologica' | uiText }}</h3>
+      <p class="detail-description">{{ item.morphological_description || ('views.public.pages.specimens.specimens.no_se_ha_registrado_una_descripcion_morfologica' | uiText) }}</p>
+    </section>
+
+    <section class="detail-section">
+      <h3>{{ 'dynamic.counts.locationsTitle' | uiText: { count: item.locations.length } }}</h3>
+      <div class="detail-grid mb-3" *ngIf="item.locations.length">
+        <div class="detail-field" *ngFor="let location of item.locations">
+          <span>{{ location.is_primary ? ('views.features.specimens.specimens.ubicacion_principal' | uiText) : ('views.public.pages.about.about.ubicacion' | uiText) }}</span>
+          <strong>{{ location.location_name }}</strong>
+          <small>{{ location.latitude }}, {{ location.longitude }}</small>
+          <small *ngIf="location.climate_name || location.habitat_name">{{ location.climate_name || ('views.public.pages.specimens.specimens.sin_clima' | uiText) }} · {{ location.habitat_name || ('views.public.pages.specimens.specimens.sin_habitat' | uiText) }}</small>
+        </div>
+      </div>
+      <div *ngIf="item.locations.length; else noLocation" #detailMap class="specimen-detail-map" role="img" [attr.aria-label]="('views.public.pages.specimens.specimens.mapa_de_ubicacion_del_especimen' | uiText) + item.catalog_code"></div>
+      <ng-template #noLocation><p class="detail-empty">{{ 'views.public.pages.specimens.specimens.no_se_registraron_ubicaciones_para_este_especime' | uiText }}</p></ng-template>
+    </section>
+  </div>
+</app-modal>
+
+<app-image-lightbox *ngIf="galleryItem" [images]="specimenLightboxImages" [initialIndex]="galleryIndex" (closed)="closeImages()" />

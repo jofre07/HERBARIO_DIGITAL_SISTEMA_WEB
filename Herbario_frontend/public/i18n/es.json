@@ -1,0 +1,1175 @@
+{
+  "brand": {
+    "name": "HERBARIO DIGITAL",
+    "shortName": "Herbario Digital",
+    "tagline": "Conservando nuestra flora",
+    "institution": "ESPAM MFL"
+  },
+  "navigation": {
+    "mainLabel": "Navegación principal",
+    "footerLabel": "Navegación del pie de página",
+    "openMenu": "Abrir menú",
+    "home": "Inicio",
+    "catalog": "Catálogo",
+    "specimens": "Especímenes",
+    "map": "Mapa",
+    "gallery": "Galería",
+    "collections": "Colecciones",
+    "about": "Acerca de",
+    "advancedSearch": "Búsqueda avanzada",
+    "administration": "Administración",
+    "login": "Iniciar sesión"
+  },
+  "actions": {
+    "add": "Agregar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "saveChanges": "Guardar cambios",
+    "cancel": "Cancelar",
+    "search": "Buscar",
+    "retry": "Reintentar",
+    "applyFilters": "Aplicar filtros",
+    "clearFilters": "Limpiar filtros",
+    "viewDetail": "Ver detalle",
+    "close": "Cerrar",
+    "closeFilters": "Cerrar filtros"
+  },
+  "states": {
+    "loading": "Cargando información...",
+    "signingIn": "Ingresando...",
+    "noResults": "No se encontraron resultados.",
+    "noRecords": "No hay registros disponibles.",
+    "loadError": "No se pudo cargar la información."
+  },
+  "filters": {
+    "title": "Filtros",
+    "catalogDescription": "Refina tu búsqueda de especies",
+    "specimensDescription": "Refina tu búsqueda de especímenes",
+    "galleryDescription": "Refina las imágenes mostradas",
+    "collectionsDescription": "Refina las colecciones mostradas",
+    "mapDescription": "Refina las ubicaciones mostradas",
+    "advancedDescription": "Combina criterios para precisar los resultados",
+    "allFamilies": "Todas las familias",
+    "allGenera": "Todos los géneros",
+    "allSpecies": "Todas las especies",
+    "allCommonNames": "Todos los nombres comunes",
+    "allCollectors": "Todos los colectores",
+    "allLocations": "Todas las ubicaciones",
+    "allStatuses": "Todos los estados",
+    "allHabitats": "Todos los hábitats",
+    "allClimates": "Todos los climas",
+    "searchFamily": "Buscar familia...",
+    "searchGenus": "Buscar género...",
+    "searchSpecies": "Buscar especie...",
+    "searchCommonName": "Buscar nombre común...",
+    "searchCollector": "Buscar colector...",
+    "searchLocation": "Buscar ubicación..."
+  },
+  "collections": {
+    "types": {
+      "destacada": "Especies destacadas",
+      "amenazada": "Especies amenazadas",
+      "reciente": "Nuevos registros",
+      "local": "Interés local",
+      "general": "General"
+    }
+  },
+  "messages": {
+    "success": "Proceso realizado exitosamente.",
+    "loginFailed": "No fue posible iniciar sesión",
+    "accessDenied": "Acceso denegado",
+    "created": "El registro se creó correctamente.",
+    "updated": "El registro se actualizó correctamente.",
+    "deleted": "El registro se eliminó correctamente.",
+    "confirmDelete": "¿Estás seguro de eliminar este registro?"
+  },
+  "dynamic": {
+    "pageSize": {
+      "show": "Mostrar",
+      "records": "registros",
+      "ariaLabel": "Cantidad de registros por página"
+    },
+    "selection": {
+      "selectedOptions": "{{count}} opciones seleccionadas",
+      "selected": "{{count}} seleccionados",
+      "more": "+{{count}} más"
+    },
+    "counts": {
+      "specimens": "{{count}} especímenes",
+      "locations": "{{count}} localidades",
+      "species": "{{count}} especies",
+      "images": "{{count}} imágenes",
+      "records": "{{count}} registros",
+      "locationsTitle": "Ubicaciones ({{count}})",
+      "collectionNumber": "Número de colección: {{number}}",
+      "speciesRange": "Mostrando {{start}} a {{end}} de {{total}} especies",
+      "specimensRange": "Mostrando {{start}} a {{end}} de {{total}} especímenes",
+      "imagesRange": "Mostrando {{start}} a {{end}} de {{total}} imágenes"
+    },
+    "validation": {
+      "minLength": "Debe tener al menos {{length}} caracteres.",
+      "maxLength": "Máximo {{length}} caracteres.",
+      "minValue": "El valor mínimo permitido es {{value}}.",
+      "maxValue": "El valor máximo permitido es {{value}}."
+    },
+    "map": {
+      "location": "Ubicación: {{name}}{{primary}}",
+      "collector": "Colector: {{name}}",
+      "specimen": "Espécimen: {{code}}"
+    }
+  },
+  "footer": {
+    "description": "Plataforma para documentar, conservar y divulgar el patrimonio botánico de Manabí.",
+    "explore": "Explorar",
+    "information": "Información",
+    "contact": "Contacto",
+    "address": "Campus Politécnico, Calceta, Manabí",
+    "copyright": "© {{year}} Herbario Digital. Todos los derechos reservados.",
+    "closing": "Información botánica para investigación y conservación."
+  },
+  "views": {
+    "components": {
+      "public_breadcrumb": {
+        "public_breadcrumb": {
+          "migas_de_pan": "Migas de pan"
+        }
+      },
+      "table_search": {
+        "table_search": {
+          "buscar_en_la_tabla": "Buscar en la tabla",
+          "limpiar_busqueda": "Limpiar búsqueda"
+        }
+      },
+      "user_form": {
+        "user_form": {
+          "nombre_de_usuario": "Nombre de usuario",
+          "ej_jperez": "Ej. jperez",
+          "correo_electronico": "Correo electrónico",
+          "usuario_correo_com": "usuario@correo.com",
+          "contrasena": "Contraseña",
+          "roles_del_usuario": "Roles del usuario",
+          "selecciona_al_menos_un_rol_para_definir_su_nivel": "Selecciona al menos un rol para definir su nivel de acceso.",
+          "usuario_activo": "Usuario activo",
+          "puede_iniciar_sesion_y_utilizar_las_funciones_as": "Puede iniciar sesión y utilizar las funciones asignadas.",
+          "el_nombre_de_usuario_es_obligatorio": "El nombre de usuario es obligatorio.",
+          "el_correo_es_obligatorio": "El correo es obligatorio.",
+          "ingresa_un_correo_valido": "Ingresa un correo válido.",
+          "opcional": "Opcional",
+          "la_contrasena_es_obligatoria": "La contraseña es obligatoria.",
+          "debe_tener_al_menos_8_caracteres": "Debe tener al menos 8 caracteres.",
+          "no_hay_roles_disponibles_para_asignar": "No hay roles disponibles para asignar.",
+          "selecciona_al_menos_un_rol": "Selecciona al menos un rol.",
+          "dejala_vacia_para_conservar_la_actual": "Déjala vacía para conservar la actual",
+          "minimo_8_caracteres": "Mínimo 8 caracteres",
+          "ocultar_contrasena": "Ocultar contraseña",
+          "mostrar_contrasena": "Mostrar contraseña"
+        }
+      },
+      "modal": {
+        "modal": {
+          "cerrar_modal": "Cerrar modal"
+        }
+      },
+      "pagination": {
+        "pagination": {
+          "mostrando": "Mostrando",
+          "de": "de",
+          "pagina_anterior": "Página anterior",
+          "pagina_siguiente": "Página siguiente",
+          "paginacion_de": "Paginación de ",
+          "ir_a_la_pagina": "Ir a la página "
+        }
+      },
+      "select_input": {
+        "select_input": {
+          "buscar_opciones": "Buscar opciones",
+          "quitar": "Quitar ",
+          "no_se_encontraron_coincidencias": "No se encontraron coincidencias"
+        }
+      }
+    },
+    "features": {
+      "auth": {
+        "login": {
+          "login": {
+            "ir_al_inicio": "Ir al inicio",
+            "abrir_menu_de_navegacion": "Abrir menú de navegación",
+            "presentacion_del_herbario_digital": "Presentación del Herbario Digital",
+            "bienvenido_al": "Bienvenido al",
+            "plataforma_digital_para_la_gestion_consulta_y_co": "Plataforma digital para la gestión, consulta y conservación de especímenes de la flora.",
+            "conservamos_hoy": "Conservamos hoy",
+            "la_biodiversidad": "la biodiversidad",
+            "del_manana": "del mañana.",
+            "ingresa_tus_credenciales_para_acceder": "Ingresa tus credenciales para acceder",
+            "a_la_plataforma": "a la plataforma",
+            "tu_contrasena": "Tu contraseña",
+            "olvidaste_tu_contrasena_contacta_al_administrado": "¿Olvidaste tu contraseña? Contacta al administrador.",
+            "acceso_seguro_y_protegido": "Acceso seguro y protegido",
+            "tus_datos_estan_protegidos_durante_la_sesion": "Tus datos están protegidos durante la sesión.",
+            "ingresa_tu_nombre_de_usuario": "Ingresa tu nombre de usuario.",
+            "ingresa_tu_contrasena": "Ingresa tu contraseña."
+          }
+        }
+      },
+      "admin": {
+        "dashboard": {
+          "dashboard": {
+            "dashboard": "Dashboard",
+            "cargando_informacion_del_herbario": "Cargando información del herbario...",
+            "no_se_pudieron_cargar_todas_las_estadisticas": "No se pudieron cargar todas las estadísticas.",
+            "resumen": "Resumen",
+            "informacion_actualizada_desde_los_registros_del_": "Información actualizada desde los registros del sistema",
+            "analisis": "Análisis",
+            "distribucion_de_los_registros": "Distribución de los registros",
+            "especimenes_por_familia": "Especímenes por familia",
+            "familias_con_mayor_numero_de_registros": "Familias con mayor número de registros",
+            "aun_no_hay_datos_por_familia": "Aún no hay datos por familia.",
+            "colecciones_por_ano": "Colecciones por año",
+            "evolucion_temporal_de_los_especimenes": "Evolución temporal de los especímenes",
+            "aun_no_hay_fechas_de_coleccion_registradas": "Aún no hay fechas de colección registradas.",
+            "especies_clasificadas_por_categoria": "Especies clasificadas por categoría",
+            "aun_no_hay_estados_de_conservacion": "Aún no hay estados de conservación.",
+            "distribucion_geografica": "Distribución geográfica",
+            "mapa_de_especimenes": "Mapa de especímenes",
+            "ubicaciones_registradas_para_los_ejemplares_del_": "Ubicaciones registradas para los ejemplares del herbario",
+            "ubicaciones_en_el_mapa": "ubicaciones en el mapa",
+            "mapa_de_ubicaciones_de_especimenes": "Mapa de ubicaciones de especímenes",
+            "leyenda_del_mapa": "Leyenda del mapa",
+            "provincia_de_manabi": "Provincia de Manabí",
+            "no_hay_especimenes_con_ubicacion_registrada": "No hay especímenes con ubicación registrada.",
+            "cada_marcador_representa_una_ubicacion_del_espec": "Cada marcador representa una ubicación del espécimen",
+            "haz_clic_en_un_marcador_para_consultar_sus_datos": "Haz clic en un marcador para consultar sus datos."
+          }
+        },
+        "roles": {
+          "roles": {
+            "gestion_de_roles": "Gestión de roles",
+            "administra_los_registros_de_roles_del_sistema": "Administra los registros de roles del sistema.",
+            "roles_registrados": "Roles registrados",
+            "registros_encontrados": "registros encontrados",
+            "buscar_roles": "Buscar roles...",
+            "nombre": "Nombre",
+            "permisos": "Permisos",
+            "acciones": "Acciones",
+            "rol": "rol",
+            "roles": "roles",
+            "completa_la_informacion_solicitada": "Completa la información solicitada.",
+            "selecciona_los_permisos": "Selecciona los permisos",
+            "buscar_permiso_por_nombre_o_codigo": "Buscar permiso por nombre o código...",
+            "no_hay_permisos_disponibles": "No hay permisos disponibles",
+            "sin_permisos": "Sin permisos",
+            "sin_registros": "Sin registros",
+            "requerido": "Requerido",
+            "no_hay_permisos_disponibles_2": "No hay permisos disponibles.",
+            "mostrar_menos": "Mostrar menos",
+            "permisos_2": " permisos",
+            "editar_rol": "Editar rol",
+            "agregar_rol": "Agregar rol",
+            "cargando_permisos": "Cargando permisos...",
+            "busca_y_selecciona_uno_o_varios_permisos": "Busca y selecciona uno o varios permisos."
+          }
+        },
+        "users": {
+          "users": {
+            "gestion_de_usuarios": "Gestión de usuarios",
+            "administra_las_cuentas_roles_y_accesos_del_siste": "Administra las cuentas, roles y accesos del sistema.",
+            "usuarios_registrados": "Usuarios registrados",
+            "buscar_usuarios": "Buscar usuarios...",
+            "usuario": "Usuario",
+            "roles": "Roles",
+            "estado": "Estado",
+            "eliminar_usuario": "Eliminar usuario",
+            "esta_accion_desactivara_el_acceso_del_usuario": "Esta acción desactivará el acceso del usuario.",
+            "sin_roles": "Sin roles",
+            "no_hay_usuarios_registrados": "No hay usuarios registrados",
+            "agrega_el_primer_usuario_para_comenzar_a_gestion": "Agrega el primer usuario para comenzar a gestionar sus accesos.",
+            "usuario_2": "usuario",
+            "usuarios": "usuarios",
+            "usuario_encontrado": "usuario encontrado",
+            "usuarios_encontrados": "usuarios encontrados",
+            "sin_correo_registrado": "Sin correo registrado",
+            "activo": "Activo",
+            "inactivo": "Inactivo",
+            "editar_usuario": "Editar usuario ",
+            "eliminar_usuario_2": "Eliminar usuario ",
+            "editar_usuario_2": "Editar usuario",
+            "agregar_usuario": "Agregar usuario",
+            "actualiza_la_informacion_el_estado_o_los_roles_a": "Actualiza la información, el estado o los roles asignados.",
+            "completa_los_datos_para_registrar_un_nuevo_usuar": "Completa los datos para registrar un nuevo usuario.",
+            "crear_usuario": "Crear usuario",
+            "si_eliminar": "Sí, eliminar",
+            "eliminando": "Eliminando..."
+          }
+        }
+      },
+      "collections": {
+        "collections": {
+          "gestion_de_colecciones": "Gestión de colecciones",
+          "administra_los_registros_de_colecciones_del_sist": "Administra los registros de colecciones del sistema.",
+          "colecciones_registrados": "Colecciones registrados",
+          "buscar_colecciones": "Buscar colecciones...",
+          "descripcion": "Descripcion",
+          "tipo": "Tipo",
+          "especimenes": "Especimenes",
+          "coleccion": "colección",
+          "colecciones": "colecciones",
+          "selecciona_uno_o_varios_especimenes": "Selecciona uno o varios especímenes",
+          "buscar_por_codigo_o_especie": "Buscar por código o especie...",
+          "no_hay_especimenes_disponibles": "No hay especímenes disponibles",
+          "no_hay_especimenes_disponibles_para_seleccionar": "No hay especímenes disponibles para seleccionar.",
+          "editar_coleccion": "Editar colección",
+          "agregar_coleccion": "Agregar colección",
+          "cargando_especimenes": "Cargando especímenes...",
+          "busca_y_selecciona_los_especimenes_que_pertenece": "Busca y selecciona los especímenes que pertenecerán a la colección."
+        }
+      },
+      "collectors": {
+        "collectors": {
+          "gestion_de_colectores": "Gestión de colectores",
+          "administra_los_registros_de_colectores_del_siste": "Administra los registros de colectores del sistema.",
+          "colectores_registrados": "Colectores registrados",
+          "buscar_colectores": "Buscar colectores...",
+          "comentario": "Comentario",
+          "colector": "colector",
+          "colectores": "colectores",
+          "editar_colector": "Editar colector",
+          "agregar_colector": "Agregar colector"
+        }
+      },
+      "locations": {
+        "climate_habitats": {
+          "climate_habitats": {
+            "gestion_de_climas_y_habitats": "Gestión de climas y hábitats",
+            "administra_los_registros_de_climas_y_habitats_de": "Administra los registros de climas y hábitats del sistema.",
+            "climas_y_habitats_registrados": "Climas y hábitats registrados",
+            "buscar_climas_o_habitats": "Buscar climas o hábitats...",
+            "ubicacion": "Ubicacion",
+            "clima": "Clima",
+            "habitat": "Habitat",
+            "clima_y_habitat": "clima y hábitat",
+            "climas_y_habitats": "climas y hábitats",
+            "seleccione": "Seleccione...",
+            "editar_clima_habitat": "Editar clima/hábitat",
+            "agregar_clima_habitat": "Agregar clima/hábitat"
+          }
+        },
+        "locations": {
+          "gestion_de_ubicaciones": "Gestión de ubicaciones",
+          "administra_los_registros_de_ubicaciones_del_sist": "Administra los registros de ubicaciones del sistema.",
+          "ubicaciones_registrados": "Ubicaciones registrados",
+          "buscar_ubicaciones": "Buscar ubicaciones...",
+          "latitud": "Latitud",
+          "longitud": "Longitud",
+          "ubicacion": "ubicación",
+          "ubicaciones": "ubicaciones",
+          "seleccionar_en_el_mapa": "Seleccionar en el mapa",
+          "mapa_para_seleccionar_coordenadas": "Mapa para seleccionar coordenadas",
+          "haz_clic_en_el_mapa_para_capturar_latitud_y_long": "Haz clic en el mapa para capturar latitud y longitud con ocho decimales.",
+          "valor_entre_90_y_90_maximo_8_decimales": "Valor entre -90 y 90, máximo 8 decimales",
+          "valor_entre_180_y_180_maximo_8_decimales": "Valor entre -180 y 180, máximo 8 decimales",
+          "editar_ubicacion": "Editar ubicación",
+          "agregar_ubicacion": "Agregar ubicación"
+        }
+      },
+      "media": {
+        "images": {
+          "gestion_de_imagenes": "Gestión de imágenes",
+          "administra_los_registros_de_imagenes_del_sistema": "Administra los registros de imágenes del sistema.",
+          "imagenes_registrados": "Imágenes registrados",
+          "buscar_imagenes": "Buscar imágenes...",
+          "especimen": "Especimen",
+          "url": "URL",
+          "credito": "Credito",
+          "imagen": "imagen",
+          "imagenes": "imágenes",
+          "editar_imagen": "Editar imagen",
+          "agregar_imagen": "Agregar imagen"
+        }
+      },
+      "shared": {
+        "profile": {
+          "profile": {
+            "perfil": "Perfil",
+            "correo": "Correo"
+          }
+        }
+      },
+      "specimens": {
+        "specimens": {
+          "gestion_de_especimenes": "Gestión de especímenes",
+          "administra_los_registros_de_especimenes_y_sus_ub": "Administra los registros de especímenes y sus ubicaciones.",
+          "especimenes_registrados": "Especímenes registrados",
+          "buscar_especimenes": "Buscar especímenes...",
+          "codigo": "Código",
+          "especie": "Especie",
+          "genero": "Género",
+          "familia": "Familia",
+          "colector": "Colector",
+          "ubicacion_principal": "Ubicación principal",
+          "ubicaciones": "Ubicaciones",
+          "publicacion": "Publicación",
+          "especimen": "espécimen",
+          "especimenes": "especímenes",
+          "registra_los_datos_y_una_o_mas_ubicaciones": "Registra los datos y una o más ubicaciones.",
+          "progreso_del_formulario": "Progreso del formulario",
+          "datos_del_especimen": "Datos del espécimen",
+          "identificacion_y_coleccion": "Identificación y colección",
+          "procedencia_y_ambiente": "Procedencia y ambiente",
+          "ingresa_un_codigo_valido": "Ingresa un código válido.",
+          "numero_de_coleccion": "Número de colección",
+          "publicar_en_el_portal": "Publicar en el portal",
+          "descripcion_morfologica": "Descripción morfológica",
+          "ubicaciones_del_especimen": "Ubicaciones del espécimen",
+          "selecciona_ubicaciones_existentes_o_crea_nuevas_": "Registra una o varias ubicaciones diferentes con coordenadas de hasta ocho decimales.",
+          "volver": "Volver",
+          "una_ubicacion_existente_no_puede_agregarse_mas_d": "Cada ubicación debe tener coordenadas diferentes.",
+          "principal": "Principal",
+          "quitar_ubicacion": "Quitar ubicación",
+          "usar_ubicacion_existente": "Usar ubicación existente",
+          "crear_una_ubicacion_nueva": "Crear una ubicación nueva",
+          "ej_campus_politecnico_calceta": "Ej. Campus Politécnico Calceta",
+          "ingresa_un_nombre_valido": "Ingresa un nombre válido.",
+          "usa_un_valor_entre_90_y_90_con_maximo_8_decimale": "Usa un valor entre -90 y 90, con máximo 8 decimales.",
+          "usa_un_valor_entre_180_y_180_con_maximo_8_decima": "Usa un valor entre -180 y 180, con máximo 8 decimales.",
+          "figura_del_mapa": "Figura del mapa",
+          "seleccionar_figura_del_mapa": "Seleccionar figura del mapa",
+          "seleccionar_punto_en_el_mapa": "Seleccionar punto en el mapa",
+          "el_mapa_conserva_ocho_decimales": "El mapa conserva ocho decimales.",
+          "esta_ubicacion_es_compartida_para_usar_otras_coo": "Esta ubicación es compartida. Para usar otras coordenadas, selecciona “Crear una ubicación nueva”.",
+          "comentario_general_de_la_ubicacion": "Comentario general de la ubicación",
+          "clima_para_este_especimen": "Clima para este espécimen",
+          "habitat_para_este_especimen": "Hábitat para este espécimen",
+          "observacion_de_la_asociacion": "Observación de la asociación",
+          "publicado": "Publicado",
+          "borrador": "Borrador",
+          "editar_especimen": "Editar espécimen",
+          "agregar_especimen": "Agregar espécimen",
+          "siguiente": "Siguiente",
+          "crear_especimen": "Crear espécimen",
+          "sera_visible_en_el_portal_publico": "Será visible en el portal público.",
+          "solo_sera_visible_en_administracion": "Solo será visible en administración.",
+          "nueva_ubicacion": "Nueva ubicación"
+        }
+      },
+      "taxonomy": {
+        "common_names": {
+          "common_names": {
+            "gestion_de_nombres_comunes": "Gestión de nombres comunes",
+            "administra_los_registros_de_nombres_comunes_del_": "Administra los registros de nombres comunes del sistema.",
+            "nombres_comunes_registrados": "Nombres comunes registrados",
+            "buscar_nombres_comunes": "Buscar nombres comunes...",
+            "idioma": "Idioma",
+            "nombre_comun": "Nombre comun",
+            "dialecto": "Dialecto",
+            "region": "Region",
+            "nombre_comun_2": "nombre común",
+            "nombres_comunes": "nombres comunes",
+            "editar_nombre_comun": "Editar nombre común",
+            "agregar_nombre_comun": "Agregar nombre común"
+          }
+        },
+        "conservation_statuses": {
+          "conservation_statuses": {
+            "gestion_de_estados_de_conservacion": "Gestión de estados de conservación",
+            "administra_los_registros_de_estados_de_conservac": "Administra los registros de estados de conservación del sistema.",
+            "estados_de_conservacion_registrados": "Estados de conservación registrados",
+            "buscar_estados_de_conservacion": "Buscar estados de conservación...",
+            "estado_de_conservacion": "estado de conservación",
+            "estados_de_conservacion": "estados de conservación",
+            "editar_estado_de_conservacion": "Editar estado de conservación",
+            "agregar_estado_de_conservacion": "Agregar estado de conservación"
+          }
+        },
+        "families": {
+          "families": {
+            "gestion_de_familias": "Gestión de familias",
+            "administra_las_familias_taxonomicas_registradas": "Administra las familias taxonómicas registradas.",
+            "familias_registradas": "Familias registradas",
+            "buscar_familias": "Buscar familias...",
+            "familia": "familia",
+            "familias": "familias",
+            "completa_la_informacion_de_la_familia_taxonomica": "Completa la información de la familia taxonómica.",
+            "eliminar_familia": "Eliminar familia",
+            "esta_accion_no_se_puede_deshacer": "Esta acción no se puede deshacer.",
+            "no_hay_familias_registradas": "No hay familias registradas",
+            "agrega_la_primera_familia_para_comenzar": "Agrega la primera familia para comenzar.",
+            "el_nombre_es_obligatorio": "El nombre es obligatorio.",
+            "registro_encontrado": "registro encontrado",
+            "sin_comentario": "Sin comentario",
+            "editar_familia": "Editar familia ",
+            "eliminar_familia_2": "Eliminar familia ",
+            "editar_familia_2": "Editar familia",
+            "agregar_familia": "Agregar familia",
+            "estas_seguro_de_eliminar_la_familia": "¿Estás seguro de eliminar la familia "
+          }
+        },
+        "genera": {
+          "genera": {
+            "gestion_de_generos": "Gestión de géneros",
+            "administra_los_registros_de_generos_del_sistema": "Administra los registros de géneros del sistema.",
+            "generos_registrados": "Géneros registrados",
+            "buscar_generos": "Buscar géneros...",
+            "genero": "género",
+            "generos": "géneros",
+            "editar_genero": "Editar género",
+            "agregar_genero": "Agregar género"
+          }
+        },
+        "species": {
+          "species": {
+            "gestion_de_especies": "Gestión de especies",
+            "administra_los_registros_de_especies_del_sistema": "Administra los registros de especies del sistema.",
+            "especies_registrados": "Especies registrados",
+            "buscar_especies": "Buscar especies...",
+            "genero": "Genero",
+            "destacada": "Destacada",
+            "especie": "especie",
+            "especies": "especies",
+            "especie_destacada": "Especie destacada",
+            "se_mostrara_en_la_seccion_destacada_de_inicio_se": "Se mostrará en la sección destacada de Inicio. Se permiten hasta cuatro.",
+            "marcar_como_especie_destacada": "Marcar como especie destacada",
+            "si": "Sí",
+            "no": "No",
+            "editar_especie": "Editar especie",
+            "agregar_especie": "Agregar especie"
+          }
+        },
+        "statuses": {
+          "statuses": {
+            "gestion_de_estados": "Gestión de estados",
+            "administra_los_registros_de_estados_del_sistema": "Administra los registros de estados del sistema.",
+            "estados_registrados": "Estados registrados",
+            "buscar_estados": "Buscar estados...",
+            "codigo": "Codigo",
+            "estado": "estado",
+            "estados": "estados",
+            "maximo_30_caracteres": "Maximo 30 caracteres",
+            "editar_estado": "Editar estado",
+            "agregar_estado": "Agregar estado"
+          }
+        },
+        "translations": {
+          "translations": {
+            "gestion_de_traducciones": "Gestión de traducciones",
+            "administra_los_registros_de_traducciones_del_sis": "Administra los registros de traducciones del sistema.",
+            "traducciones_registrados": "Traducciones registrados",
+            "buscar_traducciones": "Buscar traducciones...",
+            "traduccion": "Traduccion",
+            "traduccion_2": "traducción",
+            "traducciones": "traducciones",
+            "nombre_traducido": "Nombre traducido",
+            "editar_traduccion": "Editar traducción",
+            "agregar_traduccion": "Agregar traducción"
+          }
+        }
+      }
+    },
+    "layout": {
+      "main_layout": {
+        "main_layout": {
+          "ver_perfil": "Ver perfil",
+          "mi_perfil": "Mi perfil",
+          "informacion_de_tu_cuenta_y_accesos_asignados": "Información de tu cuenta y accesos asignados.",
+          "herbario": "Herbario",
+          "usuarios": "Usuarios",
+          "estados": "Estados",
+          "nombres_comunes": "Nombres Comunes",
+          "traducciones": "Traducciones",
+          "cerrar_sesion": "Cerrar sesión",
+          "roles_asignados": "Roles asignados",
+          "sin_roles_asignados": "Sin roles asignados"
+        }
+      }
+    },
+    "public": {
+      "layout": {
+        "public_footer": {
+          "public_footer": {
+            "herbario_espam_edu_ec": "herbario@espam.edu.ec",
+            "navigation_footerlabel": "navigation.footerLabel",
+            "navigation_advancedsearch": "navigation.advancedSearch"
+          }
+        },
+        "public_header": {
+          "public_header": {
+            "navigation_mainlabel": "navigation.mainLabel",
+            "navigation_openmenu": "navigation.openMenu"
+          }
+        }
+      },
+      "pages": {
+        "about": {
+          "about": {
+            "acerca_del": "Acerca del",
+            "que_es_el_herbario_digital": "¿Qué es el Herbario Digital?",
+            "el_herbario_digital_es_una_plataforma_web_para_g": "El Herbario Digital es una plataforma web para gestionar, consultar y difundir información\n          sobre la diversidad vegetal. Reúne especímenes recolectados, datos taxonómicos, ubicaciones\n          geográficas, imágenes y recursos que apoyan la investigación, la educación y la conservación.",
+            "conservacion": "Conservación",
+            "contribuye_al_conocimiento_y_la_conservacion_de_": "Contribuye al conocimiento y la conservación de la flora regional y nacional.",
+            "investigacion": "Investigación",
+            "facilita_el_acceso_a_datos_organizados_para_la_c": "Facilita el acceso a datos organizados para la consulta científica.",
+            "educacion": "Educación",
+            "ofrece_recursos_digitales_para_el_aprendizaje_y_": "Ofrece recursos digitales para el aprendizaje y la formación académica.",
+            "colaboracion": "Colaboración",
+            "favorece_el_trabajo_conjunto_entre_estudiantes_d": "Favorece el trabajo conjunto entre estudiantes, docentes e investigadores.",
+            "mision_vision_y_valores": "Misión, visión y valores",
+            "mision": "Misión",
+            "gestionar_y_difundir_informacion_botanica_de_cal": "Gestionar y difundir información botánica de calidad mediante herramientas digitales, contribuyendo a la investigación, la educación y la conservación de la biodiversidad vegetal.",
+            "vision": "Visión",
+            "ser_un_referente_en_la_gestion_digital_de_colecc": "Ser un referente en la gestión digital de colecciones botánicas y promover el conocimiento de la flora para las futuras generaciones.",
+            "valores": "Valores",
+            "rigor_cientifico": "Rigor científico",
+            "transparencia": "Transparencia",
+            "responsabilidad_ambiental": "Responsabilidad ambiental",
+            "colaboracion_y_acceso_abierto": "Colaboración y acceso abierto",
+            "equipo_institucional": "Equipo institucional",
+            "funciones_que_sostienen_la_gestion_cientifica_y_": "Funciones que sostienen la gestión científica y digital del herbario.",
+            "coordinacion": "Coordinación",
+            "planificacion_y_direccion_del_herbario": "Planificación y dirección del herbario",
+            "curaduria": "Curaduría",
+            "gestion_de_colecciones_botanicas": "Gestión de colecciones botánicas",
+            "estudio_y_validacion_taxonomica": "Estudio y validación taxonómica",
+            "gestion_de_datos": "Gestión de datos",
+            "administracion_de_registros_digitales": "Administración de registros digitales",
+            "ubicacion": "Ubicación",
+            "telefono": "Teléfono",
+            "institucion": "Institución"
+          }
+        },
+        "advanced_search": {
+          "advanced_search": {
+            "encuentra_especimenes_combinando_varios_criterio": "Encuentra especímenes combinando varios criterios de búsqueda.",
+            "criterios_de_busqueda": "Criterios de búsqueda",
+            "selecciona_uno_o_varios_filtros_para_precisar_lo": "Selecciona uno o varios filtros para precisar los resultados.",
+            "nombre_comun": "Nombre común",
+            "todos_los_nombres": "Todos los nombres",
+            "estado_de_conservacion": "Estado de conservación",
+            "buscar_estado": "Buscar estado...",
+            "habitat": "Hábitat",
+            "buscar_habitat": "Buscar hábitat...",
+            "buscar_clima": "Buscar clima...",
+            "fecha_desde": "Fecha desde",
+            "fecha_hasta": "Fecha hasta",
+            "la_fecha_inicial_no_puede_ser_posterior_a_la_fec": "La fecha inicial no puede ser posterior a la fecha final.",
+            "resultados_de_busqueda": "Resultados de búsqueda",
+            "vista_de_tarjetas": "Vista de tarjetas",
+            "consultando_especimenes": "Consultando especímenes...",
+            "no_se_pudieron_cargar_los_resultados": "No se pudieron cargar los resultados",
+            "no_se_encontraron_especimenes": "No se encontraron especímenes",
+            "prueba_cambiando_o_limpiando_algunos_filtros": "Prueba cambiando o limpiando algunos filtros.",
+            "especimen": "Espécimen",
+            "fecha": "Fecha",
+            "ver_especie": "Ver especie",
+            "actions_clearfilters": "actions.clearFilters",
+            "filters_allfamilies": "filters.allFamilies",
+            "filters_searchfamily": "filters.searchFamily",
+            "filters_allgenera": "filters.allGenera",
+            "filters_searchgenus": "filters.searchGenus",
+            "filters_allspecies": "filters.allSpecies",
+            "filters_searchspecies": "filters.searchSpecies",
+            "filters_searchcommonname": "filters.searchCommonName",
+            "filters_allcollectors": "filters.allCollectors",
+            "filters_searchcollector": "filters.searchCollector",
+            "filters_alllocations": "filters.allLocations",
+            "filters_searchlocation": "filters.searchLocation",
+            "filters_allstatuses": "filters.allStatuses",
+            "filters_allhabitats": "filters.allHabitats",
+            "filters_allclimates": "filters.allClimates",
+            "buscando": "Buscando...",
+            "buscar_especimenes": "Buscar especímenes",
+            "especimen_encontrado": "espécimen encontrado",
+            "especimenes_encontrados": "especímenes encontrados",
+            "sin_numero_de_coleccion": "Sin número de colección",
+            "no_registrada": "No registrada",
+            "familia_no_registrada": "Familia no registrada",
+            "sin_registrar": "Sin registrar",
+            "especie_no_registrada": "Especie no registrada"
+          }
+        },
+        "catalog": {
+          "catalog": {
+            "catalogo_de_especies": "Catálogo de especies",
+            "explora_y_consulta_las_especies_registradas_en_e": "Explora y consulta las especies registradas en el herbario.",
+            "todas": "Todas",
+            "todos": "Todos",
+            "especies_encontradas": "especies encontradas",
+            "ordenar_por": "Ordenar por:",
+            "nombre_cientifico_a_z": "Nombre científico (A-Z)",
+            "nombre_cientifico_z_a": "Nombre científico (Z-A)",
+            "familia_a_z": "Familia (A-Z)",
+            "registro_reciente": "Registro reciente",
+            "ver": "Ver:",
+            "vista_de_cuadricula": "Vista de cuadrícula",
+            "vista_de_lista": "Vista de lista",
+            "cargando_especies": "Cargando especies",
+            "no_se_encontraron_especies": "No se encontraron especies",
+            "prueba_modificando_o_limpiando_los_filtros": "Prueba modificando o limpiando los filtros.",
+            "paginacion_del_catalogo": "Paginación del catálogo",
+            "actions_applyfilters": "actions.applyFilters",
+            "ver_2": "Ver ",
+            "sin_estado_registrado": "Sin estado registrado",
+            "actions_viewdetail": "actions.viewDetail"
+          }
+        },
+        "catalog_detail": {
+          "catalog_detail": {
+            "volver_al_catalogo": "Volver al catálogo",
+            "cargando_informacion_de_la_especie": "Cargando información de la especie...",
+            "sin_imagenes_registradas": "Sin imágenes registradas",
+            "otras_fotografias": "Otras fotografías",
+            "fotografias_adicionales_de_la_especie": "Fotografías adicionales de la especie",
+            "secciones_de_la_especie": "Secciones de la especie",
+            "descripcion": "Descripción",
+            "taxonomia": "Taxonomía",
+            "nombres_comunes": "Nombres comunes",
+            "no_hay_nombres_comunes_registrados": "No hay nombres comunes registrados.",
+            "estado_registrado": "Estado registrado",
+            "esta_especie_no_tiene_un_estado_de_conservacion_": "Esta especie no tiene un estado de conservación registrado.",
+            "clima_y_habitat": "Clima y hábitat",
+            "principal": "· Principal",
+            "no_hay_ubicaciones_ni_condiciones_ambientales_re": "No hay ubicaciones ni condiciones ambientales registradas.",
+            "mapa_de_ubicaciones": "Mapa de ubicaciones",
+            "no_hay_ubicaciones_disponibles_para_mostrar": "No hay ubicaciones disponibles para mostrar.",
+            "no_se_encontraron_especimenes": "No se encontraron especímenes.",
+            "no_hay_imagenes_registradas_para_los_especimenes": "No hay imágenes registradas para los especímenes de esta especie.",
+            "no_se_pudo_cargar_la_especie": "No se pudo cargar la especie",
+            "especie_no_encontrada": "Especie no encontrada",
+            "ocurrio_un_problema_al_consultar_la_informacion": "Ocurrió un problema al consultar la información.",
+            "el_registro_solicitado_no_esta_disponible_public": "El registro solicitado no está disponible públicamente.",
+            "imagen_de": "Imagen de ",
+            "mostrar_imagen_de": "Mostrar imagen de ",
+            "miniatura_de": "Miniatura de ",
+            "sin_nombre_comun_registrado": "Sin nombre común registrado",
+            "genero_no_registrado": "Género no registrado",
+            "no_se_ha_registrado_una_descripcion_para_esta_es": "No se ha registrado una descripción para esta especie.",
+            "no_registrado": "No registrado",
+            "ubicacion_sin_nombre": "Ubicación sin nombre"
+          }
+        },
+        "collections": {
+          "collections": {
+            "explora_nuestras_colecciones_especiales_de_ejemp": "Explora nuestras colecciones especiales de ejemplares y registros botánicos.",
+            "categorias_de_colecciones": "Categorías de colecciones",
+            "filtrar_colecciones": "Filtrar colecciones",
+            "no_hay_estados_disponibles": "No hay estados disponibles",
+            "no_hay_familias_disponibles": "No hay familias disponibles",
+            "no_hay_ubicaciones_disponibles": "No hay ubicaciones disponibles",
+            "estadisticas_de_colecciones": "Estadísticas de colecciones",
+            "registradas": "registradas",
+            "en_colecciones": "en colecciones",
+            "especies": "Especies",
+            "representadas": "representadas",
+            "localidades": "Localidades",
+            "cubiertas": "cubiertas",
+            "imagenes": "Imágenes",
+            "asociadas": "asociadas",
+            "cargando_colecciones": "Cargando colecciones",
+            "ver_coleccion": "Ver colección",
+            "paginacion_de_colecciones": "Paginación de colecciones",
+            "no_se_encontraron_colecciones": "No se encontraron colecciones",
+            "prueba_seleccionando_otra_categoria_o_limpiando_": "Prueba seleccionando otra categoría o limpiando los filtros.",
+            "coleccion_botanica_del_herbario_digital": "Colección botánica del herbario digital."
+          }
+        },
+        "gallery": {
+          "gallery": {
+            "galeria_de_imagenes": "Galería de imágenes",
+            "explora_las_imagenes_de_plantas_especimenes_y_de": "Explora las imágenes de plantas, especímenes y detalles registrados en el herbario.",
+            "filtros_de_la_galeria": "Filtros de la galería",
+            "buscar_en_la_galeria": "Buscar en la galería",
+            "especie_familia_codigo": "Especie, familia, código...",
+            "tipo_de_imagen": "Tipo de imagen",
+            "todos_los_tipos": "Todos los tipos",
+            "buscar_tipo": "Buscar tipo...",
+            "no_hay_tipos_disponibles": "No hay tipos disponibles",
+            "no_hay_especies_disponibles": "No hay especies disponibles",
+            "no_hay_generos_disponibles": "No hay géneros disponibles",
+            "fecha_de_coleccion": "Fecha de colección",
+            "desde": "Desde",
+            "hasta": "Hasta",
+            "imagenes_disponibles": "imágenes disponibles",
+            "mas_recientes": "Más recientes",
+            "mas_antiguas": "Más antiguas",
+            "especie_a_z": "Especie (A-Z)",
+            "codigo_de_catalogo": "Código de catálogo",
+            "cargando_imagenes": "Cargando imágenes",
+            "no_se_encontraron_imagenes": "No se encontraron imágenes",
+            "paginacion_de_la_galeria": "Paginación de la galería",
+            "cerrar_imagen": "Cerrar imagen",
+            "ampliar_imagen_de": "Ampliar imagen de ",
+            "sin_fecha": "Sin fecha"
+          }
+        },
+        "home": {
+          "home": {
+            "explora_descubre_y_conserva": "Explora, descubre y conserva",
+            "nuestra_biodiversidad_vegetal": "nuestra biodiversidad vegetal",
+            "plataforma_digital_para_la_gestion_consulta_y_di": "Plataforma digital para la gestión, consulta y difusión del conocimiento sobre las plantas y especímenes recolectados.",
+            "buscar_por_especie_familia_genero_o_nombre_comun": "Buscar por especie, familia, género o nombre común...",
+            "buscar_en_el_catalogo": "Buscar en el catálogo",
+            "accesos_rapidos": "Accesos rápidos",
+            "explora_todas_las_especies_registradas": "Explora todas las especies registradas",
+            "mapa_interactivo": "Mapa interactivo",
+            "visualiza_ubicaciones_de_recoleccion": "Visualiza ubicaciones de recolección",
+            "descubre_imagenes_de_los_especimenes": "Descubre imágenes de los especímenes",
+            "consulta_avanzada": "Consulta avanzada",
+            "realiza_busquedas_con_multiples_filtros": "Realiza búsquedas con múltiples filtros",
+            "colecciones_especiales": "Colecciones especiales",
+            "explora_colecciones_destacadas": "Explora colecciones destacadas",
+            "estadisticas_del_herbario": "Estadísticas del herbario",
+            "especies_registradas": "Especies registradas",
+            "familias": "Familias",
+            "generos": "Géneros",
+            "ver_todas": "Ver todas",
+            "busqueda_popular": "Búsqueda popular:",
+            "cargando_especies": "Cargando especies...",
+            "aun_no_hay_especies_disponibles": "Aún no hay especies disponibles."
+          }
+        },
+        "map": {
+          "map": {
+            "mapa_de_colecciones": "Mapa de colecciones",
+            "explora_las_ubicaciones_de_recoleccion_de_especi": "Explora las ubicaciones de recolección de especímenes en el mapa interactivo.",
+            "filtros_del_mapa": "Filtros del mapa",
+            "no_hay_nombres_comunes_disponibles": "No hay nombres comunes disponibles",
+            "nombre_del_colector": "Nombre del colector",
+            "no_hay_colectores_disponibles": "No hay colectores disponibles",
+            "leyenda": "Leyenda",
+            "resumen_del_mapa": "Resumen del mapa",
+            "georreferenciados": "georreferenciados",
+            "colectores": "Colectores",
+            "registrados": "registrados",
+            "resultados_del_mapa": "Resultados del mapa",
+            "ver_en_lista": "Ver en lista",
+            "especimenes_en_el_mapa": "Especímenes en el mapa",
+            "ver_todos_los_resultados": "Ver todos los resultados",
+            "cargando_ubicaciones": "Cargando ubicaciones",
+            "cargando_resultados": "Cargando resultados",
+            "sin_resultados": "Sin resultados",
+            "no_hay_ubicaciones_que_coincidan_con_los_filtros": "No hay ubicaciones que coincidan con los filtros seleccionados.",
+            "ubicar": "Ubicar ",
+            "en_el_mapa": " en el mapa",
+            "colector_no_registrado": "Colector no registrado",
+            "sin_imagen_disponible": "Sin imagen disponible"
+          }
+        },
+        "specimens": {
+          "specimens": {
+            "consulta_y_explora_los_especimenes_recolectados_": "Consulta y explora los especímenes recolectados y registrados en el herbario.",
+            "buscar_codigo": "Buscar código...",
+            "especies_representadas": "Especies representadas",
+            "localidades_registradas": "Localidades registradas",
+            "imagenes_asociadas": "Imágenes asociadas",
+            "fecha_de_coleccion_mas_reciente": "Fecha de colección (más reciente)",
+            "fecha_de_coleccion_mas_antigua": "Fecha de colección (más antigua)",
+            "vista_de_tabla": "Vista de tabla",
+            "detalle_del_especimen": "Detalle del espécimen",
+            "cargando_especimenes": "Cargando especímenes",
+            "sin_ubicacion": "Sin ubicación",
+            "paginacion_de_especimenes": "Paginación de especímenes",
+            "informacion_de_coleccion": "Información de colección",
+            "n_de_coleccion": "N.º de colección",
+            "clasificacion_taxonomica": "Clasificación taxonómica",
+            "no_se_registraron_ubicaciones_para_este_especime": "No se registraron ubicaciones para este espécimen.",
+            "codigo_de_catalogo": "Código de catálogo: ",
+            "no_se_ha_registrado_una_descripcion_morfologica": "No se ha registrado una descripción morfológica.",
+            "sin_clima": "Sin clima",
+            "sin_habitat": "Sin hábitat",
+            "mapa_de_ubicacion_del_especimen": "Mapa de ubicación del espécimen "
+          }
+        }
+      }
+    }
+  },
+  "code": {
+    "components": {
+      "confirmation_modal": {
+        "confirmation_modal": {
+          "confirmar_accion": "Confirmar acción",
+          "deseas_continuar_con_esta_accion": "¿Deseas continuar con esta acción?",
+          "confirmar": "Confirmar",
+          "procesando": "Procesando..."
+        }
+      },
+      "form_modal": {
+        "form_modal": {
+          "guardando": "Guardando...",
+          "crear": "Crear"
+        }
+      },
+      "table_search": {
+        "table_search": {
+          "buscar_en_la_tabla": "Buscar en la tabla..."
+        }
+      }
+    },
+    "core": {
+      "helpers": {
+        "permission_label_helper": {
+          "ver": "Ver",
+          "registros_administrativos": "registros administrativos",
+          "imagenes_del_herbario": "imágenes del herbario",
+          "registros_de_auditoria": "registros de auditoría",
+          "gestionar": "Gestionar"
+        }
+      }
+    },
+    "features": {
+      "admin": {
+        "dashboard": {
+          "dashboard": {
+            "principal": " (principal)"
+          }
+        },
+        "roles": {
+          "roles": {
+            "error": "Error",
+            "no_se_pudieron_cargar_los_permisos": "No se pudieron cargar los permisos",
+            "actualizado": "Actualizado",
+            "rol_actualizado_correctamente": "Rol actualizado correctamente",
+            "error_al_actualizar_rol": "Error al actualizar rol",
+            "creado": "Creado",
+            "rol_creado_correctamente": "Rol creado correctamente",
+            "error_al_crear_rol": "Error al crear rol",
+            "estas_seguro_de_eliminar_este_rol": "Estas seguro de eliminar este rol?",
+            "eliminado": "Eliminado",
+            "rol_eliminado_correctamente": "Rol eliminado correctamente",
+            "error_al_eliminar_rol": "Error al eliminar rol"
+          }
+        },
+        "users": {
+          "users": {
+            "no_se_pudieron_cargar_los_usuarios": "No se pudieron cargar los usuarios",
+            "no_se_pudieron_cargar_los_roles": "No se pudieron cargar los roles",
+            "usuario_actualizado": "Usuario actualizado",
+            "usuario_creado": "Usuario creado",
+            "los_datos_del_usuario_se_actualizaron_correctame": "Los datos del usuario se actualizaron correctamente.",
+            "el_usuario_se_registro_correctamente": "El usuario se registró correctamente.",
+            "no_se_pudo_actualizar": "No se pudo actualizar",
+            "no_se_pudo_crear": "No se pudo crear",
+            "no_se_pudo_guardar_el_usuario": "No se pudo guardar el usuario.",
+            "usuario_eliminado": "Usuario eliminado",
+            "el_usuario_fue_eliminado_correctamente": "El usuario fue eliminado correctamente.",
+            "no_se_pudo_eliminar": "No se pudo eliminar",
+            "ocurrio_un_error_inesperado_intentalo_nuevamente": "Ocurrió un error inesperado. Inténtalo nuevamente."
+          }
+        }
+      },
+      "collections": {
+        "collections": {
+          "amenazada": "Amenazada",
+          "registros_recientes": "Registros recientes",
+          "no_se_pudieron_cargar_los_especimenes": "No se pudieron cargar los especímenes",
+          "actualizada": "Actualizada",
+          "coleccion_actualizada_correctamente": "Coleccion actualizada correctamente",
+          "error_al_actualizar_coleccion": "Error al actualizar coleccion",
+          "creada": "Creada",
+          "coleccion_creada_correctamente": "Coleccion creada correctamente",
+          "error_al_crear_coleccion": "Error al crear coleccion",
+          "estas_seguro_de_eliminar_esta_coleccion": "Estas seguro de eliminar esta coleccion?",
+          "eliminada": "Eliminada",
+          "coleccion_eliminada_correctamente": "Coleccion eliminada correctamente",
+          "error_al_eliminar_coleccion": "Error al eliminar coleccion"
+        }
+      },
+      "collectors": {
+        "collectors": {
+          "colector_actualizado_correctamente": "Colector actualizado correctamente",
+          "error_al_actualizar_colector": "Error al actualizar colector",
+          "colector_creado_correctamente": "Colector creado correctamente",
+          "error_al_crear_colector": "Error al crear colector",
+          "estas_seguro_de_eliminar_este_colector": "Estas seguro de eliminar este colector?",
+          "colector_eliminado_correctamente": "Colector eliminado correctamente",
+          "error_al_eliminar_colector": "Error al eliminar colector"
+        }
+      },
+      "locations": {
+        "climate_habitats": {
+          "climate_habitats": {
+            "clima_habitat_actualizado_correctamente": "Clima/Habitat actualizado correctamente",
+            "error_al_actualizar_clima_habitat": "Error al actualizar clima/habitat",
+            "clima_habitat_creado_correctamente": "Clima/Habitat creado correctamente",
+            "error_al_crear_clima_habitat": "Error al crear clima/habitat",
+            "estas_seguro_de_eliminar_este_clima_habitat": "Estas seguro de eliminar este clima/habitat?",
+            "clima_habitat_eliminado_correctamente": "Clima/Habitat eliminado correctamente",
+            "error_al_eliminar_clima_habitat": "Error al eliminar clima/habitat"
+          }
+        },
+        "locations": {
+          "ubicacion_actualizada_correctamente": "Ubicación actualizada correctamente",
+          "error_al_actualizar_ubicacion": "Error al actualizar ubicacion",
+          "ubicacion_creada_correctamente": "Ubicación creada correctamente",
+          "error_al_crear_ubicacion": "Error al crear ubicacion",
+          "estas_seguro_de_eliminar_esta_ubicacion": "Estas seguro de eliminar esta ubicacion?",
+          "ubicacion_eliminada_correctamente": "Ubicacion eliminada correctamente",
+          "error_al_eliminar_ubicacion": "Error al eliminar ubicacion"
+        }
+      },
+      "media": {
+        "images": {
+          "imagen_actualizada_correctamente": "Imagen actualizada correctamente",
+          "error_al_actualizar_imagen": "Error al actualizar imagen",
+          "imagen_creada_correctamente": "Imagen creada correctamente",
+          "error_al_crear_imagen": "Error al crear imagen",
+          "estas_seguro_de_eliminar_esta_imagen": "Estas seguro de eliminar esta imagen?",
+          "imagen_eliminada_correctamente": "Imagen eliminada correctamente",
+          "error_al_eliminar_imagen": "Error al eliminar imagen"
+        }
+      },
+      "specimens": {
+        "specimens": {
+          "ubicaciones_duplicadas": "Ubicaciones duplicadas",
+          "no_puedes_asociar_dos_veces_la_misma_ubicacion": "No puedes registrar dos ubicaciones con las mismas coordenadas.",
+          "especimen_actualizado_correctamente": "Espécimen actualizado correctamente",
+          "especimen_creado_correctamente": "Espécimen creado correctamente",
+          "error_al_actualizar_el_especimen": "Error al actualizar el espécimen",
+          "error_al_crear_el_especimen": "Error al crear el espécimen",
+          "estas_seguro_de_eliminar_este_especimen": "¿Estás seguro de eliminar este espécimen?",
+          "especimen_eliminado_correctamente": "Espécimen eliminado correctamente",
+          "error_al_eliminar_el_especimen": "Error al eliminar el espécimen"
+        }
+      },
+      "taxonomy": {
+        "common_names": {
+          "common_names": {
+            "especie_no_disponible": "Especie no disponible",
+            "idioma_no_disponible": "Idioma no disponible",
+            "nombre_comun_actualizado_correctamente": "Nombre comun actualizado correctamente",
+            "error_al_actualizar_nombre_comun": "Error al actualizar nombre comun",
+            "nombre_comun_creado_correctamente": "Nombre comun creado correctamente",
+            "error_al_crear_nombre_comun": "Error al crear nombre comun",
+            "estas_seguro_de_eliminar_este_nombre_comun": "Estas seguro de eliminar este nombre comun?",
+            "nombre_comun_eliminado_correctamente": "Nombre comun eliminado correctamente",
+            "error_al_eliminar_nombre_comun": "Error al eliminar nombre comun"
+          }
+        },
+        "conservation_statuses": {
+          "conservation_statuses": {
+            "estado_no_disponible": "Estado no disponible",
+            "estado_de_conservacion_actualizado_correctamente": "Estado de conservacion actualizado correctamente",
+            "error_al_actualizar_estado_de_conservacion": "Error al actualizar estado de conservacion",
+            "estado_de_conservacion_creado_correctamente": "Estado de conservacion creado correctamente",
+            "error_al_crear_estado_de_conservacion": "Error al crear estado de conservacion",
+            "estas_seguro_de_eliminar_este_estado_de_conserva": "Estas seguro de eliminar este estado de conservacion?",
+            "estado_de_conservacion_eliminado_correctamente": "Estado de conservacion eliminado correctamente",
+            "error_al_eliminar_estado_de_conservacion": "Error al eliminar estado de conservacion"
+          }
+        },
+        "families": {
+          "families": {
+            "familia_actualizada_correctamente": "Familia actualizada correctamente",
+            "error_al_actualizar_familia": "Error al actualizar familia",
+            "familia_creada_correctamente": "Familia creada correctamente",
+            "error_al_crear_familia": "Error al crear familia",
+            "familia_eliminada_correctamente": "Familia eliminada correctamente",
+            "error_al_eliminar_familia": "Error al eliminar familia"
+          }
+        },
+        "genera": {
+          "genera": {
+            "genero_actualizado_correctamente": "Genero actualizado correctamente",
+            "error_al_actualizar_genero": "Error al actualizar genero",
+            "genero_creado_correctamente": "Genero creado correctamente",
+            "error_al_crear_genero": "Error al crear genero",
+            "estas_seguro_de_eliminar_este_genero": "Estas seguro de eliminar este genero?",
+            "genero_eliminado_correctamente": "Genero eliminado correctamente",
+            "error_al_eliminar_genero": "Error al eliminar genero"
+          }
+        },
+        "species": {
+          "species": {
+            "especie_actualizada_correctamente": "Especie actualizada correctamente",
+            "error_al_actualizar_especie": "Error al actualizar especie",
+            "especie_creada_correctamente": "Especie creada correctamente",
+            "error_al_crear_especie": "Error al crear especie",
+            "estas_seguro_de_eliminar_esta_especie": "Estas seguro de eliminar esta especie?",
+            "especie_eliminada_correctamente": "Especie eliminada correctamente",
+            "error_al_eliminar_especie": "Error al eliminar especie"
+          }
+        },
+        "statuses": {
+          "statuses": {
+            "estado_actualizado_correctamente": "Estado actualizado correctamente",
+            "error_al_actualizar_estado": "Error al actualizar estado",
+            "estado_creado_correctamente": "Estado creado correctamente",
+            "error_al_crear_estado": "Error al crear estado",
+            "estas_seguro_de_eliminar_este_estado": "Estas seguro de eliminar este estado?",
+            "estado_eliminado_correctamente": "Estado eliminado correctamente",
+            "error_al_eliminar_estado": "Error al eliminar estado"
+          }
+        },
+        "translations": {
+          "translations": {
+            "traduccion_actualizada_correctamente": "Traduccion actualizada correctamente",
+            "error_al_actualizar_traduccion": "Error al actualizar traduccion",
+            "traduccion_creada_correctamente": "Traduccion creada correctamente",
+            "error_al_crear_traduccion": "Error al crear traduccion",
+            "estas_seguro_de_eliminar_esta_traduccion": "Estas seguro de eliminar esta traduccion?",
+            "traduccion_eliminada_correctamente": "Traduccion eliminada correctamente",
+            "error_al_eliminar_traduccion": "Error al eliminar traduccion"
+          }
+        }
+      }
+    },
+    "layout": {
+      "main_layout": {
+        "main_layout": {
+          "us": "US"
+        }
+      }
+    },
+    "public": {
+      "pages": {
+        "catalog_detail": {
+          "catalog_detail": {
+            "detalle_de_especie": "Detalle de especie",
+            "sin_datos_ambientales": "Sin datos ambientales"
+          }
+        },
+        "collections": {
+          "collections": {
+            "todas_las_colecciones": "Todas las colecciones",
+            "colecciones_generales": "Colecciones generales"
+          }
+        },
+        "gallery": {
+          "gallery": {
+            "imagen": "Imagen"
+          }
+        },
+        "specimens": {
+          "specimens": {
+            "br_principal": "<br>Principal"
+          }
+        }
+      }
+    },
+    "shared": {
+      "directives": {
+        "control_validation_message_directive": {
+          "este_campo_es_obligatorio": "Este campo es obligatorio.",
+          "ingresa_un_correo_electronico_valido": "Ingresa un correo electrónico válido.",
+          "solo_se_permiten_letras_y_espacios_sin_numeros_n": "Solo se permiten letras y espacios (sin números ni caracteres especiales).",
+          "solo_se_permiten_letras_numeros_espacios_y_guion": "Solo se permiten letras, números, espacios y guiones.",
+          "no_se_permiten_etiquetas_html": "No se permiten etiquetas HTML.",
+          "el_formato_ingresado_no_es_valido": "El formato ingresado no es válido.",
+          "selecciona_al_menos_una_opcion": "Selecciona al menos una opción.",
+          "el_valor_ingresado_no_es_valido": "El valor ingresado no es válido."
+        }
+      },
+      "utils": {
+        "alerts": {
+          "aceptar": "Aceptar",
+          "si_continuar": "Sí, continuar"
+        },
+        "map_marker": {
+          "planta": "Planta",
+          "flor": "Flor",
+          "arbol": "Árbol",
+          "hoja": "Hoja",
+          "hierba": "Hierba"
+        }
+      }
+    }
+  }
+}

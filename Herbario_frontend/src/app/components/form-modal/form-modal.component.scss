@@ -1,0 +1,49 @@
+.form-modal-actions {
+  position: sticky;
+  z-index: 2;
+  bottom: -1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  margin-top: 1.4rem;
+  border-top: 1px solid #eef2f7;
+  background: #fff;
+  box-shadow: 0 -8px 16px rgba(255, 255, 255, 0.92);
+}
+
+.form-modal-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.65rem;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.86rem;
+  font-weight: 650;
+  border-radius: 0.72rem;
+}
+
+.form-modal-submit {
+  color: #fff;
+  background: var(--green-700);
+  border-color: var(--green-700);
+}
+
+.form-modal-submit:hover:not(:disabled) {
+  color: #fff;
+  background: var(--green-800);
+  border-color: var(--green-800);
+}
+
+.form-modal-submit .mat-icon {
+  font-size: 1.05rem;
+}
+
+@media (max-width: 575.98px) {
+  .form-modal-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+}

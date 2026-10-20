@@ -1,0 +1,247 @@
+.form-label {
+  color: #334155;
+  font-size: 0.87rem;
+  font-weight: 650;
+}
+
+.optional-label {
+  padding: 0.18rem 0.5rem;
+  margin-left: 0.35rem;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+
+.field-with-icon {
+  position: relative;
+}
+
+.field-with-icon > .mat-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.9rem;
+  z-index: 1;
+  color: #94a3b8;
+  font-size: 1.15rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.field-with-icon .form-control {
+  min-height: 2.85rem;
+  padding-left: 2.65rem;
+  color: #1e293b;
+  border-color: #dbe3ec;
+  border-radius: 0.75rem;
+}
+
+.field-with-icon .form-control:focus {
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 0.22rem rgba(76, 175, 80, 0.12);
+}
+
+.password-field .form-control {
+  padding-right: 3rem;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.45rem;
+  display: inline-grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  color: #64748b;
+  background: transparent;
+  border: 0;
+  border-radius: 0.55rem;
+  transform: translateY(-50%);
+}
+
+.password-toggle:hover {
+  color: #334155;
+  background: #f1f5f9;
+}
+
+.password-toggle .mat-icon {
+  font-size: 1.15rem;
+}
+
+.invalid-feedback {
+  margin-top: 0.38rem;
+  font-size: 0.78rem;
+}
+
+.roles-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.roles-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.role-counter {
+  color: var(--green-800);
+  font-size: 0.73rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  max-height: 13rem;
+  padding: 0.8rem;
+  overflow-y: auto;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.9rem;
+}
+
+.roles-grid.is-invalid {
+  border-color: #dc3545;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.7rem;
+  padding: 0.65rem 0.75rem;
+  color: #475569;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: 150ms ease;
+}
+
+.role-option:hover {
+  border-color: var(--green-300);
+}
+
+.role-option.selected {
+  color: var(--green-900);
+  background: var(--green-50);
+  border-color: var(--green-300);
+}
+
+.role-check {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: transparent;
+  background: #fff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 0.35rem;
+}
+
+.role-check .mat-icon {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.role-option.selected .role-check {
+  color: #fff;
+  background: var(--green-700);
+  border-color: var(--green-700);
+}
+
+.roles-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.75rem;
+  color: #64748b;
+  font-size: 0.83rem;
+  text-align: center;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.85rem;
+}
+
+.status-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.status-switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 2.55rem;
+  height: 1.45rem;
+  background: #cbd5e1;
+  border-radius: 999px;
+  transition: 160ms ease;
+}
+
+.status-switch::after {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  content: '';
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.2);
+  transition: 160ms ease;
+}
+
+.status-option input:checked + .status-switch {
+  background: var(--green-600);
+}
+
+.status-option input:checked + .status-switch::after {
+  transform: translateX(1.1rem);
+}
+
+.status-option strong,
+.status-option small {
+  display: block;
+}
+
+.status-option strong {
+  color: #334155;
+  font-size: 0.84rem;
+}
+
+.status-option small {
+  margin-top: 0.15rem;
+  color: #64748b;
+  font-size: 0.74rem;
+}
+
+@media (max-width: 575.98px) {
+  .roles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roles-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+}

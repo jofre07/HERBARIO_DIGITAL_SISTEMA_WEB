@@ -1,0 +1,45 @@
+:host { display: contents; }
+.drawer-backdrop { position: fixed; z-index: 2040; inset: 0; width: 100%; height: 100%; padding: 0; background: rgb(13 25 18 / 58%); border: 0; backdrop-filter: blur(1px); }
+.filter-drawer { position: fixed; z-index: 2050; top: 0; right: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; width: min(25rem, 100vw); height: 100dvh; color: #263128; background: #fff; box-shadow: -18px 0 55px rgb(7 30 14 / 18%); animation: drawer-enter 180ms ease-out; }
+.drawer-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.7rem 1.5rem 1.2rem; border-bottom: 1px solid #edf0eb; }
+.drawer-heading-copy { min-width: 0; }
+.drawer-context { display: block; margin-bottom: .75rem; color: #5c7f3d; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.drawer-title-row { display: flex; align-items: flex-start; gap: .85rem; }
+.drawer-title-row > .mat-icon { flex: 0 0 auto; margin-top: .1rem; color: #173e2c; font-size: 1.75rem; }
+.drawer-title-row h2 { margin: 0 0 .22rem; color: #183326; font-family: Georgia, 'Times New Roman', serif; font-size: 1.6rem; font-weight: 700; }
+.drawer-title-row p { margin: 0; color: #7a837d; font-size: .78rem; line-height: 1.45; }
+.drawer-close { display: grid; flex: 0 0 auto; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; color: #263128; background: transparent; border: 0; border-radius: 50%; }
+.drawer-close:hover { background: #f1f5ef; }
+.drawer-close .mat-icon { font-size: 1.35rem; }
+.drawer-body { min-height: 0; padding: 1.35rem 1.5rem; overflow-y: auto; scrollbar-color: #aeb9af transparent; scrollbar-width: thin; }
+.drawer-body ::ng-deep .filter-field { margin: 0 0 1rem; }
+.drawer-body ::ng-deep .filter-field > label,
+.drawer-body ::ng-deep .filter-field > legend { display: block; margin: 0 0 .45rem; color: #37433a; font-size: .8rem; font-weight: 700; }
+.drawer-body ::ng-deep .filter-field select,
+.drawer-body ::ng-deep .filter-input { box-sizing: border-box; width: 100%; min-height: 3rem; color: #455047; background: #fff; border: 1px solid #d7dfd8; border-radius: .42rem; }
+.drawer-body ::ng-deep .filter-field select,
+.drawer-body ::ng-deep .filter-input input,
+.drawer-body ::ng-deep .select-trigger { font-size: .65rem; }
+.drawer-body ::ng-deep .filter-field select { padding: 0 .8rem; }
+.drawer-body ::ng-deep .filter-input { display: flex; align-items: center; padding: 0 .7rem; }
+.drawer-body ::ng-deep .filter-input .mat-icon { color: #738078; font-size: 1.15rem; }
+.drawer-body ::ng-deep .filter-input input { flex: 1; min-width: 0; min-height: 2.85rem; padding: .6rem; background: transparent; border: 0; outline: 0; }
+.drawer-body ::ng-deep .filter-field select:focus,
+.drawer-body ::ng-deep .filter-input:focus-within { border-color: #6f914f; box-shadow: 0 0 0 3px rgb(96 135 61 / 12%); outline: 0; }
+.drawer-footer { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; padding: 1rem 1.5rem max(1rem, env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid #e7ece6; box-shadow: 0 -8px 24px rgb(21 50 29 / 5%); }
+.drawer-footer button { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 3rem; padding: .65rem .85rem; font-size: .78rem; font-weight: 750; border-radius: .42rem; }
+.drawer-footer .mat-icon { font-size: 1rem; }
+.drawer-clear { color: #28442d; background: #fff; border: 1px solid #78945e; }
+.drawer-clear:hover:not(:disabled) { background: #f4f8f1; }
+.drawer-apply { color: #fff; background: #527a31; border: 1px solid #527a31; }
+.drawer-apply:hover:not(:disabled) { background: #416528; }
+.drawer-footer button:disabled { cursor: not-allowed; opacity: .55; }
+@keyframes drawer-enter { from { opacity: .75; transform: translateX(2rem); } to { opacity: 1; transform: translateX(0); } }
+@media (max-width: 575.98px) {
+  .filter-drawer { width: 100vw; }
+  .drawer-header { padding: 1.2rem 1rem 1rem; }
+  .drawer-body { padding: 1rem; }
+  .drawer-footer { padding-right: 1rem; padding-left: 1rem; }
+}
+@media (max-width: 359.98px) { .drawer-footer { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .filter-drawer { animation: none; } }

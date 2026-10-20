@@ -1,0 +1,27 @@
+<section class="profile-page">
+  <header class="profile-header">
+    <span class="profile-title-icon"><span class="mat-icon" aria-hidden="true" translate="no">account_circle</span></span>
+    <div>
+      <h1>{{ 'views.features.shared.profile.profile.perfil' | uiText }}</h1>
+      <p>{{ 'views.layout.main_layout.main_layout.informacion_de_tu_cuenta_y_accesos_asignados' | uiText }}</p>
+    </div>
+  </header>
+
+  <article class="profile-card" *ngIf="user">
+    <header class="profile-summary">
+      <span class="profile-avatar">{{ user.username.slice(0, 2).toUpperCase() }}</span>
+      <div><h2>{{ user.username }}</h2><p>{{ user.email || ('views.features.admin.users.users.sin_correo_registrado' | uiText) }}</p></div>
+      <span class="status-badge" [class.inactive]="!user.is_active"><span></span>{{ user.is_active ? ('views.features.admin.users.users.activo' | uiText) : ('views.features.admin.users.users.inactivo' | uiText) }}</span>
+    </header>
+
+    <div class="profile-details">
+      <div class="profile-field"><span>{{ 'views.features.admin.users.users.usuario' | uiText }}</span><strong>{{ user.username }}</strong></div>
+      <div class="profile-field"><span>{{ 'views.features.shared.profile.profile.correo' | uiText }}</span><strong>{{ user.email || ('views.features.admin.users.users.sin_correo_registrado' | uiText) }}</strong></div>
+      <div class="profile-field profile-roles-field">
+        <span>{{ 'views.features.admin.users.users.roles' | uiText }}</span>
+        <div class="profile-roles" *ngIf="user.roles?.length; else noRoles"><span *ngFor="let role of user.roles">{{ role }}</span></div>
+        <ng-template #noRoles><strong>{{ 'views.layout.main_layout.main_layout.sin_roles_asignados' | uiText }}</strong></ng-template>
+      </div>
+    </div>
+  </article>
+</section>

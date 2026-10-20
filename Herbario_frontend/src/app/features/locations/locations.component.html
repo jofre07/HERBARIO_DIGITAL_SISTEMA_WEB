@@ -1,0 +1,96 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" translate="no">location_on</span></span>
+      <div><h1>{{ 'views.features.locations.locations.gestion_de_ubicaciones' | uiText }}</h1><p>{{ 'views.features.locations.locations.administra_los_registros_de_ubicaciones_del_sist' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'locations.add_location'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.locations.locations.ubicaciones_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.locations.locations.buscar_ubicaciones' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.admin.roles.roles.nombre' | uiText }}</th>
+                <th>{{ 'views.features.locations.locations.latitud' | uiText }}</th>
+                <th>{{ 'views.features.locations.locations.longitud' | uiText }}</th>
+                <th>{{ 'views.features.collectors.collectors.comentario' | uiText }}</th>
+                <th>{{ 'navigation.specimens' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="6" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td>{{ item.name }}</td>
+                <td>{{ item.latitude }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.comment || '-' }}</td>
+                <td>{{ item.specimen_count || 0 }}</td>
+                <td class="text-end">
+                  <app-table-actions editPermission="locations.change_location" deletePermission="locations.delete_location" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="6" class="text-center text-muted py-4">{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.locations.locations.ubicacion' | uiText" [itemLabelPlural]="'views.features.locations.locations.ubicaciones' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.locations.locations.editar_ubicacion' | uiText) : ('views.features.locations.locations.agregar_ubicacion' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="locations-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="locations-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.admin.roles.roles.nombre' | uiText }}</label>
+            <input class="form-control" formControlName="name" />
+            <div class="text-danger small" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold">{{ 'views.features.locations.locations.latitud' | uiText }}</label>
+              <input class="form-control" type="number" step="0.00000001" formControlName="latitude" (change)="updateMapFromCoordinates()" />
+              <div class="text-danger small" *ngIf="form.get('latitude')?.invalid && form.get('latitude')?.touched">
+                <span *ngIf="form.get('latitude')?.errors?.['required']">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</span>
+                <span *ngIf="form.get('latitude')?.errors?.['min'] || form.get('latitude')?.errors?.['max'] || form.get('latitude')?.errors?.['pattern']">{{ 'views.features.locations.locations.valor_entre_90_y_90_maximo_8_decimales' | uiText }}</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold">{{ 'views.features.locations.locations.longitud' | uiText }}</label>
+              <input class="form-control" type="number" step="0.00000001" formControlName="longitude" (change)="updateMapFromCoordinates()" />
+              <div class="text-danger small" *ngIf="form.get('longitude')?.invalid && form.get('longitude')?.touched">
+                <span *ngIf="form.get('longitude')?.errors?.['required']">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</span>
+                <span *ngIf="form.get('longitude')?.errors?.['min'] || form.get('longitude')?.errors?.['max'] || form.get('longitude')?.errors?.['pattern']">{{ 'views.features.locations.locations.valor_entre_180_y_180_maximo_8_decimales' | uiText }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.collectors.collectors.comentario' | uiText }}</label>
+            <textarea class="form-control" formControlName="comment" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.locations.locations.seleccionar_en_el_mapa' | uiText }}</label>
+            <div id="location-catalog-map" class="location-map" [attr.aria-label]="'views.features.locations.locations.mapa_para_seleccionar_coordenadas' | uiText"></div>
+            <small class="text-muted">{{ 'views.features.locations.locations.haz_clic_en_el_mapa_para_capturar_latitud_y_long' | uiText }}</small>
+          </div>
+        </form>
+</app-form-modal>

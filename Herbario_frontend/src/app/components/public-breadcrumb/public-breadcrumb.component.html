@@ -1,0 +1,15 @@
+<nav class="public-breadcrumb" [attr.aria-label]="'views.components.public_breadcrumb.public_breadcrumb.migas_de_pan' | uiText">
+  @for (level of levels; track $index; let last = $last) {
+    @if (level.route && !last) {
+      <a [routerLink]="level.route" [queryParams]="level.queryParams">{{ level.label }}</a>
+    } @else if (last) {
+      <strong aria-current="page">{{ level.label }}</strong>
+    } @else {
+      <span class="breadcrumb-label">{{ level.label }}</span>
+    }
+
+    @if (!last) {
+      <span class="mat-icon breadcrumb-separator" aria-hidden="true" translate="no">chevron_right</span>
+    }
+  }
+</nav>

@@ -1,0 +1,110 @@
+:host { display: block; color: #253025; background: #fafbf9; }
+.advanced-search-page { min-height: 100vh; padding: 6.25rem 0 3rem; }
+.page-heading { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 1.65rem; }
+.title-group { display: flex; align-items: center; gap: .9rem; }
+.title-icon { width: auto; height: auto; color: #557938; font-size: 2.65rem; }
+.title-group h1 { margin: 0 0 .25rem; font: 600 2rem/1.1 Georgia, 'Times New Roman', serif; }
+.title-group p { margin: 0; color: #727b72; font-size: .75rem; }
+.search-card, .results-section { border: 1px solid #e1e6df; border-radius: .55rem; background: #fff; box-shadow: 0 4px 15px rgba(27,49,24,.045); }
+.search-card { padding: 1.25rem; }
+.search-card-heading, .results-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.search-card-heading { margin: 0; }
+.search-card-heading h2, .results-heading h2 { margin: 0 0 .16rem; font-size: .9rem; font-weight: 750; }
+.search-card-heading p, .results-heading p { margin: 0; color: #778178; font-size: .67rem; }
+.clear-button { display: inline-flex; align-items: center; gap: .3rem; padding: .35rem .45rem; border: 0; background: transparent; color: #5c7658; font-size: .66rem; cursor: pointer; }
+.clear-button:disabled { opacity: .42; cursor: default; }
+.clear-button .mat-icon { font-size: 1rem; }
+.filters-grid { display: block; }
+.filter-field { display: grid; min-width: 0; align-content: end; }
+.filter-field label { display: block; margin-bottom: .4rem; color: #3f483f; font-size: .72rem; font-weight: 700; }
+.filter-field input { width: 100%; min-height: 2.65rem; padding: 0 .65rem; border: 1px solid #dfe5dc; border-radius: .4rem; background: #fff; color: #485148; font-size: .75rem; }
+.filter-field input:focus { border-color: #629342; outline: 0; box-shadow: 0 0 0 .2rem rgba(76,175,80,.12); }
+
+/* Mantiene los selectores de búsqueda en la misma escala visual que Especímenes. */
+:host ::ng-deep .filter-field app-select-input .select-trigger {
+  min-height: 2.65rem;
+  padding: 0 .55rem;
+  color: #485148;
+  font-size: .75rem;
+  border-color: #dfe5dc;
+  border-radius: .3rem;
+}
+:host ::ng-deep .filter-field app-select-input .select-trigger .placeholder-text {
+  color: #737d74;
+  font-size: .72rem;
+}
+:host ::ng-deep .filter-field app-select-input .select-trigger .mat-icon {
+  color: #657065;
+  font-size: .9rem;
+}
+:host ::ng-deep .filter-field app-select-input .select-panel {
+  border-color: #dfe5dc;
+  border-radius: .4rem;
+}
+:host ::ng-deep .filter-field app-select-input .search-box {
+  padding: .45rem .55rem;
+}
+:host ::ng-deep .filter-field app-select-input .search-box input,
+:host ::ng-deep .filter-field app-select-input .option,
+:host ::ng-deep .filter-field app-select-input .empty-options {
+  font-size: .65rem;
+}
+:host ::ng-deep .filter-field app-select-input .search-box input {
+  min-height: 2rem;
+  padding: .35rem .15rem;
+}
+:host ::ng-deep .filter-field app-select-input .option {
+  padding: .48rem .55rem;
+}
+.form-actions { display: flex; min-width: 0; align-items: end; }
+.search-button { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; width: 100%; min-height: 2.75rem; padding: .55rem 1rem; border: 0; border-radius: .45rem; background: #3f7b2d; color: #fff; font-size: .75rem; font-weight: 750; cursor: pointer; }
+.search-button:hover:not(:disabled) { background: #326523; }
+.search-button:disabled { opacity: .6; cursor: not-allowed; }
+.search-button .mat-icon { font-size: 1.05rem; }
+.results-section { margin-top: 1.35rem; overflow: hidden; scroll-margin-top: 5.25rem; }
+.results-heading { padding: 1rem 1.15rem; border-bottom: 1px solid #e4e9e2; }
+.results-heading > div:first-child { display: flex; align-items: center; gap: .65rem; }
+.results-heading > div:first-child > .mat-icon { color: #4b7935; font-size: 1.55rem; }
+.results-heading p strong { color: #3f7b2d; }
+.view-buttons { display: flex; border: 1px solid #d9e1d7; border-radius: .35rem; overflow: hidden; }
+.view-buttons button { display: grid; place-items: center; width: 2.1rem; height: 2rem; padding: 0; border: 0; background: #fff; color: #687469; cursor: pointer; }
+.view-buttons button + button { border-left: 1px solid #d9e1d7; }
+.view-buttons button.active { background: #4c7b31; color: #fff; }
+.view-buttons .mat-icon { font-size: 1rem; }
+.results-state { display: grid; justify-items: center; align-content: center; min-height: 230px; padding: 2rem; text-align: center; color: #78837a; }
+.results-state > .mat-icon { width: auto; height: auto; color: #72945d; font-size: 2.7rem; }
+.results-state h3 { margin: .65rem 0 .25rem; color: #354339; font-size: .92rem; }
+.results-state p { margin: 0; font-size: .72rem; }
+.results-state button { margin-top: .8rem; padding: .4rem .7rem; border: 1px solid #64844f; border-radius: .35rem; background: #fff; color: #416630; font-size: .7rem; }
+.results-table-wrap { overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+.results-table-wrap:focus-visible { outline: 3px solid rgba(82, 122, 49, .28); outline-offset: -3px; }
+.results-table { width: 100%; border-collapse: collapse; font-size: .7rem; }
+.results-table th { padding: .65rem .75rem; background: #f6f8f5; color: #687469; font-size: .6rem; text-align: left; text-transform: uppercase; white-space: nowrap; }
+.results-table td { padding: .7rem .75rem; border-top: 1px solid #e7ebe5; color: #536057; vertical-align: middle; }
+.results-table td:nth-child(2), .results-table td:nth-child(1) > div > div:last-child { display: grid; }
+.results-table td small { color: #879089; font-size: .59rem; }
+.specimen-cell { display: flex; align-items: center; gap: .55rem; min-width: 160px; }
+.specimen-cell strong { color: #37682b; }
+.result-thumb { display: grid; flex: 0 0 42px; place-items: center; width: 42px; height: 42px; overflow: hidden; border: 1px solid #dce5d9; border-radius: .3rem; background: #edf4e9; color: #669657; }
+.result-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.result-thumb .mat-icon { font-size: 1.2rem; }
+.results-table td > a, .card-body > a { display: inline-flex; align-items: center; gap: .25rem; color: #376b2a; font-size: .65rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.results-table td > a .mat-icon, .card-body > a .mat-icon { font-size: .85rem; }
+.results-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; padding: 1rem; }
+.result-card { overflow: hidden; border: 1px solid #dee6dc; border-radius: .48rem; background: #fff; }
+.card-image { position: relative; display: grid; place-items: center; aspect-ratio: 16/9; overflow: hidden; background: #ebf3e7; color: #71a661; }
+.card-image img { width: 100%; height: 100%; object-fit: cover; }
+.card-image > .mat-icon { font-size: 2.5rem; }
+.card-image > span:last-child { position: absolute; top: .5rem; right: .5rem; padding: .2rem .4rem; border-radius: .25rem; background: rgba(20,50,23,.82); color: #fff; font-size: .56rem; font-weight: 700; }
+.card-body { padding: .85rem; }
+.card-body h3 { margin: 0 0 .15rem; font: 700 .9rem/1.2 Georgia, serif; }
+.card-body > p { margin: 0 0 .65rem; color: #7c867f; font-size: .62rem; }
+.card-body dl { display: grid; gap: .4rem; margin: 0 0 .7rem; }
+.card-body dl > div { display: grid; grid-template-columns: 5.5rem minmax(0,1fr); gap: .4rem; }
+.card-body dt, .card-body dd { margin: 0; font-size: .62rem; }
+.card-body dt { color: #758078; }
+.card-body dd { overflow: hidden; color: #445148; text-overflow: ellipsis; white-space: nowrap; }
+:host ::ng-deep app-pagination .pagination-shell { padding: .9rem 1.1rem; border-top: 1px solid #e4e9e2; }
+@media (max-width: 1100px) { .filters-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .results-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (max-width: 760px) { .advanced-search-page { padding-top: 5.25rem; } .page-heading { align-items: flex-start; flex-direction: column; } .results-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 575.98px) { .search-card { padding: 1rem; } .search-card-heading { align-items: flex-start; flex-direction: column; } .filters-grid, .results-grid { grid-template-columns: 1fr; } }

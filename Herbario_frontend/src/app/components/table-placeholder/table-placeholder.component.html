@@ -1,0 +1,35 @@
+@for (row of rowIndexes; track row) {
+  <tr class="placeholder-row">
+    @for (column of configuredColumns; track $index) {
+      <td [class.placeholder-cell--centered]="column.kind === 'count'" [class.placeholder-cell--actions]="column.kind === 'actions'">
+        @switch (column.kind) {
+          @case ('count') {
+            <span class="placeholder-shape placeholder-count"></span>
+          }
+          @case ('badge') {
+            <span class="placeholder-shape placeholder-badge"></span>
+          }
+          @case ('image') {
+            <span class="placeholder-shape placeholder-image"></span>
+          }
+          @case ('avatarText') {
+            <span class="placeholder-avatar-text">
+              <span class="placeholder-shape placeholder-avatar"></span>
+              <span class="placeholder-shape placeholder-line" [style.width.%]="column.width ?? 62"></span>
+            </span>
+          }
+          @case ('actions') {
+            <span class="placeholder-actions">
+              @for (action of actionIndexes(column); track action) {
+                <span class="placeholder-shape placeholder-action"></span>
+              }
+            </span>
+          }
+          @default {
+            <span class="placeholder-shape placeholder-line" [style.width.%]="column.width ?? 70"></span>
+          }
+        }
+      </td>
+    }
+  </tr>
+}

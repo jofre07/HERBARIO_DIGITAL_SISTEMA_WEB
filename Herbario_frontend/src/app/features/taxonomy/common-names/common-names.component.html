@@ -1,0 +1,89 @@
+<section class="crud-page">
+  <header class="page-header">
+    <div class="title-row">
+      <span class="title-icon"><span class="mat-icon" aria-hidden="true" translate="no">label</span></span>
+      <div><h1>{{ 'views.features.taxonomy.common_names.common_names.gestion_de_nombres_comunes' | uiText }}</h1><p>{{ 'views.features.taxonomy.common_names.common_names.administra_los_registros_de_nombres_comunes_del_' | uiText }}</p></div>
+    </div>
+    <button *appHasPermission="'taxonomy.add_commonname'" type="button" class="btn add-button" (click)="openCreateModal()">
+      <span class="mat-icon" translate="no">add</span>  {{ 'actions.add' | uiText }}
+    </button>
+  </header>
+
+  <div class="crud-card">
+    <div class="table-toolbar">
+      <div><h2>{{ 'views.features.taxonomy.common_names.common_names.nombres_comunes_registrados' | uiText }}</h2><p><strong>{{ totalItems }}</strong>  {{ 'views.features.admin.roles.roles.registros_encontrados' | uiText }}</p></div>
+      <app-table-search [query]="searchQuery" (queryChange)="onSearch($event)" [placeholder]="'views.features.taxonomy.common_names.common_names.buscar_nombres_comunes' | uiText"></app-table-search>
+      <app-page-size-selector [pageSize]="pageSize" (pageSizeChange)="pageSize = $event; currentPage = 1; loadData()"></app-page-size-selector>
+    </div>
+    <div class="table-responsive">
+          <table class="table align-middle skeleton-stable-table">
+            <thead>
+              <tr>
+                <th>{{ 'views.features.specimens.specimens.especie' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.common_names.common_names.idioma' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.common_names.common_names.nombre_comun' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.common_names.common_names.dialecto' | uiText }}</th>
+                <th>{{ 'views.features.taxonomy.common_names.common_names.region' | uiText }}</th>
+                <th class="text-end">{{ 'views.features.admin.roles.roles.acciones' | uiText }}</th>
+              </tr>
+            </thead>
+            <tbody appTablePlaceholder *ngIf="loading" [columns]="6" [rows]="pageSize" [columnConfig]="tablePlaceholderColumns"></tbody>
+            <tbody *ngIf="!loading">
+              <tr *ngFor="let item of items">
+                <td><strong>{{ item.species_name || speciesName(item.species_id) }}</strong></td>
+                <td>{{ item.language_name || languageName(item.language_id) }}</td>
+                <td>{{ item.common_name }}</td>
+                <td>{{ item.dialect || '-' }}</td>
+                <td>{{ item.region || '-' }}</td>
+                <td class="text-end">
+                  <app-table-actions editPermission="taxonomy.change_commonname" deletePermission="taxonomy.delete_commonname" (edit)="edit(item)" (delete)="remove(item)"></app-table-actions>
+                </td>
+              </tr>
+              <tr *ngIf="!items.length"><td colspan="6"><div class="empty-state"><span class="mat-icon" aria-hidden="true" translate="no">label_off</span><h3>{{ 'views.features.admin.roles.roles.sin_registros' | uiText }}</h3><p>{{ 'views.features.taxonomy.common_names.common_names.administra_los_registros_de_nombres_comunes_del_' | uiText }}</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+    <div class="pagination-container">
+      <app-pagination [currentPage]="currentPage" [totalItems]="totalItems" [pageSize]="pageSize" [itemLabel]="'views.features.taxonomy.common_names.common_names.nombre_comun_2' | uiText" [itemLabelPlural]="'views.features.taxonomy.common_names.common_names.nombres_comunes' | uiText" (pageChange)="goToPage($event)"></app-pagination>
+    </div>
+  </div>
+</section>
+
+<app-form-modal
+  [open]="formModalOpen"
+  [title]="selectedId ? ('views.features.taxonomy.common_names.common_names.editar_nombre_comun' | uiText) : ('views.features.taxonomy.common_names.common_names.agregar_nombre_comun' | uiText)"
+  [subtitle]="'views.features.admin.roles.roles.completa_la_informacion_solicitada' | uiText"
+  size="lg"
+  formId="common-names-form"
+  [mode]="selectedId ? 'edit' : 'create'"
+  [submitDisabled]="form.invalid"
+  (closed)="resetForm()"
+>
+  <form id="common-names-form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.specimens.specimens.especie' | uiText }}</label>
+            <select class="form-select" formControlName="species_id">
+              <option value="">{{ 'views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText }}</option>
+              <option *ngFor="let s of speciesList" [value]="s.id">{{ s.name }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('species_id')?.invalid && form.get('species_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.common_names.common_names.idioma' | uiText }}</label>
+            <select class="form-select" formControlName="language_id">
+              <option value="">{{ 'views.features.locations.climate_habitats.climate_habitats.seleccione' | uiText }}</option>
+              <option *ngFor="let l of languages" [value]="l.id">{{ l.name }}</option>
+            </select>
+            <div class="text-danger small" *ngIf="form.get('language_id')?.invalid && form.get('language_id')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.common_names.common_names.nombre_comun' | uiText }}</label>
+            <input class="form-control" formControlName="common_name" />
+            <div class="text-danger small" *ngIf="form.get('common_name')?.invalid && form.get('common_name')?.touched">{{ 'views.features.admin.roles.roles.requerido' | uiText }}</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ 'views.features.taxonomy.common_names.common_names.dialecto' | uiText }}</label>
+            <input class="form-control" formControlName="dialect" />
+          </div>
+        </form>
+</app-form-modal>

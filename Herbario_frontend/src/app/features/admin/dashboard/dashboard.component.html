@@ -1,0 +1,179 @@
+<section class="dashboard-page">
+  <header class="dashboard-title">
+    <h1>{{ 'views.features.admin.dashboard.dashboard.dashboard' | uiText }}</h1>
+  </header>
+
+  <div *ngIf="loading" class="dashboard-loading">
+    <span class="spinner-border text-success" role="status"></span>
+    <p>{{ 'views.features.admin.dashboard.dashboard.cargando_informacion_del_herbario' | uiText }}</p>
+  </div>
+
+  <div *ngIf="loadError && !loading" class="dashboard-alert" role="alert">
+    <span class="mat-icon" aria-hidden="true" translate="no">error_outline</span>
+    <span>{{ 'views.features.admin.dashboard.dashboard.no_se_pudieron_cargar_todas_las_estadisticas' | uiText }}</span>
+    <button type="button" (click)="loadDashboard()">{{ 'actions.retry' | uiText }}</button>
+  </div>
+
+  <ng-container *ngIf="stats && !loading">
+    <section class="dashboard-section" aria-labelledby="summary-title">
+      <div class="section-heading">
+        <div>
+          <span>{{ 'views.features.admin.dashboard.dashboard.resumen' | uiText }}</span>
+          <h2 id="summary-title">{{ 'views.public.pages.home.home.estadisticas_del_herbario' | uiText }}</h2>
+        </div>
+        <small>{{ 'views.features.admin.dashboard.dashboard.informacion_actualizada_desde_los_registros_del_' | uiText }}</small>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card stat-green">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">biotech</span>
+          <div><strong [appCountUp]="stats.specimens"></strong><span>{{ 'navigation.specimens' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-emerald">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">local_florist</span>
+          <div><strong [appCountUp]="stats.species"></strong><span>{{ 'views.public.pages.collections.collections.especies' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-blue">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">account_tree</span>
+          <div><strong [appCountUp]="stats.families"></strong><span>{{ 'views.public.pages.home.home.familias' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-indigo">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">schema</span>
+          <div><strong [appCountUp]="stats.genera"></strong><span>{{ 'views.public.pages.home.home.generos' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-amber">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">person_pin</span>
+          <div><strong [appCountUp]="stats.collectors"></strong><span>{{ 'views.public.pages.map.map.colectores' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-red">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">location_on</span>
+          <div><strong [appCountUp]="stats.locations"></strong><span>{{ 'views.features.specimens.specimens.ubicaciones' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-slate">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">photo_library</span>
+          <div><strong [appCountUp]="stats.images"></strong><span>{{ 'views.public.pages.collections.collections.imagenes' | uiText }}</span></div>
+        </article>
+        <article class="stat-card stat-cyan">
+          <span class="stat-icon mat-icon" aria-hidden="true" translate="no">collections_bookmark</span>
+          <div><strong [appCountUp]="stats.collections"></strong><span>{{ 'navigation.collections' | uiText }}</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="charts-grid dashboard-section" aria-labelledby="charts-title">
+      <div class="section-heading charts-heading">
+        <div>
+          <span>{{ 'views.features.admin.dashboard.dashboard.analisis' | uiText }}</span>
+          <h2 id="charts-title">{{ 'views.features.admin.dashboard.dashboard.distribucion_de_los_registros' | uiText }}</h2>
+        </div>
+      </div>
+
+      <article class="dashboard-panel family-chart-panel">
+        <header class="panel-heading">
+          <div>
+            <h3>{{ 'views.features.admin.dashboard.dashboard.especimenes_por_familia' | uiText }}</h3>
+            <p>{{ 'views.features.admin.dashboard.dashboard.familias_con_mayor_numero_de_registros' | uiText }}</p>
+          </div>
+          <span class="mat-icon" aria-hidden="true" translate="no">bar_chart</span>
+        </header>
+
+        <div class="horizontal-chart" *ngIf="stats.charts.specimens_by_family.length; else noFamilyChart">
+          <div class="horizontal-row" *ngFor="let point of stats.charts.specimens_by_family">
+            <span class="chart-label" [title]="point.label">{{ point.label }}</span>
+            <div class="horizontal-track">
+              <span [style.width.%]="familyBarWidth(point)"></span>
+            </div>
+            <strong [appCountUp]="point.value"></strong>
+          </div>
+        </div>
+        <ng-template #noFamilyChart>
+          <div class="chart-empty"><span class="mat-icon" translate="no">bar_chart</span><p>{{ 'views.features.admin.dashboard.dashboard.aun_no_hay_datos_por_familia' | uiText }}</p></div>
+        </ng-template>
+      </article>
+
+      <article class="dashboard-panel year-chart-panel">
+        <header class="panel-heading">
+          <div>
+            <h3>{{ 'views.features.admin.dashboard.dashboard.colecciones_por_ano' | uiText }}</h3>
+            <p>{{ 'views.features.admin.dashboard.dashboard.evolucion_temporal_de_los_especimenes' | uiText }}</p>
+          </div>
+          <span class="mat-icon" aria-hidden="true" translate="no">monitoring</span>
+        </header>
+
+        <div class="year-chart" *ngIf="stats.charts.specimens_by_year.length; else noYearChart">
+          <div class="year-column" *ngFor="let point of stats.charts.specimens_by_year">
+            <strong [appCountUp]="point.value"></strong>
+            <div class="year-track">
+              <span [style.height.%]="yearBarHeight(point)"></span>
+            </div>
+            <small>{{ point.label }}</small>
+          </div>
+        </div>
+        <ng-template #noYearChart>
+          <div class="chart-empty"><span class="mat-icon" translate="no">monitoring</span><p>{{ 'views.features.admin.dashboard.dashboard.aun_no_hay_fechas_de_coleccion_registradas' | uiText }}</p></div>
+        </ng-template>
+      </article>
+
+      <article class="dashboard-panel conservation-panel">
+        <header class="panel-heading">
+          <div>
+            <h3>{{ 'views.public.pages.advanced_search.advanced_search.estado_de_conservacion' | uiText }}</h3>
+            <p>{{ 'views.features.admin.dashboard.dashboard.especies_clasificadas_por_categoria' | uiText }}</p>
+          </div>
+          <span class="mat-icon" aria-hidden="true" translate="no">eco</span>
+        </header>
+
+        <div class="donut-layout" *ngIf="stats.charts.species_by_conservation_status.length; else noStatusChart">
+          <div class="donut-chart" [style.background]="conservationGradient">
+            <div><strong [appCountUp]="conservationTotal"></strong><span>{{ 'views.features.taxonomy.species.species.especies' | uiText }}</span></div>
+          </div>
+          <div class="chart-legend">
+            <div *ngFor="let point of stats.charts.species_by_conservation_status; let index = index">
+              <span [style.background]="chartColor(index)"></span>
+              <p><strong>{{ point.label }}</strong>{{ statusName(point.label) }}</p>
+              <b [appCountUp]="point.value"></b>
+            </div>
+          </div>
+        </div>
+        <ng-template #noStatusChart>
+          <div class="chart-empty"><span class="mat-icon" translate="no">eco</span><p>{{ 'views.features.admin.dashboard.dashboard.aun_no_hay_estados_de_conservacion' | uiText }}</p></div>
+        </ng-template>
+      </article>
+    </section>
+
+    <section class="dashboard-section" aria-labelledby="map-title">
+      <article class="dashboard-panel map-panel">
+        <header class="panel-heading map-heading">
+          <div>
+            <span>{{ 'views.features.admin.dashboard.dashboard.distribucion_geografica' | uiText }}</span>
+            <h2 id="map-title">{{ 'views.features.admin.dashboard.dashboard.mapa_de_especimenes' | uiText }}</h2>
+            <p>{{ 'views.features.admin.dashboard.dashboard.ubicaciones_registradas_para_los_ejemplares_del_' | uiText }}</p>
+          </div>
+          <div class="map-total">
+            <span class="mat-icon" aria-hidden="true" translate="no">location_on</span>
+            <div><strong [appCountUp]="mapPoints.length"></strong><small>{{ 'views.features.admin.dashboard.dashboard.ubicaciones_en_el_mapa' | uiText }}</small></div>
+          </div>
+        </header>
+        <div class="map-wrapper">
+          <div #specimensMap class="specimens-map" [attr.aria-label]="'views.features.admin.dashboard.dashboard.mapa_de_ubicaciones_de_especimenes' | uiText"></div>
+          <aside class="dashboard-map-legend" [attr.aria-label]="'views.features.admin.dashboard.dashboard.leyenda_del_mapa' | uiText">
+            <strong>{{ 'views.public.pages.map.map.leyenda' | uiText }}</strong>
+            <span class="province-legend"><i aria-hidden="true"></i>  {{ 'views.features.admin.dashboard.dashboard.provincia_de_manabi' | uiText }}</span>
+            <span *ngFor="let option of markerIconOptions">
+              <i class="bi {{ option.icon }}" aria-hidden="true"></i>
+              {{ option.label }}
+            </span>
+          </aside>
+          <div class="map-empty" *ngIf="!mapPoints.length">
+            <span class="mat-icon" aria-hidden="true" translate="no">location_off</span>
+            <p>{{ 'views.features.admin.dashboard.dashboard.no_hay_especimenes_con_ubicacion_registrada' | uiText }}</p>
+          </div>
+        </div>
+        <footer class="map-footer">
+          <span><i class="bi bi-flower1" aria-hidden="true"></i>  {{ 'views.features.admin.dashboard.dashboard.cada_marcador_representa_una_ubicacion_del_espec' | uiText }}</span>
+          <small>{{ 'views.features.admin.dashboard.dashboard.haz_clic_en_un_marcador_para_consultar_sus_datos' | uiText }}</small>
+        </footer>
+      </article>
+    </section>
+  </ng-container>
+</section>

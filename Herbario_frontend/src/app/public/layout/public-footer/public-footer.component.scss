@@ -1,0 +1,21 @@
+:host { display: block; }
+.public-footer { background: #0c2b18; color: #fff; }
+.footer-content { width: min(100% - 2rem, 1450px); margin-inline: auto; }
+.footer-main { display: grid; grid-template-columns: minmax(280px,1.15fr) minmax(300px,.9fr) minmax(260px,.8fr); gap: clamp(2rem,5vw,5rem); padding: 2.35rem 0 2rem; }
+.brand-heading { display: flex; align-items: center; gap: .65rem; }
+.footer-brand-logo { display: block; flex: 0 0 2rem; width: 2rem; height: 2rem; object-fit: contain; }
+.brand-heading > div { display: grid; }
+.brand-heading strong { font: 700 1rem/1.1 Georgia, 'Times New Roman', serif; text-transform: uppercase; letter-spacing: .02em; }
+.brand-heading span { margin-top: .16rem; color: #a8b9ab; font-size: .58rem; }
+.footer-brand p { max-width: 390px; margin: .9rem 0 0; color: #aab9ad; font-size: .68rem; line-height: 1.65; }
+.footer-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.footer-navigation > div, .footer-contact { display: flex; flex-direction: column; align-items: flex-start; gap: .48rem; }
+.footer-main h2 { margin: 0 0 .25rem; color: #f3f7f2; font-size: .7rem; font-weight: 750; text-transform: uppercase; letter-spacing: .06em; }
+.footer-navigation a, .footer-contact a, .footer-contact span { color: #aab9ad; font-size: .65rem; line-height: 1.45; text-decoration: none; }
+.footer-navigation a:hover, .footer-contact a:hover { color: #c8e078; }
+.footer-contact { margin: 0; font-style: normal; }
+.footer-contact a, .footer-contact span { display: inline-flex; align-items: flex-start; gap: .5rem; }
+.footer-contact i { flex: 0 0 1rem; color: #9fc45b; text-align: center; }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-top: 1px solid rgba(255,255,255,.11); color: #829587; font-size: .58rem; }
+@media (max-width: 900px) { .footer-main { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .footer-content { width: min(100% - 1.5rem,1450px); } .footer-main { grid-template-columns: 1fr; gap: 1.6rem; padding: 2rem 0 1.5rem; } .footer-brand { grid-column: auto; } .footer-navigation { gap: 1.25rem; } .footer-bottom { align-items: flex-start; flex-direction: column; } }
