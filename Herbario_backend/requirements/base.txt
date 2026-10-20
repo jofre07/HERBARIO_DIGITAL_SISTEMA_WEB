@@ -6,3 +6,4 @@ drf-spectacular
 python-decouple
 psycopg[binary]
 Pillow
+gunicorn
